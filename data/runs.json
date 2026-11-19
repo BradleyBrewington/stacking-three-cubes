@@ -18,8 +18,17 @@
       "poster": "assets/run-09.jpg",
       "video": "assets/run-09.mp4",
       "samples": 1187,
-      "playbackSpeed": 6.0,
-      "videoDuration": 98.916667
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 29.675,
+      "videoSeek": {
+        "duration": 29.35,
+        "firstGrasp": 13.3,
+        "firstLift": 14.425,
+        "firstStack": 19.9,
+        "completion": 28.55
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 10,
@@ -37,8 +46,17 @@
       "poster": "assets/run-10.jpg",
       "video": "assets/run-10.mp4",
       "samples": 1119,
-      "playbackSpeed": 5.5,
-      "videoDuration": 101.727273
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 27.975,
+      "videoSeek": {
+        "duration": 27.65,
+        "firstGrasp": 10.8,
+        "firstLift": 15.525,
+        "firstStack": 19.15,
+        "completion": 26.1
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 11,
@@ -56,8 +74,13 @@
       "poster": "assets/run-11.jpg",
       "video": "assets/run-11.mp4",
       "samples": 138,
-      "playbackSpeed": 1.0,
-      "videoDuration": 69.0
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 3.45,
+      "videoSeek": {
+        "duration": 3.1
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 12,
@@ -75,8 +98,13 @@
       "poster": "assets/run-12.jpg",
       "video": "assets/run-12.mp4",
       "samples": 142,
-      "playbackSpeed": 1.0,
-      "videoDuration": 71.0
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 3.55,
+      "videoSeek": {
+        "duration": 3.2
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 13,
@@ -94,8 +122,13 @@
       "poster": "assets/run-13.jpg",
       "video": "assets/run-13.mp4",
       "samples": 144,
-      "playbackSpeed": 1.0,
-      "videoDuration": 72.0
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 3.6,
+      "videoSeek": {
+        "duration": 3.25
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 14,
@@ -113,8 +146,14 @@
       "poster": "assets/run-14.jpg",
       "video": "assets/run-14.mp4",
       "samples": 150,
-      "playbackSpeed": 1.0,
-      "videoDuration": 75.0
+      "events": [],
+      "agentQuote": "I couldn\u2019t reliably stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. I left all three cubes untouched and released the arm. Calibration needs to be restored before stacking.",
+      "playbackSpeed": 20,
+      "videoDuration": 3.75,
+      "videoSeek": {
+        "duration": 3.4
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 15,
@@ -132,8 +171,13 @@
       "poster": "assets/run-15.jpg",
       "video": "assets/run-15.mp4",
       "samples": 124,
-      "playbackSpeed": 1.0,
-      "videoDuration": 62.0
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 3.1,
+      "videoSeek": {
+        "duration": 2.75
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 16,
@@ -151,8 +195,17 @@
       "poster": "assets/run-16.jpg",
       "video": "assets/run-16.mp4",
       "samples": 1081,
-      "playbackSpeed": 5.5,
-      "videoDuration": 98.272727
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 27.025,
+      "videoSeek": {
+        "duration": 26.7,
+        "firstGrasp": 6.925,
+        "firstLift": 12.025,
+        "firstStack": 15.25,
+        "completion": 26.0
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 17,
@@ -170,8 +223,13 @@
       "poster": "assets/run-17.jpg",
       "video": "assets/run-17.mp4",
       "samples": 318,
-      "playbackSpeed": 2.0,
-      "videoDuration": 79.5
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 7.95,
+      "videoSeek": {
+        "duration": 7.6
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 18,
@@ -189,8 +247,32 @@
       "poster": "assets/run-18.jpg",
       "video": "assets/run-18.mp4",
       "samples": 3243,
-      "playbackSpeed": 15.5,
-      "videoDuration": 104.612903
+      "events": [
+        {
+          "time": 535.221684839,
+          "description": "First two-cube placement slipped to table after release.",
+          "videoTime": 26.75
+        },
+        {
+          "time": 719.781178399,
+          "description": "Second two-cube placement slipped to table after release.",
+          "videoTime": 35.975
+        },
+        {
+          "time": 1134.925079238,
+          "description": "Third cube slipped off two-cube stack after release.",
+          "videoTime": 56.725
+        }
+      ],
+      "playbackSpeed": 20,
+      "videoDuration": 81.075,
+      "videoSeek": {
+        "duration": 80.75,
+        "firstGrasp": 6.1,
+        "firstLift": 22.275,
+        "firstStack": 45.475
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 19,
@@ -208,8 +290,15 @@
       "poster": "assets/run-19.jpg",
       "video": "assets/run-19.mp4",
       "samples": 1537,
-      "playbackSpeed": 7.5,
-      "videoDuration": 102.466667
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 38.425,
+      "videoSeek": {
+        "duration": 38.1,
+        "firstGrasp": 8.65,
+        "firstLift": 17.025
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 20,
@@ -227,8 +316,17 @@
       "poster": "assets/run-20.jpg",
       "video": "assets/run-20.mp4",
       "samples": 4107,
-      "playbackSpeed": 20.0,
-      "videoDuration": 102.675
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 102.675,
+      "videoSeek": {
+        "duration": 102.35,
+        "firstGrasp": 9.75,
+        "firstLift": 13.025,
+        "firstStack": 29.0,
+        "completion": 100.25
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 21,
@@ -246,8 +344,17 @@
       "poster": "assets/run-21.jpg",
       "video": "assets/run-21.mp4",
       "samples": 6610,
-      "playbackSpeed": 31.5,
-      "videoDuration": 104.920635
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 165.25,
+      "videoSeek": {
+        "duration": 164.925,
+        "firstGrasp": 22.9,
+        "firstLift": 23.75,
+        "firstStack": 108.7,
+        "completion": 162.925
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 22,
@@ -265,8 +372,17 @@
       "poster": "assets/run-22.jpg",
       "video": "assets/run-22.mp4",
       "samples": 5529,
-      "playbackSpeed": 26.5,
-      "videoDuration": 104.320755
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 138.225,
+      "videoSeek": {
+        "duration": 137.875,
+        "firstGrasp": 11.625,
+        "firstLift": 20.025,
+        "firstStack": 49.225,
+        "completion": 129.7
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 23,
@@ -284,8 +400,14 @@
       "poster": "assets/run-23.jpg",
       "video": "assets/run-23.mp4",
       "samples": 979,
-      "playbackSpeed": 5.0,
-      "videoDuration": 97.9
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 24.475,
+      "videoSeek": {
+        "duration": 24.15,
+        "firstGrasp": 14.325
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 24,
@@ -303,8 +425,23 @@
       "poster": "assets/run-24.jpg",
       "video": "assets/run-24.mp4",
       "samples": 3147,
-      "playbackSpeed": 15.0,
-      "videoDuration": 104.9
+      "events": [
+        {
+          "time": 1055.429931705,
+          "description": "The arm dislodged the upper cube from the first two-cube stack.",
+          "videoTime": 52.75
+        }
+      ],
+      "playbackSpeed": 20,
+      "videoDuration": 78.675,
+      "videoSeek": {
+        "duration": 78.35,
+        "firstGrasp": 33.15,
+        "firstLift": 36.475,
+        "firstStack": 41.475,
+        "completion": 75.725
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 25,
@@ -322,8 +459,31 @@
       "poster": "assets/run-25.jpg",
       "video": "assets/run-25.mp4",
       "samples": 4655,
-      "playbackSpeed": 22.5,
-      "videoDuration": 103.444444
+      "events": [
+        {
+          "time": 1467.0709545060001,
+          "window": [
+            1465.070420381,
+            1467.0709545060001
+          ],
+          "description": "Initial stack collapsed during release of the third cube.",
+          "videoTime": 73.325,
+          "videoWindow": [
+            73.225,
+            73.325
+          ]
+        }
+      ],
+      "playbackSpeed": 20,
+      "videoDuration": 116.375,
+      "videoSeek": {
+        "duration": 116.05,
+        "firstGrasp": 8.125,
+        "firstLift": 9.75,
+        "firstStack": 40.225,
+        "completion": 113.2
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 26,
@@ -341,8 +501,23 @@
       "poster": "assets/run-26.jpg",
       "video": "assets/run-26.mp4",
       "samples": 2253,
-      "playbackSpeed": 11.0,
-      "videoDuration": 102.409091
+      "events": [
+        {
+          "time": 365.18011999,
+          "description": "First placement failed: the upper cube fell to the table during release.",
+          "videoTime": 18.25
+        }
+      ],
+      "playbackSpeed": 20,
+      "videoDuration": 56.325,
+      "videoSeek": {
+        "duration": 56.0,
+        "firstGrasp": 11.95,
+        "firstLift": 14.0,
+        "firstStack": 38.225,
+        "completion": 53.725
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 27,
@@ -360,8 +535,17 @@
       "poster": "assets/run-27.jpg",
       "video": "assets/run-27.mp4",
       "samples": 2673,
-      "playbackSpeed": 13.0,
-      "videoDuration": 102.807692
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 66.825,
+      "videoSeek": {
+        "duration": 66.5,
+        "firstGrasp": 17.75,
+        "firstLift": 27.25,
+        "firstStack": 33.225,
+        "completion": 63.475
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     },
     {
       "id": 30,
@@ -379,8 +563,17 @@
       "poster": "assets/run-30.jpg",
       "video": "assets/run-30.mp4",
       "samples": 3981,
-      "playbackSpeed": 19.0,
-      "videoDuration": 104.763158
+      "events": [],
+      "playbackSpeed": 20,
+      "videoDuration": 99.525,
+      "videoSeek": {
+        "duration": 99.2,
+        "firstGrasp": 7.4,
+        "firstLift": 11.0,
+        "firstStack": 16.75,
+        "completion": 95.975
+      },
+      "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."
     }
   ],
   "sourceRevision": 4536,
