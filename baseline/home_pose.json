@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "home",
+  "coordinate_space": "lerobot_calibrated",
+  "units": {
+    "arm": "degrees"
+  },
+  "joints": {
+    "shoulder_pan": 13.054945054945055,
+    "shoulder_lift": -92.65934065934066,
+    "elbow_flex": 80.0,
+    "wrist_flex": 25.23076923076923
+  },
+  "unconstrained_joints": ["wrist_roll", "gripper"]
+}
