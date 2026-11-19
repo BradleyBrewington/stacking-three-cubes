@@ -12,6 +12,8 @@
 @media(max-width:560px){.setup-grid{grid-template-columns:1fr}.hero{padding:40px 0}}
 .insert-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.insert-tools label{display:flex;align-items:center;gap:8px}.editor select{font-size:14px;padding:5px 24px 5px 8px;max-width:200px}.author-block{margin:24px 0;text-align:left;position:relative}.author-block figure{margin:0}.author-block img{display:block;max-width:100%;height:auto;max-height:800px;object-fit:contain}.author-block figcaption{color:var(--muted);font-size:14px;margin-top:10px}.author-block [data-block-field],[data-edit]{white-space:pre-wrap;overflow-wrap:anywhere}.author-block [data-block-field]{min-height:1.6em}.editing .author-block{outline:1px dashed #b2c8c0;padding:14px}.editing [data-block-field]:empty::before{content:attr(data-placeholder);color:var(--muted)}.block-controls{gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.editing .block-controls{display:flex}.block-controls button,.block-controls select{font-size:14px;padding:5px 9px}.block-controls select{max-width:210px}.author-block [contenteditable=true]:focus{outline:2px solid #89a69d;outline-offset:4px}button:disabled{opacity:.45;cursor:default}.editor [hidden]{display:none!important}body:not(.editing) .insert-tools{display:none}.added-content:empty{display:none}@media print{.author-block{outline:0!important;padding:0!important}}
 .end-state{margin-top:30px}.end-state figure{margin:0;max-width:420px}.end-state img{display:block;width:300px;max-width:100%;height:auto}.time-link{border:0;padding:0;background:transparent;color:var(--astra);font:inherit;text-decoration:underline;text-underline-offset:4px}.run-events{font-size:14px;margin:16px 0;padding-left:20px}.run-events li{margin:7px 0}.agent-quote{margin:16px 0;border-left:2px solid var(--line);padding-left:14px;font-size:14px}.agent-quote p{margin:8px 0}.metric .time-link:hover{background:var(--soft)}
+.result-figure{margin:36px 0 55px}.result-title{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}.result-title h3{font:500 29px/1.2 Georgia,serif;margin:0}.result-title h2{margin:0}.result-figure[hidden],.editor [hidden],#restoreCharts[hidden]{display:none!important}.plot-scroll{border:1px solid #dad9d5;border-radius:12px;background:#f8f6f2;overflow:auto}.plot-scroll svg{display:block;width:100%;height:auto;min-width:680px}.result-figure>.caption{max-width:970px;font-size:15px;margin:13px 0}.figure-downloads{font-size:14px}.hide-chart{font-size:14px;white-space:nowrap}.result-title .edit-only{flex:none}@media(max-width:560px){.result-title h3{font-size:25px}.result-title{align-items:start}.result-figure{margin-bottom:36px}}@media print{.plot-scroll svg{min-width:0}.result-figure{break-inside:avoid}}
+.failure-detail{margin:18px 0;font-size:14px}.failure-detail>p{margin:6px 0 10px;color:var(--muted)}.failure-detail summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}.agent-quote p{white-space:pre-wrap;overflow-wrap:anywhere}[data-edit="timingNote"]:empty{display:none}
 </style></head><body>
 <a class="skip" href="#article">Skip to article</a>
 <div class="editor" role="toolbar" aria-label="Draft editor"><strong>ArmFarm / Draft editor</strong><button id="editToggle" type="button" aria-pressed="true">Editing on</button><div class="insert-tools"><label>Add to <select id="insertPlace" aria-label="Add to section"></select></label><button id="addText" type="button">Add text</button><button id="addImage" type="button">Add image</button><button id="undoRemove" type="button" hidden>Undo remove</button><input id="imageUpload" type="file" accept="image/*" multiple hidden></div><button id="download" type="button">Save HTML copy</button><button id="helpOpen" type="button">How to edit</button><span class="save-state" id="saveStatus" role="status">Draft loaded</span></div>
@@ -24,26 +26,2526 @@
 </div><div class="end-state"><h3 data-edit="endStateTitle">End State</h3><figure><img src="assets/end-state.webp" alt="Three cubes in a freestanding stack"><figcaption class="caption" data-edit="criterion">Success criteria: all three cubes in one freestanding vertical stack, gripper released and clear, stable for five seconds.</figcaption></figure></div></section>
 <section id="runs"><div class="comparison"><div><div class="model-title"><p class="provider" data-edit="astraProvider">OpenAI</p><h3 data-edit="astraTitle">Astra 6</h3><p class="model-note" data-edit="astraVersion">gpt-6-astra · Medium reasoning</p><p class="model-note" data-edit="astraHarness">Codex harness</p><p class="rate">3 / 10 <span>successful</span></p></div><div id="astraRuns"></div></div>
 <div class="fable-column"><div class="model-title fable"><p class="provider" data-edit="fableProvider">Anthropic</p><h3 data-edit="fableTitle">Fable 5.2</h3><p class="model-note" data-edit="fableVersion">claude-fable-5-2 · Medium reasoning</p><p class="model-note" data-edit="fableHarness">Claude Code 2.1.327</p><p class="rate">8 / 10 <span>successful</span></p></div><div id="fableRuns"></div></div></div>
-<p class="caption" data-edit="timingNote">Times from agent start. Grasp timing is the command-batch timestamp; stack timing is visual confirmation. — = not reached.</p></section>
-<section id="graphs"><h2 data-edit="resultsTitle">Results</h2><div class="graph-grid"><div class="chart"><h3 id="chartTitle">Run length</h3><label for="chartMetric" class="caption">Metric</label><br><select id="chartMetric"><option value="duration">Run length</option><option value="firstGrasp">First grasp attempt</option><option value="firstStack">First stable two-cube stack</option><option value="completion">Stable three-cube stack</option></select><div class="chart-label"><span><i class="legend-swatch"></i>Astra</span><span><i class="legend-swatch fable"></i>Fable</span></div><div id="bars"></div></div>
-<div><div class="draft-slot"><h3 data-edit="locationTitle">Final stack location</h3><p data-edit="locationCopy" data-placeholder="Add graph notes"></p></div><div class="draft-slot"><h3 data-edit="collapseTitle">Stack collapses</h3><p data-edit="collapseCopy" data-placeholder="Add graph notes"></p></div></div></div></section>
+<p class="caption" data-edit="timingNote"></p></section>
+<section id="graphs"><div class="result-title"><h2 data-edit="resultsTitle">Results</h2><button id="restoreCharts" class="edit-only" type="button" hidden>Restore hidden charts</button></div><p class="caption" data-edit="resultsContext">10 runs per model. Both model and harness changed; physical starting positions were approximate.</p><article class="result-figure" data-chart="outcomes"><div class="result-title"><h3 data-edit="chart-title-outcomes">Outcome breakdown</h3><button class="edit-only hide-chart" type="button" data-hide-chart="outcomes">Hide chart</button></div><div class="plot-scroll"><svg role="img" aria-label="Outcome breakdown" xmlns:xlink="http://www.w3.org/1999/xlink" width="828pt" height="345.6pt" viewBox="0 0 828 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T17:34:13.666426</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="outcomes-figure_1">
+  <g id="outcomes-patch_1">
+   <path d="M 0 345.6 
+L 828 345.6 
+L 828 0 
+L 0 0 
+z
+" style="fill: #f8f6f2"/>
+  </g>
+  <g id="outcomes-axes_1">
+   <g id="outcomes-patch_2">
+    <path d="M 132.48 269.568 
+L 786.6 269.568 
+L 786.6 41.472 
+L 132.48 41.472 
+z
+" style="fill: #f8f6f2"/>
+   </g>
+   <g id="outcomes-matplotlib.axis_1">
+    <g id="outcomes-xtick_1">
+     <g id="outcomes-line2d_1">
+      <path d="M 132.48 269.568 
+L 132.48 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_2">
+      <defs>
+       <path id="outcomes-m56172d0f6c" d="M 0 0 
+L 0 3.5 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="132.48" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_1">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="132.48" y="286.032355" transform="rotate(-0 132.48 286.032355)">0%</text>
+     </g>
+    </g>
+    <g id="outcomes-xtick_2">
+     <g id="outcomes-line2d_3">
+      <path d="M 263.304 269.568 
+L 263.304 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_4">
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="263.304" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_2">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="263.304" y="286.032355" transform="rotate(-0 263.304 286.032355)">20%</text>
+     </g>
+    </g>
+    <g id="outcomes-xtick_3">
+     <g id="outcomes-line2d_5">
+      <path d="M 394.128 269.568 
+L 394.128 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_6">
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="394.128" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_3">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="394.128" y="286.032355" transform="rotate(-0 394.128 286.032355)">40%</text>
+     </g>
+    </g>
+    <g id="outcomes-xtick_4">
+     <g id="outcomes-line2d_7">
+      <path d="M 524.952 269.568 
+L 524.952 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_8">
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="524.952" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_4">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="524.952" y="286.032355" transform="rotate(-0 524.952 286.032355)">60%</text>
+     </g>
+    </g>
+    <g id="outcomes-xtick_5">
+     <g id="outcomes-line2d_9">
+      <path d="M 655.776 269.568 
+L 655.776 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_10">
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="655.776" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_5">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="655.776" y="286.032355" transform="rotate(-0 655.776 286.032355)">80%</text>
+     </g>
+    </g>
+    <g id="outcomes-xtick_6">
+     <g id="outcomes-line2d_11">
+      <path d="M 786.6 269.568 
+L 786.6 41.472 
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="outcomes-line2d_12">
+      <g>
+       <use xlink:href="#outcomes-m56172d0f6c" x="786.6" y="269.568" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="outcomes-text_6">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="786.6" y="286.032355" transform="rotate(-0 786.6 286.032355)">100%</text>
+     </g>
+    </g>
+    <g id="outcomes-text_7">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="459.54" y="302.232551" transform="rotate(-0 459.54 302.232551)">Share of runs</text>
+    </g>
+   </g>
+   <g id="outcomes-matplotlib.axis_2">
+    <g id="outcomes-ytick_1">
+     <g id="outcomes-line2d_13"/>
+     <g id="outcomes-text_8">
+      <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="120.48" y="90.198124" transform="rotate(-0 120.48 90.198124)">Astra 6</text>
+     </g>
+    </g>
+    <g id="outcomes-ytick_2">
+     <g id="outcomes-line2d_14"/>
+     <g id="outcomes-text_9">
+      <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="120.48" y="230.306232" transform="rotate(-0 120.48 230.306232)">Fable 5.2</text>
+     </g>
+    </g>
+   </g>
+   <g id="outcomes-patch_3">
+    <path d="M 132.48 51.84 
+L 328.716 51.84 
+L 328.716 119.091892 
+L 132.48 119.091892 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #739f25; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_4">
+    <path d="M 328.716 51.84 
+L 394.128 51.84 
+L 394.128 119.091892 
+L 328.716 119.091892 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_5">
+    <path d="M 394.128 51.84 
+L 459.54 51.84 
+L 459.54 119.091892 
+L 394.128 119.091892 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #d5ad88; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_6">
+    <path d="M 459.54 51.84 
+L 786.6 51.84 
+L 786.6 119.091892 
+L 459.54 119.091892 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #e3d1be; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_7">
+    <path d="M 132.48 191.948108 
+L 655.776 191.948108 
+L 655.776 259.2 
+L 132.48 259.2 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #739f25; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_8">
+    <path d="M 655.776 191.948108 
+L 786.6 191.948108 
+L 786.6 259.2 
+L 655.776 259.2 
+z
+" clip-path="url(#outcomes-pa1be99402f)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="outcomes-patch_9">
+    <path d="M 132.48 269.568 
+L 786.6 269.568 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="outcomes-text_10">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #ffffff" transform="translate(217.948391 81.755741)">3/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #ffffff" transform="translate(217.588859 95.904667)">30%</text>
+   </g>
+   <g id="outcomes-text_11">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(348.772391 81.755741)">1/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(348.412859 95.904667)">10%</text>
+   </g>
+   <g id="outcomes-text_12">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(414.184391 81.755741)">1/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(413.824859 95.904667)">10%</text>
+   </g>
+   <g id="outcomes-text_13">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(610.420391 81.755741)">5/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(610.060859 95.904667)">50%</text>
+   </g>
+   <g id="outcomes-text_14">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #ffffff" transform="translate(381.478391 221.863849)">8/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #ffffff" transform="translate(381.118859 236.012775)">80%</text>
+   </g>
+   <g id="outcomes-text_15">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(708.538391 221.863849)">2/10</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Arial'; fill: #182627" transform="translate(708.178859 236.012775)">20%</text>
+   </g>
+  </g>
+  <g id="outcomes-legend_1">
+   <g id="outcomes-patch_10">
+    <path d="M 253.890703 315.833816 
+L 275.890703 315.833816 
+L 275.890703 308.133816 
+L 253.890703 308.133816 
+z
+" style="fill: #739f25"/>
+   </g>
+   <g id="outcomes-text_16">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="284.690703" y="315.833816" transform="rotate(-0 284.690703 315.833816)">Stacked</text>
+   </g>
+   <g id="outcomes-patch_11">
+    <path d="M 253.890703 331.657059 
+L 275.890703 331.657059 
+L 275.890703 323.957059 
+L 253.890703 323.957059 
+z
+" style="fill: #a4aeb9"/>
+   </g>
+   <g id="outcomes-text_17">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="284.690703" y="331.657059" transform="rotate(-0 284.690703 331.657059)">Attempted, unsuccessful</text>
+   </g>
+   <g id="outcomes-patch_12">
+    <path d="M 426.523672 315.833816 
+L 448.523672 315.833816 
+L 448.523672 308.133816 
+L 426.523672 308.133816 
+z
+" style="fill: #d5ad88"/>
+   </g>
+   <g id="outcomes-text_18">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="457.323672" y="315.833816" transform="rotate(-0 457.323672 315.833816)">Declined after approach</text>
+   </g>
+   <g id="outcomes-patch_13">
+    <path d="M 426.523672 331.657059 
+L 448.523672 331.657059 
+L 448.523672 323.957059 
+L 426.523672 323.957059 
+z
+" style="fill: #e3d1be"/>
+   </g>
+   <g id="outcomes-text_19">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="457.323672" y="331.657059" transform="rotate(-0 457.323672 331.657059)">Declined before motion</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="outcomes-pa1be99402f">
+   <rect x="132.48" y="41.472" width="654.12" height="228.096"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><p class="caption" data-edit="chart-caption-outcomes">Ten runs per model. Run 17 declined after an approach move; the five other Astra refusals occurred before motion.</p><div class="figure-downloads edit-only"><a href="assets/charts/outcomes.svg" download>SVG</a> · <a href="assets/charts/outcomes.png" download>PNG</a></div></article><article class="result-figure" data-chart="completion"><div class="result-title"><h3 data-edit="chart-title-completion">Time to complete the stack</h3><button class="edit-only hide-chart" type="button" data-hide-chart="completion">Hide chart</button></div><div class="plot-scroll"><svg role="img" aria-label="Time to complete the stack" xmlns:xlink="http://www.w3.org/1999/xlink" width="828pt" height="388.8pt" viewBox="0 0 828 388.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T17:34:13.845009</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="completion-figure_1">
+  <g id="completion-patch_1">
+   <path d="M 0 388.8 
+L 828 388.8 
+L 828 0 
+L 0 0 
+z
+" style="fill: #f8f6f2"/>
+  </g>
+  <g id="completion-axes_1">
+   <g id="completion-patch_2">
+    <path d="M 190.44 311.04 
+L 786.6 311.04 
+L 786.6 46.656 
+L 190.44 46.656 
+z
+" style="fill: #f8f6f2"/>
+   </g>
+   <g id="completion-matplotlib.axis_1">
+    <g id="completion-xtick_1">
+     <g id="completion-line2d_1">
+      <path d="M 190.44 311.04 
+L 190.44 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_2">
+      <defs>
+       <path id="completion-m88374cea3c" d="M 0 0 
+L 0 3.5 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="190.44" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_1">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="190.44" y="327.504355" transform="rotate(-0 190.44 327.504355)">0</text>
+     </g>
+    </g>
+    <g id="completion-xtick_2">
+     <g id="completion-line2d_3">
+      <path d="M 289.8 311.04 
+L 289.8 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_4">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="289.8" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_2">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="289.8" y="327.504355" transform="rotate(-0 289.8 327.504355)">10</text>
+     </g>
+    </g>
+    <g id="completion-xtick_3">
+     <g id="completion-line2d_5">
+      <path d="M 389.16 311.04 
+L 389.16 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_6">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="389.16" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_3">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="389.16" y="327.504355" transform="rotate(-0 389.16 327.504355)">20</text>
+     </g>
+    </g>
+    <g id="completion-xtick_4">
+     <g id="completion-line2d_7">
+      <path d="M 488.52 311.04 
+L 488.52 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_8">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="488.52" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_4">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="488.52" y="327.504355" transform="rotate(-0 488.52 327.504355)">30</text>
+     </g>
+    </g>
+    <g id="completion-xtick_5">
+     <g id="completion-line2d_9">
+      <path d="M 587.88 311.04 
+L 587.88 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_10">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="587.88" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_5">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="587.88" y="327.504355" transform="rotate(-0 587.88 327.504355)">40</text>
+     </g>
+    </g>
+    <g id="completion-xtick_6">
+     <g id="completion-line2d_11">
+      <path d="M 687.24 311.04 
+L 687.24 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_12">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="687.24" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_6">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="687.24" y="327.504355" transform="rotate(-0 687.24 327.504355)">50</text>
+     </g>
+    </g>
+    <g id="completion-xtick_7">
+     <g id="completion-line2d_13">
+      <path d="M 786.6 311.04 
+L 786.6 46.656 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="completion-line2d_14">
+      <g>
+       <use xlink:href="#completion-m88374cea3c" x="786.6" y="311.04" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="completion-text_7">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="786.6" y="327.504355" transform="rotate(-0 786.6 327.504355)">60</text>
+     </g>
+    </g>
+    <g id="completion-text_8">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="488.52" y="343.704551" transform="rotate(-0 488.52 343.704551)">Time to stable three-cube stack (minutes)</text>
+    </g>
+   </g>
+   <g id="completion-matplotlib.axis_2">
+    <g id="completion-ytick_1">
+     <g id="completion-line2d_15"/>
+     <g id="completion-text_9">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="178.44" y="133.640978" transform="rotate(-0 178.44 133.640978)">Astra 6 · 3 successes</text>
+     </g>
+    </g>
+    <g id="completion-ytick_2">
+     <g id="completion-line2d_16"/>
+     <g id="completion-text_10">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="178.44" y="251.144978" transform="rotate(-0 178.44 251.144978)">Fable 5.2 · 8 successes</text>
+     </g>
+    </g>
+   </g>
+   <g id="completion-patch_3">
+    <path d="M 190.44 311.04 
+L 786.6 311.04 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="completion-text_11">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="293.038349" y="103.93312" transform="rotate(-0 293.038349 103.93312)">09</text>
+   </g>
+   <g id="completion-text_12">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="284.920174" y="123.9088" transform="rotate(-0 284.920174 123.9088)">10</text>
+   </g>
+   <g id="completion-text_13">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="284.588715" y="143.88448" transform="rotate(-0 284.588715 143.88448)">16</text>
+   </g>
+   <g id="completion-line2d_17">
+    <path d="M 276.920174 91.30752 
+L 276.920174 166.51008 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #182627; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="completion-text_14">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="276.920174" y="76.032" transform="rotate(-0 276.920174 76.032)">Median 8:42</text>
+   </g>
+   <g id="completion-text_15">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="530.507855" y="221.43712" transform="rotate(-0 530.507855 221.43712)">20</text>
+   </g>
+   <g id="completion-text_16">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="738.262643" y="256.68832" transform="rotate(-0 738.262643 256.68832)">21</text>
+   </g>
+   <g id="completion-text_17">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="628.18235" y="243.76288" transform="rotate(-0 628.18235 243.76288)">22</text>
+   </g>
+   <g id="completion-text_18">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="449.338189" y="235.5376" transform="rotate(-0 449.338189 235.5376)">24</text>
+   </g>
+   <g id="completion-text_19">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="573.497427" y="266.08864" transform="rotate(-0 573.497427 266.08864)">25</text>
+   </g>
+   <g id="completion-text_20">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="376.446476" y="217.912" transform="rotate(-0 376.446476 217.912)">26</text>
+   </g>
+   <g id="completion-text_21">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="408.757808" y="255.51328" transform="rotate(-0 408.757808 255.51328)">27</text>
+   </g>
+   <g id="completion-text_22">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="516.431524" y="243.76288" transform="rotate(-0 516.431524 243.76288)">30</text>
+   </g>
+   <g id="completion-line2d_18">
+    <path d="M 515.469689 208.81152 
+L 515.469689 284.01408 
+" clip-path="url(#completion-p8dd25fc283)" style="fill: none; stroke: #182627; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="completion-text_23">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="515.469689" y="193.536" transform="rotate(-0 515.469689 193.536)">Median 32:43</text>
+   </g>
+   <g id="completion-PathCollection_1">
+    <defs>
+     <path id="completion-m38d27905e0" d="M 0 5.123475 
+C 1.358762 5.123475 2.662055 4.583634 3.622844 3.622844 
+C 4.583634 2.662055 5.123475 1.358762 5.123475 0 
+C 5.123475 -1.358762 4.583634 -2.662055 3.622844 -3.622844 
+C 2.662055 -4.583634 1.358762 -5.123475 0 -5.123475 
+C -1.358762 -5.123475 -2.662055 -4.583634 -3.622844 -3.622844 
+C -4.583634 -2.662055 -5.123475 -1.358762 -5.123475 0 
+C -5.123475 1.358762 -4.583634 2.662055 -3.622844 3.622844 
+C -2.662055 4.583634 -1.358762 5.123475 0 5.123475 
+z
+" style="stroke: #f8f6f2; stroke-width: 1.2"/>
+    </defs>
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m38d27905e0" x="285.038349" y="108.93312" style="fill: #397ddd; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_2">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m38d27905e0" x="276.920174" y="128.9088" style="fill: #397ddd; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_3">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m38d27905e0" x="276.588715" y="148.88448" style="fill: #397ddd; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_4">
+    <defs>
+     <path id="completion-m72714ddc7c" d="M 0 5.123475 
+C 1.358762 5.123475 2.662055 4.583634 3.622844 3.622844 
+C 4.583634 2.662055 5.123475 1.358762 5.123475 0 
+C 5.123475 -1.358762 4.583634 -2.662055 3.622844 -3.622844 
+C 2.662055 -4.583634 1.358762 -5.123475 0 -5.123475 
+C -1.358762 -5.123475 -2.662055 -4.583634 -3.622844 -3.622844 
+C -4.583634 -2.662055 -5.123475 -1.358762 -5.123475 0 
+C -5.123475 1.358762 -4.583634 2.662055 -3.622844 3.622844 
+C -2.662055 4.583634 -1.358762 5.123475 0 5.123475 
+z
+" style="stroke: #f8f6f2; stroke-width: 1.2"/>
+    </defs>
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="522.507855" y="226.43712" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_5">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="730.262643" y="261.68832" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_6">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="620.18235" y="248.76288" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_7">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="441.338189" y="240.5376" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_8">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="565.497427" y="271.08864" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_9">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="368.446476" y="222.912" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_10">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="400.757808" y="260.51328" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="completion-PathCollection_11">
+    <g clip-path="url(#completion-p8dd25fc283)">
+     <use xlink:href="#completion-m72714ddc7c" x="508.431524" y="248.76288" style="fill: #df7958; stroke: #f8f6f2; stroke-width: 1.2"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="completion-p8dd25fc283">
+   <rect x="190.44" y="46.656" width="596.16" height="264.384"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><p class="caption" data-edit="chart-caption-completion">Successful runs only. Labels are run IDs; black lines mark medians. Time includes the five-second stability criterion.</p><div class="figure-downloads edit-only"><a href="assets/charts/completion.svg" download>SVG</a> · <a href="assets/charts/completion.png" download>PNG</a></div></article><article class="result-figure" data-chart="stages"><div class="result-title"><h3 data-edit="chart-title-stages">Time spent at each stage</h3><button class="edit-only hide-chart" type="button" data-hide-chart="stages">Hide chart</button></div><div class="plot-scroll"><svg role="img" aria-label="Time spent at each stage" xmlns:xlink="http://www.w3.org/1999/xlink" width="828pt" height="518.4pt" viewBox="0 0 828 518.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T17:34:14.008950</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="stages-figure_1">
+  <g id="stages-patch_1">
+   <path d="M 0 518.4 
+L 828 518.4 
+L 828 0 
+L 0 0 
+z
+" style="fill: #f8f6f2"/>
+  </g>
+  <g id="stages-axes_1">
+   <g id="stages-patch_2">
+    <path d="M 165.6 425.088 
+L 786.6 425.088 
+L 786.6 20.736 
+L 165.6 20.736 
+z
+" style="fill: #f8f6f2"/>
+   </g>
+   <g id="stages-matplotlib.axis_1">
+    <g id="stages-xtick_1">
+     <g id="stages-line2d_1">
+      <path d="M 165.6 425.088 
+L 165.6 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_2">
+      <defs>
+       <path id="stages-m4abb9a13bc" d="M 0 0 
+L 0 3.5 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="165.6" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_1">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="165.6" y="441.552355" transform="rotate(-0 165.6 441.552355)">0</text>
+     </g>
+    </g>
+    <g id="stages-xtick_2">
+     <g id="stages-line2d_3">
+      <path d="M 269.1 425.088 
+L 269.1 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_4">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="269.1" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_2">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="269.1" y="441.552355" transform="rotate(-0 269.1 441.552355)">10</text>
+     </g>
+    </g>
+    <g id="stages-xtick_3">
+     <g id="stages-line2d_5">
+      <path d="M 372.6 425.088 
+L 372.6 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_6">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="372.6" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_3">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="372.6" y="441.552355" transform="rotate(-0 372.6 441.552355)">20</text>
+     </g>
+    </g>
+    <g id="stages-xtick_4">
+     <g id="stages-line2d_7">
+      <path d="M 476.1 425.088 
+L 476.1 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_8">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="476.1" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_4">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="476.1" y="441.552355" transform="rotate(-0 476.1 441.552355)">30</text>
+     </g>
+    </g>
+    <g id="stages-xtick_5">
+     <g id="stages-line2d_9">
+      <path d="M 579.6 425.088 
+L 579.6 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_10">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="579.6" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_5">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="579.6" y="441.552355" transform="rotate(-0 579.6 441.552355)">40</text>
+     </g>
+    </g>
+    <g id="stages-xtick_6">
+     <g id="stages-line2d_11">
+      <path d="M 683.1 425.088 
+L 683.1 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_12">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="683.1" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_6">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="683.1" y="441.552355" transform="rotate(-0 683.1 441.552355)">50</text>
+     </g>
+    </g>
+    <g id="stages-xtick_7">
+     <g id="stages-line2d_13">
+      <path d="M 786.6 425.088 
+L 786.6 20.736 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="stages-line2d_14">
+      <g>
+       <use xlink:href="#stages-m4abb9a13bc" x="786.6" y="425.088" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="stages-text_7">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="786.6" y="441.552355" transform="rotate(-0 786.6 441.552355)">60</text>
+     </g>
+    </g>
+    <g id="stages-text_8">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="476.1" y="457.752551" transform="rotate(-0 476.1 457.752551)">Elapsed time (minutes)</text>
+    </g>
+   </g>
+   <g id="stages-matplotlib.axis_2">
+    <g id="stages-ytick_1">
+     <g id="stages-line2d_15"/>
+     <g id="stages-text_9">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="54.175207" transform="rotate(-0 162.1 54.175207)">Astra 6  ·  09</text>
+     </g>
+    </g>
+    <g id="stages-ytick_2">
+     <g id="stages-line2d_16"/>
+     <g id="stages-text_10">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="88.723396" transform="rotate(-0 162.1 88.723396)">Astra 6  ·  10</text>
+     </g>
+    </g>
+    <g id="stages-ytick_3">
+     <g id="stages-line2d_17"/>
+     <g id="stages-text_11">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="123.271584" transform="rotate(-0 162.1 123.271584)">Astra 6  ·  16</text>
+     </g>
+    </g>
+    <g id="stages-ytick_4">
+     <g id="stages-line2d_18"/>
+     <g id="stages-text_12">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="157.819773" transform="rotate(-0 162.1 157.819773)">Fable 5.2  ·  20</text>
+     </g>
+    </g>
+    <g id="stages-ytick_5">
+     <g id="stages-line2d_19"/>
+     <g id="stages-text_13">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="192.367962" transform="rotate(-0 162.1 192.367962)">Fable 5.2  ·  21</text>
+     </g>
+    </g>
+    <g id="stages-ytick_6">
+     <g id="stages-line2d_20"/>
+     <g id="stages-text_14">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="226.91615" transform="rotate(-0 162.1 226.91615)">Fable 5.2  ·  22</text>
+     </g>
+    </g>
+    <g id="stages-ytick_7">
+     <g id="stages-line2d_21"/>
+     <g id="stages-text_15">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="261.464339" transform="rotate(-0 162.1 261.464339)">Fable 5.2  ·  24</text>
+     </g>
+    </g>
+    <g id="stages-ytick_8">
+     <g id="stages-line2d_22"/>
+     <g id="stages-text_16">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="296.012528" transform="rotate(-0 162.1 296.012528)">Fable 5.2  ·  25</text>
+     </g>
+    </g>
+    <g id="stages-ytick_9">
+     <g id="stages-line2d_23"/>
+     <g id="stages-text_17">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="330.560716" transform="rotate(-0 162.1 330.560716)">Fable 5.2  ·  26</text>
+     </g>
+    </g>
+    <g id="stages-ytick_10">
+     <g id="stages-line2d_24"/>
+     <g id="stages-text_18">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="365.108905" transform="rotate(-0 162.1 365.108905)">Fable 5.2  ·  27</text>
+     </g>
+    </g>
+    <g id="stages-ytick_11">
+     <g id="stages-line2d_25"/>
+     <g id="stages-text_19">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="399.657094" transform="rotate(-0 162.1 399.657094)">Fable 5.2  ·  30</text>
+     </g>
+    </g>
+   </g>
+   <g id="stages-patch_3">
+    <path d="M 165.6 39.115636 
+L 215.304355 39.115636 
+L 215.304355 61.226477 
+L 165.6 61.226477 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_4">
+    <path d="M 215.304355 39.115636 
+L 234.287162 39.115636 
+L 234.287162 61.226477 
+L 215.304355 61.226477 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_5">
+    <path d="M 234.287162 39.115636 
+L 264.139947 39.115636 
+L 264.139947 61.226477 
+L 234.287162 61.226477 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_6">
+    <path d="M 165.6 73.663825 
+L 219.099498 73.663825 
+L 219.099498 95.774666 
+L 165.6 95.774666 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_7">
+    <path d="M 219.099498 73.663825 
+L 231.697164 73.663825 
+L 231.697164 95.774666 
+L 219.099498 95.774666 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_8">
+    <path d="M 231.697164 73.663825 
+L 255.683515 73.663825 
+L 255.683515 95.774666 
+L 231.697164 95.774666 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_9">
+    <path d="M 165.6 108.212014 
+L 207.019882 108.212014 
+L 207.019882 130.322854 
+L 165.6 130.322854 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_10">
+    <path d="M 207.019882 108.212014 
+L 218.235829 108.212014 
+L 218.235829 130.322854 
+L 207.019882 130.322854 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_11">
+    <path d="M 218.235829 108.212014 
+L 255.338244 108.212014 
+L 255.338244 130.322854 
+L 218.235829 130.322854 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_12">
+    <path d="M 165.6 142.760202 
+L 210.473792 142.760202 
+L 210.473792 164.871043 
+L 165.6 164.871043 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_13">
+    <path d="M 210.473792 142.760202 
+L 265.608 142.760202 
+L 265.608 164.871043 
+L 210.473792 164.871043 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_14">
+    <path d="M 265.608 142.760202 
+L 511.504016 142.760202 
+L 511.504016 164.871043 
+L 265.608 164.871043 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_15">
+    <path d="M 165.6 177.308391 
+L 247.575538 177.308391 
+L 247.575538 199.419232 
+L 165.6 199.419232 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_16">
+    <path d="M 247.575538 177.308391 
+L 540.764488 177.308391 
+L 540.764488 199.419232 
+L 247.575538 199.419232 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_17">
+    <path d="M 540.764488 177.308391 
+L 727.915253 177.308391 
+L 727.915253 199.419232 
+L 540.764488 199.419232 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_18">
+    <path d="M 165.6 211.85658 
+L 234.63759 211.85658 
+L 234.63759 233.96742 
+L 165.6 233.96742 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_19">
+    <path d="M 234.63759 211.85658 
+L 335.502292 211.85658 
+L 335.502292 233.96742 
+L 234.63759 233.96742 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_20">
+    <path d="M 335.502292 211.85658 
+L 613.248281 211.85658 
+L 613.248281 233.96742 
+L 335.502292 233.96742 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_21">
+    <path d="M 165.6 246.404768 
+L 291.494079 246.404768 
+L 291.494079 268.515609 
+L 165.6 268.515609 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_22">
+    <path d="M 291.494079 246.404768 
+L 308.750381 246.404768 
+L 308.750381 268.515609 
+L 291.494079 268.515609 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_23">
+    <path d="M 308.750381 246.404768 
+L 426.95228 246.404768 
+L 426.95228 268.515609 
+L 308.750381 268.515609 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_24">
+    <path d="M 165.6 280.952957 
+L 199.262719 280.952957 
+L 199.262719 303.063798 
+L 165.6 303.063798 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_25">
+    <path d="M 199.262719 280.952957 
+L 304.437161 280.952957 
+L 304.437161 303.063798 
+L 199.262719 303.063798 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_26">
+    <path d="M 304.437161 280.952957 
+L 556.28482 280.952957 
+L 556.28482 303.063798 
+L 304.437161 303.063798 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_27">
+    <path d="M 165.6 315.501146 
+L 213.925207 315.501146 
+L 213.925207 337.611986 
+L 165.6 337.611986 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_28">
+    <path d="M 213.925207 315.501146 
+L 297.530964 315.501146 
+L 297.530964 337.611986 
+L 213.925207 337.611986 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_29">
+    <path d="M 297.530964 315.501146 
+L 351.023412 315.501146 
+L 351.023412 337.611986 
+L 297.530964 337.611986 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_30">
+    <path d="M 165.6 350.049334 
+L 259.655511 350.049334 
+L 259.655511 372.160175 
+L 165.6 372.160175 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_31">
+    <path d="M 259.655511 350.049334 
+L 280.278347 350.049334 
+L 280.278347 372.160175 
+L 259.655511 372.160175 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_32">
+    <path d="M 280.278347 350.049334 
+L 384.68105 350.049334 
+L 384.68105 372.160175 
+L 280.278347 372.160175 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_33">
+    <path d="M 165.6 384.597523 
+L 203.575544 384.597523 
+L 203.575544 406.708364 
+L 165.6 406.708364 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #dcebc0; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_34">
+    <path d="M 203.575544 384.597523 
+L 223.419853 384.597523 
+L 223.419853 406.708364 
+L 203.575544 406.708364 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #a8cc60; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-patch_35">
+    <path d="M 223.419853 384.597523 
+L 496.841171 384.597523 
+L 496.841171 406.708364 
+L 223.419853 406.708364 
+z
+" clip-path="url(#stages-p12786ad0f4)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="stages-line2d_26">
+    <path d="M 165.6 136.541528 
+L 786.6 136.541528 
+" clip-path="url(#stages-p12786ad0f4)" style="fill: none; stroke: #c8c9c3; stroke-linecap: square"/>
+   </g>
+   <g id="stages-patch_36">
+    <path d="M 165.6 425.088 
+L 786.6 425.088 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="stages-text_20">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="190.452178" y="52.758947" transform="rotate(-0 190.452178 52.758947)">4:48</text>
+   </g>
+   <g id="stages-text_21">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="270.349947" y="53.017736" transform="rotate(-0 270.349947 53.017736)">9:31</text>
+   </g>
+   <g id="stages-text_22">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="192.349749" y="87.307136" transform="rotate(-0 192.349749 87.307136)">5:10</text>
+   </g>
+   <g id="stages-text_23">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="261.893515" y="87.565925" transform="rotate(-0 261.893515 87.565925)">8:42</text>
+   </g>
+   <g id="stages-text_24">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="186.309941" y="121.855325" transform="rotate(-0 186.309941 121.855325)">4:00</text>
+   </g>
+   <g id="stages-text_25">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="236.787037" y="121.855325" transform="rotate(-0 236.787037 121.855325)">3:35</text>
+   </g>
+   <g id="stages-text_26">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="261.548244" y="122.114114" transform="rotate(-0 261.548244 122.114114)">8:40</text>
+   </g>
+   <g id="stages-text_27">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="188.036896" y="156.403513" transform="rotate(-0 188.036896 156.403513)">4:20</text>
+   </g>
+   <g id="stages-text_28">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="238.040896" y="156.403513" transform="rotate(-0 238.040896 156.403513)">5:20</text>
+   </g>
+   <g id="stages-text_29">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="388.556008" y="156.403513" transform="rotate(-0 388.556008 156.403513)">23:45</text>
+   </g>
+   <g id="stages-text_30">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="517.714016" y="156.662302" transform="rotate(-0 517.714016 156.662302)">33:25</text>
+   </g>
+   <g id="stages-text_31">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="206.587769" y="190.951702" transform="rotate(-0 206.587769 190.951702)">7:55</text>
+   </g>
+   <g id="stages-text_32">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="394.170013" y="190.951702" transform="rotate(-0 394.170013 190.951702)">28:20</text>
+   </g>
+   <g id="stages-text_33">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="634.339871" y="190.951702" transform="rotate(-0 634.339871 190.951702)">18:05</text>
+   </g>
+   <g id="stages-text_34">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="734.125253" y="191.210491" transform="rotate(-0 734.125253 191.210491)">54:20</text>
+   </g>
+   <g id="stages-text_35">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="200.118795" y="225.499891" transform="rotate(-0 200.118795 225.499891)">6:40</text>
+   </g>
+   <g id="stages-text_36">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="285.069941" y="225.499891" transform="rotate(-0 285.069941 225.499891)">9:45</text>
+   </g>
+   <g id="stages-text_37">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="474.375286" y="225.499891" transform="rotate(-0 474.375286 225.499891)">26:50</text>
+   </g>
+   <g id="stages-text_38">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="619.458281" y="225.75868" transform="rotate(-0 619.458281 225.75868)">43:15</text>
+   </g>
+   <g id="stages-text_39">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="228.547039" y="260.048079" transform="rotate(-0 228.547039 260.048079)">12:10</text>
+   </g>
+   <g id="stages-text_40">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="367.851331" y="260.048079" transform="rotate(-0 367.851331 260.048079)">11:25</text>
+   </g>
+   <g id="stages-text_41">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="433.16228" y="260.306868" transform="rotate(-0 433.16228 260.306868)">25:15</text>
+   </g>
+   <g id="stages-text_42">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="251.84994" y="294.596268" transform="rotate(-0 251.84994 294.596268)">10:10</text>
+   </g>
+   <g id="stages-text_43">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="430.36099" y="294.596268" transform="rotate(-0 430.36099 294.596268)">24:20</text>
+   </g>
+   <g id="stages-text_44">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="562.49482" y="294.855057" transform="rotate(-0 562.49482 294.855057)">37:45</text>
+   </g>
+   <g id="stages-text_45">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="189.762603" y="329.144457" transform="rotate(-0 189.762603 329.144457)">4:40</text>
+   </g>
+   <g id="stages-text_46">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="255.728086" y="329.144457" transform="rotate(-0 255.728086 329.144457)">8:05</text>
+   </g>
+   <g id="stages-text_47">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="324.277188" y="329.144457" transform="rotate(-0 324.277188 329.144457)">5:10</text>
+   </g>
+   <g id="stages-text_48">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="357.233412" y="329.403246" transform="rotate(-0 357.233412 329.403246)">17:55</text>
+   </g>
+   <g id="stages-text_49">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="212.627755" y="363.692645" transform="rotate(-0 212.627755 363.692645)">9:05</text>
+   </g>
+   <g id="stages-text_50">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="332.479698" y="363.692645" transform="rotate(-0 332.479698 363.692645)">10:05</text>
+   </g>
+   <g id="stages-text_51">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="390.89105" y="363.951434" transform="rotate(-0 390.89105 363.951434)">21:10</text>
+   </g>
+   <g id="stages-text_52">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="184.587772" y="398.240834" transform="rotate(-0 184.587772 398.240834)">3:40</text>
+   </g>
+   <g id="stages-text_53">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="360.130512" y="398.240834" transform="rotate(-0 360.130512 398.240834)">26:25</text>
+   </g>
+   <g id="stages-text_54">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="503.051171" y="398.499623" transform="rotate(-0 503.051171 398.499623)">32:00</text>
+   </g>
+  </g>
+  <g id="stages-legend_1">
+   <g id="stages-patch_37">
+    <path d="M 202.138281 493.225059 
+L 224.138281 493.225059 
+L 224.138281 485.525059 
+L 202.138281 485.525059 
+z
+" style="fill: #dcebc0"/>
+   </g>
+   <g id="stages-text_55">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="232.938281" y="493.225059" transform="rotate(-0 232.938281 493.225059)">Start → first pickup</text>
+   </g>
+   <g id="stages-patch_38">
+    <path d="M 347.84875 493.225059 
+L 369.84875 493.225059 
+L 369.84875 485.525059 
+L 347.84875 485.525059 
+z
+" style="fill: #a8cc60"/>
+   </g>
+   <g id="stages-text_56">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="378.64875" y="493.225059" transform="rotate(-0 378.64875 493.225059)">Pickup → two cubes</text>
+   </g>
+   <g id="stages-patch_39">
+    <path d="M 500.300156 493.225059 
+L 522.300156 493.225059 
+L 522.300156 485.525059 
+L 500.300156 485.525059 
+z
+" style="fill: #739f25"/>
+   </g>
+   <g id="stages-text_57">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="531.100156" y="493.225059" transform="rotate(-0 531.100156 493.225059)">Two → three cubes</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="stages-p12786ad0f4">
+   <rect x="165.6" y="20.736" width="621" height="404.352"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><p class="caption" data-edit="chart-caption-stages">Successful runs only. Later phases include any retries or rebuilding; shorter phases alone do not demonstrate learning.</p><div class="figure-downloads edit-only"><a href="assets/charts/stages.svg" download>SVG</a> · <a href="assets/charts/stages.png" download>PNG</a></div></article><article class="result-figure" data-chart="grasps"><div class="result-title"><h3 data-edit="chart-title-grasps">Grasp efficiency</h3><button class="edit-only hide-chart" type="button" data-hide-chart="grasps">Hide chart</button></div><div class="plot-scroll"><svg role="img" aria-label="Grasp efficiency" xmlns:xlink="http://www.w3.org/1999/xlink" width="828pt" height="590.4pt" viewBox="0 0 828 590.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T17:34:14.265788</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="grasps-figure_1">
+  <g id="grasps-patch_1">
+   <path d="M 0 590.4 
+L 828 590.4 
+L 828 0 
+L 0 0 
+z
+" style="fill: #f8f6f2"/>
+  </g>
+  <g id="grasps-axes_1">
+   <g id="grasps-patch_2">
+    <path d="M 165.6 495.936 
+L 670.68 495.936 
+L 670.68 64.944 
+L 165.6 64.944 
+z
+" style="fill: #f8f6f2"/>
+   </g>
+   <g id="grasps-matplotlib.axis_1">
+    <g id="grasps-xtick_1">
+     <g id="grasps-line2d_1">
+      <path d="M 165.6 495.936 
+L 165.6 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_2">
+      <defs>
+       <path id="grasps-m3df6808408" d="M 0 0 
+L 0 3.5 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="165.6" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_1">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="165.6" y="512.400355" transform="rotate(-0 165.6 512.400355)">0</text>
+     </g>
+    </g>
+    <g id="grasps-xtick_2">
+     <g id="grasps-line2d_3">
+      <path d="M 261.805714 495.936 
+L 261.805714 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_4">
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="261.805714" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_2">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="261.805714" y="512.400355" transform="rotate(-0 261.805714 512.400355)">2</text>
+     </g>
+    </g>
+    <g id="grasps-xtick_3">
+     <g id="grasps-line2d_5">
+      <path d="M 358.011429 495.936 
+L 358.011429 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_6">
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="358.011429" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_3">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="358.011429" y="512.400355" transform="rotate(-0 358.011429 512.400355)">4</text>
+     </g>
+    </g>
+    <g id="grasps-xtick_4">
+     <g id="grasps-line2d_7">
+      <path d="M 454.217143 495.936 
+L 454.217143 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_8">
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="454.217143" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_4">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="454.217143" y="512.400355" transform="rotate(-0 454.217143 512.400355)">6</text>
+     </g>
+    </g>
+    <g id="grasps-xtick_5">
+     <g id="grasps-line2d_9">
+      <path d="M 550.422857 495.936 
+L 550.422857 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_10">
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="550.422857" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_5">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="550.422857" y="512.400355" transform="rotate(-0 550.422857 512.400355)">8</text>
+     </g>
+    </g>
+    <g id="grasps-xtick_6">
+     <g id="grasps-line2d_11">
+      <path d="M 646.628571 495.936 
+L 646.628571 64.944 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="grasps-line2d_12">
+      <g>
+       <use xlink:href="#grasps-m3df6808408" x="646.628571" y="495.936" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="grasps-text_6">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="646.628571" y="512.400355" transform="rotate(-0 646.628571 512.400355)">10</text>
+     </g>
+    </g>
+    <g id="grasps-text_7">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="418.14" y="528.600551" transform="rotate(-0 418.14 528.600551)">Grasp calls</text>
+    </g>
+   </g>
+   <g id="grasps-matplotlib.axis_2">
+    <g id="grasps-ytick_1">
+     <g id="grasps-line2d_13"/>
+     <g id="grasps-text_8">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="97.593754" transform="rotate(-0 162.1 97.593754)">Astra 6  ·  09</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_2">
+     <g id="grasps-line2d_14"/>
+     <g id="grasps-text_9">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="126.339968" transform="rotate(-0 162.1 126.339968)">Astra 6  ·  10</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_3">
+     <g id="grasps-line2d_15"/>
+     <g id="grasps-text_10">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="155.086183" transform="rotate(-0 162.1 155.086183)">Astra 6  ·  16</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_4">
+     <g id="grasps-line2d_16"/>
+     <g id="grasps-text_11">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="183.832398" transform="rotate(-0 162.1 183.832398)">Astra 6  ·  18</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_5">
+     <g id="grasps-line2d_17"/>
+     <g id="grasps-text_12">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="212.578613" transform="rotate(-0 162.1 212.578613)">Fable 5.2  ·  19</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_6">
+     <g id="grasps-line2d_18"/>
+     <g id="grasps-text_13">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="241.324828" transform="rotate(-0 162.1 241.324828)">Fable 5.2  ·  20</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_7">
+     <g id="grasps-line2d_19"/>
+     <g id="grasps-text_14">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="270.071043" transform="rotate(-0 162.1 270.071043)">Fable 5.2  ·  21</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_8">
+     <g id="grasps-line2d_20"/>
+     <g id="grasps-text_15">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="298.817258" transform="rotate(-0 162.1 298.817258)">Fable 5.2  ·  22</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_9">
+     <g id="grasps-line2d_21"/>
+     <g id="grasps-text_16">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="327.563473" transform="rotate(-0 162.1 327.563473)">Fable 5.2  ·  23</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_10">
+     <g id="grasps-line2d_22"/>
+     <g id="grasps-text_17">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="356.309688" transform="rotate(-0 162.1 356.309688)">Fable 5.2  ·  24</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_11">
+     <g id="grasps-line2d_23"/>
+     <g id="grasps-text_18">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="385.055903" transform="rotate(-0 162.1 385.055903)">Fable 5.2  ·  25</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_12">
+     <g id="grasps-line2d_24"/>
+     <g id="grasps-text_19">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="413.802117" transform="rotate(-0 162.1 413.802117)">Fable 5.2  ·  26</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_13">
+     <g id="grasps-line2d_25"/>
+     <g id="grasps-text_20">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="442.548332" transform="rotate(-0 162.1 442.548332)">Fable 5.2  ·  27</text>
+     </g>
+    </g>
+    <g id="grasps-ytick_14">
+     <g id="grasps-line2d_26"/>
+     <g id="grasps-text_21">
+      <text style="font-size: 11px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="162.1" y="471.294547" transform="rotate(-0 162.1 471.294547)">Fable 5.2  ·  30</text>
+     </g>
+    </g>
+   </g>
+   <g id="grasps-patch_3">
+    <path d="M 165.6 84.534545 
+L 261.805714 84.534545 
+L 261.805714 102.644661 
+L 165.6 102.644661 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_4">
+    <path d="M 165.6 113.28076 
+L 261.805714 113.28076 
+L 261.805714 131.390876 
+L 165.6 131.390876 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_5">
+    <path d="M 261.805714 113.28076 
+L 309.908571 113.28076 
+L 309.908571 131.390876 
+L 261.805714 131.390876 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_6">
+    <path d="M 165.6 142.026975 
+L 261.805714 142.026975 
+L 261.805714 160.137091 
+L 165.6 160.137091 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_7">
+    <path d="M 261.805714 142.026975 
+L 309.908571 142.026975 
+L 309.908571 160.137091 
+L 261.805714 160.137091 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_8">
+    <path d="M 309.908571 142.026975 
+L 358.011429 142.026975 
+L 358.011429 160.137091 
+L 309.908571 160.137091 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_9">
+    <path d="M 165.6 170.77319 
+L 406.114286 170.77319 
+L 406.114286 188.883306 
+L 165.6 188.883306 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_10">
+    <path d="M 406.114286 170.77319 
+L 598.525714 170.77319 
+L 598.525714 188.883306 
+L 406.114286 188.883306 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_11">
+    <path d="M 165.6 199.519405 
+L 261.805714 199.519405 
+L 261.805714 217.62952 
+L 165.6 217.62952 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_12">
+    <path d="M 261.805714 199.519405 
+L 309.908571 199.519405 
+L 309.908571 217.62952 
+L 261.805714 217.62952 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_13">
+    <path d="M 165.6 228.26562 
+L 309.908571 228.26562 
+L 309.908571 246.375735 
+L 165.6 246.375735 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_14">
+    <path d="M 309.908571 228.26562 
+L 358.011429 228.26562 
+L 358.011429 246.375735 
+L 309.908571 246.375735 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_15">
+    <path d="M 358.011429 228.26562 
+L 502.32 228.26562 
+L 502.32 246.375735 
+L 358.011429 246.375735 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_16">
+    <path d="M 165.6 257.011835 
+L 358.011429 257.011835 
+L 358.011429 275.12195 
+L 165.6 275.12195 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_17">
+    <path d="M 358.011429 257.011835 
+L 454.217143 257.011835 
+L 454.217143 275.12195 
+L 358.011429 275.12195 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_18">
+    <path d="M 454.217143 257.011835 
+L 550.422857 257.011835 
+L 550.422857 275.12195 
+L 454.217143 275.12195 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_19">
+    <path d="M 165.6 285.75805 
+L 358.011429 285.75805 
+L 358.011429 303.868165 
+L 165.6 303.868165 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_20">
+    <path d="M 358.011429 285.75805 
+L 406.114286 285.75805 
+L 406.114286 303.868165 
+L 358.011429 303.868165 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_21">
+    <path d="M 406.114286 285.75805 
+L 502.32 285.75805 
+L 502.32 303.868165 
+L 406.114286 303.868165 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_22">
+    <path d="M 165.6 314.504265 
+L 261.805714 314.504265 
+L 261.805714 332.61438 
+L 165.6 332.61438 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_23">
+    <path d="M 165.6 343.25048 
+L 309.908571 343.25048 
+L 309.908571 361.360595 
+L 165.6 361.360595 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_24">
+    <path d="M 165.6 371.996694 
+L 406.114286 371.996694 
+L 406.114286 390.10681 
+L 165.6 390.10681 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_25">
+    <path d="M 406.114286 371.996694 
+L 502.32 371.996694 
+L 502.32 390.10681 
+L 406.114286 390.10681 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_26">
+    <path d="M 502.32 371.996694 
+L 646.628571 371.996694 
+L 646.628571 390.10681 
+L 502.32 390.10681 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_27">
+    <path d="M 165.6 400.742909 
+L 309.908571 400.742909 
+L 309.908571 418.853025 
+L 165.6 418.853025 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_28">
+    <path d="M 309.908571 400.742909 
+L 358.011429 400.742909 
+L 358.011429 418.853025 
+L 309.908571 418.853025 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #e4c398; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_29">
+    <path d="M 165.6 429.489124 
+L 261.805714 429.489124 
+L 261.805714 447.59924 
+L 165.6 447.59924 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_30">
+    <path d="M 261.805714 429.489124 
+L 309.908571 429.489124 
+L 309.908571 447.59924 
+L 261.805714 447.59924 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #a4aeb9; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_31">
+    <path d="M 165.6 458.235339 
+L 213.702857 458.235339 
+L 213.702857 476.345455 
+L 165.6 476.345455 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: #739f25; stroke: #f8f6f2; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-patch_32">
+    <path d="M 213.702857 458.235339 
+L 502.32 458.235339 
+L 502.32 476.345455 
+L 213.702857 476.345455 
+z
+" clip-path="url(#grasps-p48a338331c)" style="fill: url(#grasps-he8d96459ba); stroke: #c3c6c1; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-line2d_27">
+    <path d="M 165.6 194.201355 
+L 670.68 194.201355 
+" clip-path="url(#grasps-p48a338331c)" style="fill: none; stroke: #c8c9c3; stroke-linecap: square"/>
+   </g>
+   <g id="grasps-patch_33">
+    <path d="M 165.6 495.936 
+L 670.68 495.936 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="grasps-text_22">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="213.702857" y="96.436283" transform="rotate(-0 213.702857 96.436283)">2</text>
+   </g>
+   <g id="grasps-text_23">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="96.436283" transform="rotate(-0 699.541714 96.436283)">1.00×</text>
+   </g>
+   <g id="grasps-text_24">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="213.702857" y="125.182498" transform="rotate(-0 213.702857 125.182498)">2</text>
+   </g>
+   <g id="grasps-text_25">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="285.857143" y="125.182498" transform="rotate(-0 285.857143 125.182498)">1</text>
+   </g>
+   <g id="grasps-text_26">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="125.182498" transform="rotate(-0 699.541714 125.182498)">1.50×</text>
+   </g>
+   <g id="grasps-text_27">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="213.702857" y="153.928713" transform="rotate(-0 213.702857 153.928713)">2</text>
+   </g>
+   <g id="grasps-text_28">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="285.857143" y="153.928713" transform="rotate(-0 285.857143 153.928713)">1</text>
+   </g>
+   <g id="grasps-text_29">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="333.96" y="153.928713" transform="rotate(-0 333.96 153.928713)">1</text>
+   </g>
+   <g id="grasps-text_30">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="153.928713" transform="rotate(-0 699.541714 153.928713)">1.50×</text>
+   </g>
+   <g id="grasps-text_31">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="285.857143" y="182.674928" transform="rotate(-0 285.857143 182.674928)">5</text>
+   </g>
+   <g id="grasps-text_32">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="502.32" y="182.674928" transform="rotate(-0 502.32 182.674928)">4</text>
+   </g>
+   <g id="grasps-text_33">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="182.674928" transform="rotate(-0 699.541714 182.674928)">1.80×</text>
+   </g>
+   <g id="grasps-text_34">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="213.702857" y="211.421142" transform="rotate(-0 213.702857 211.421142)">2</text>
+   </g>
+   <g id="grasps-text_35">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="285.857143" y="211.421142" transform="rotate(-0 285.857143 211.421142)">1</text>
+   </g>
+   <g id="grasps-text_36">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="211.421142" transform="rotate(-0 699.541714 211.421142)">—</text>
+   </g>
+   <g id="grasps-text_37">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="237.754286" y="240.167357" transform="rotate(-0 237.754286 240.167357)">3</text>
+   </g>
+   <g id="grasps-text_38">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="333.96" y="240.167357" transform="rotate(-0 333.96 240.167357)">1</text>
+   </g>
+   <g id="grasps-text_39">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="430.165714" y="240.167357" transform="rotate(-0 430.165714 240.167357)">3</text>
+   </g>
+   <g id="grasps-text_40">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="240.167357" transform="rotate(-0 699.541714 240.167357)">1.33×</text>
+   </g>
+   <g id="grasps-text_41">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="261.805714" y="268.913572" transform="rotate(-0 261.805714 268.913572)">4</text>
+   </g>
+   <g id="grasps-text_42">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="406.114286" y="268.913572" transform="rotate(-0 406.114286 268.913572)">2</text>
+   </g>
+   <g id="grasps-text_43">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="502.32" y="268.913572" transform="rotate(-0 502.32 268.913572)">2</text>
+   </g>
+   <g id="grasps-text_44">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="268.913572" transform="rotate(-0 699.541714 268.913572)">1.50×</text>
+   </g>
+   <g id="grasps-text_45">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="261.805714" y="297.659787" transform="rotate(-0 261.805714 297.659787)">4</text>
+   </g>
+   <g id="grasps-text_46">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="382.062857" y="297.659787" transform="rotate(-0 382.062857 297.659787)">1</text>
+   </g>
+   <g id="grasps-text_47">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="454.217143" y="297.659787" transform="rotate(-0 454.217143 297.659787)">2</text>
+   </g>
+   <g id="grasps-text_48">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="297.659787" transform="rotate(-0 699.541714 297.659787)">1.25×</text>
+   </g>
+   <g id="grasps-text_49">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="213.702857" y="326.406002" transform="rotate(-0 213.702857 326.406002)">2</text>
+   </g>
+   <g id="grasps-text_50">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="326.406002" transform="rotate(-0 699.541714 326.406002)">—</text>
+   </g>
+   <g id="grasps-text_51">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="237.754286" y="355.152217" transform="rotate(-0 237.754286 355.152217)">3</text>
+   </g>
+   <g id="grasps-text_52">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="355.152217" transform="rotate(-0 699.541714 355.152217)">1.00×</text>
+   </g>
+   <g id="grasps-text_53">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="285.857143" y="383.898432" transform="rotate(-0 285.857143 383.898432)">5</text>
+   </g>
+   <g id="grasps-text_54">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="454.217143" y="383.898432" transform="rotate(-0 454.217143 383.898432)">2</text>
+   </g>
+   <g id="grasps-text_55">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="574.474286" y="383.898432" transform="rotate(-0 574.474286 383.898432)">3</text>
+   </g>
+   <g id="grasps-text_56">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="383.898432" transform="rotate(-0 699.541714 383.898432)">1.40×</text>
+   </g>
+   <g id="grasps-text_57">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="237.754286" y="412.644647" transform="rotate(-0 237.754286 412.644647)">3</text>
+   </g>
+   <g id="grasps-text_58">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="333.96" y="412.644647" transform="rotate(-0 333.96 412.644647)">1</text>
+   </g>
+   <g id="grasps-text_59">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="412.644647" transform="rotate(-0 699.541714 412.644647)">1.00×</text>
+   </g>
+   <g id="grasps-text_60">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="213.702857" y="441.390862" transform="rotate(-0 213.702857 441.390862)">2</text>
+   </g>
+   <g id="grasps-text_61">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="285.857143" y="441.390862" transform="rotate(-0 285.857143 441.390862)">1</text>
+   </g>
+   <g id="grasps-text_62">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="441.390862" transform="rotate(-0 699.541714 441.390862)">1.50×</text>
+   </g>
+   <g id="grasps-text_63">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #ffffff" x="189.651429" y="470.137077" transform="rotate(-0 189.651429 470.137077)">1</text>
+   </g>
+   <g id="grasps-text_64">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: middle; fill: #182627" x="358.011429" y="470.137077" transform="rotate(-0 358.011429 470.137077)">6</text>
+   </g>
+   <g id="grasps-text_65">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="699.541714" y="470.136969" transform="rotate(-0 699.541714 470.136969)">Pending</text>
+   </g>
+   <g id="grasps-text_66">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; fill: #182627" transform="translate(699.541714 45.419884)">Attempts /</text>
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; fill: #182627" transform="translate(699.541714 57.392052)">verified pickup</text>
+   </g>
+  </g>
+  <g id="grasps-legend_1">
+   <g id="grasps-patch_34">
+    <path d="M 214.273594 569.884283 
+L 235.273594 569.884283 
+L 235.273594 562.534283 
+L 214.273594 562.534283 
+z
+" style="fill: #739f25; stroke: #739f25; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-text_67">
+    <text style="font-size: 10.5px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="243.673594" y="569.884283" transform="rotate(-0 243.673594 569.884283)">Verified lift</text>
+   </g>
+   <g id="grasps-patch_35">
+    <path d="M 313.111406 569.884283 
+L 334.111406 569.884283 
+L 334.111406 562.534283 
+L 313.111406 562.534283 
+z
+" style="fill: #a4aeb9; stroke: #a4aeb9; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-text_68">
+    <text style="font-size: 10.5px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="342.511406" y="569.884283" transform="rotate(-0 342.511406 569.884283)">No retained lift</text>
+   </g>
+   <g id="grasps-patch_36">
+    <path d="M 431.208516 569.884283 
+L 452.208516 569.884283 
+L 452.208516 562.534283 
+L 431.208516 562.534283 
+z
+" style="fill: #e4c398; stroke: #e4c398; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-text_69">
+    <text style="font-size: 10.5px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="460.608516" y="569.884283" transform="rotate(-0 460.608516 569.884283)">Reposition</text>
+   </g>
+   <g id="grasps-patch_37">
+    <path d="M 531.219375 569.884283 
+L 552.219375 569.884283 
+L 552.219375 562.534283 
+L 531.219375 562.534283 
+z
+" style="fill: url(#grasps-h47c874418f); stroke: #aaaaaa; stroke-linejoin: miter"/>
+   </g>
+   <g id="grasps-text_70">
+    <text style="font-size: 10.5px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="560.619375" y="569.884283" transform="rotate(-0 560.619375 569.884283)">Unresolved</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="grasps-p48a338331c">
+   <rect x="165.6" y="64.944" width="505.08" height="430.992"/>
+  </clipPath>
+ </defs>
+ <defs>
+  <pattern id="grasps-he8d96459ba" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+   <rect x="0" y="0" width="73" height="73" fill="#f8f6f2"/>
+   <path d="M -36 36 
+L 36 -36 
+M -32 40 
+L 40 -32 
+M -28 44 
+L 44 -28 
+M -24 48 
+L 48 -24 
+M -20 52 
+L 52 -20 
+M -16 56 
+L 56 -16 
+M -12 60 
+L 60 -12 
+M -8 64 
+L 64 -8 
+M -4 68 
+L 68 -4 
+M 0 72 
+L 72 0 
+M 4 76 
+L 76 4 
+M 8 80 
+L 80 8 
+M 12 84 
+L 84 12 
+M 16 88 
+L 88 16 
+M 20 92 
+L 92 20 
+M 24 96 
+L 96 24 
+M 28 100 
+L 100 28 
+M 32 104 
+L 104 32 
+M 36 108 
+L 108 36 
+" style="fill: #c3c6c1; stroke: #c3c6c1; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
+  </pattern>
+  <pattern id="grasps-h47c874418f" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+   <rect x="0" y="0" width="73" height="73" fill="#f8f6f2"/>
+   <path d="M -36 36 
+L 36 -36 
+M -32 40 
+L 40 -32 
+M -28 44 
+L 44 -28 
+M -24 48 
+L 48 -24 
+M -20 52 
+L 52 -20 
+M -16 56 
+L 56 -16 
+M -12 60 
+L 60 -12 
+M -8 64 
+L 64 -8 
+M -4 68 
+L 68 -4 
+M 0 72 
+L 72 0 
+M 4 76 
+L 76 4 
+M 8 80 
+L 80 8 
+M 12 84 
+L 84 12 
+M 16 88 
+L 88 16 
+M 20 92 
+L 92 20 
+M 24 96 
+L 96 24 
+M 28 100 
+L 100 28 
+M 32 104 
+L 104 32 
+M 36 108 
+L 108 36 
+" style="fill: #aaaaaa; stroke: #aaaaaa; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
+  </pattern>
+ </defs>
+</svg>
+</div><p class="caption" data-edit="chart-caption-grasps">Ratios exclude repositioning and are withheld for unresolved outcomes (Pending) or zero eligible pickups (—). A verified lift may still end in a later drop. Run 30 remains partially reviewed.</p><div class="figure-downloads edit-only"><a href="assets/charts/grasps.svg" download>SVG</a> · <a href="assets/charts/grasps.png" download>PNG</a></div></article><article class="result-figure" data-chart="positions"><div class="result-title"><h3 data-edit="chart-title-positions">Final stack position</h3><button class="edit-only hide-chart" type="button" data-hide-chart="positions">Hide chart</button></div><div class="plot-scroll"><svg role="img" aria-label="Final stack position" xmlns:xlink="http://www.w3.org/1999/xlink" width="828pt" height="489.6pt" viewBox="0 0 828 489.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T17:34:14.542942</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="positions-figure_1">
+  <g id="positions-patch_1">
+   <path d="M 0 489.6 
+L 828 489.6 
+L 828 0 
+L 0 0 
+z
+" style="fill: #f8f6f2"/>
+  </g>
+  <g id="positions-axes_1">
+   <g id="positions-patch_2">
+    <path d="M 205.31113 396.576 
+L 680.64887 396.576 
+L 680.64887 19.584 
+L 205.31113 19.584 
+z
+" style="fill: #f8f6f2"/>
+   </g>
+   <g id="positions-matplotlib.axis_1">
+    <g id="positions-xtick_1">
+     <g id="positions-line2d_1">
+      <path d="M 205.31113 396.576 
+L 205.31113 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_2">
+      <defs>
+       <path id="positions-m17d3d835d7" d="M 0 0 
+L 0 3.5 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="205.31113" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_1">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="205.31113" y="413.040355" transform="rotate(-0 205.31113 413.040355)">−40</text>
+     </g>
+    </g>
+    <g id="positions-xtick_2">
+     <g id="positions-line2d_3">
+      <path d="M 270.874957 396.576 
+L 270.874957 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_4">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="270.874957" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_2">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="270.874957" y="413.040355" transform="rotate(-0 270.874957 413.040355)">−20</text>
+     </g>
+    </g>
+    <g id="positions-xtick_3">
+     <g id="positions-line2d_5">
+      <path d="M 336.438783 396.576 
+L 336.438783 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_6">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="336.438783" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_3">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="336.438783" y="413.040355" transform="rotate(-0 336.438783 413.040355)">0</text>
+     </g>
+    </g>
+    <g id="positions-xtick_4">
+     <g id="positions-line2d_7">
+      <path d="M 402.002609 396.576 
+L 402.002609 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_8">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="402.002609" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_4">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="402.002609" y="413.040355" transform="rotate(-0 402.002609 413.040355)">20</text>
+     </g>
+    </g>
+    <g id="positions-xtick_5">
+     <g id="positions-line2d_9">
+      <path d="M 467.566435 396.576 
+L 467.566435 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_10">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="467.566435" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_5">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="467.566435" y="413.040355" transform="rotate(-0 467.566435 413.040355)">40</text>
+     </g>
+    </g>
+    <g id="positions-xtick_6">
+     <g id="positions-line2d_11">
+      <path d="M 533.130261 396.576 
+L 533.130261 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_12">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="533.130261" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_6">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="533.130261" y="413.040355" transform="rotate(-0 533.130261 413.040355)">60</text>
+     </g>
+    </g>
+    <g id="positions-xtick_7">
+     <g id="positions-line2d_13">
+      <path d="M 598.694087 396.576 
+L 598.694087 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_14">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="598.694087" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_7">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="598.694087" y="413.040355" transform="rotate(-0 598.694087 413.040355)">80</text>
+     </g>
+    </g>
+    <g id="positions-xtick_8">
+     <g id="positions-line2d_15">
+      <path d="M 664.257913 396.576 
+L 664.257913 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_16">
+      <g>
+       <use xlink:href="#positions-m17d3d835d7" x="664.257913" y="396.576" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_8">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="664.257913" y="413.040355" transform="rotate(-0 664.257913 413.040355)">100</text>
+     </g>
+    </g>
+    <g id="positions-text_9">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="442.98" y="429.240551" transform="rotate(-0 442.98 429.240551)">Left / right of starting middle marker (pixels)</text>
+    </g>
+   </g>
+   <g id="positions-matplotlib.axis_2">
+    <g id="positions-ytick_1">
+     <g id="positions-line2d_17">
+      <path d="M 205.31113 380.185043 
+L 680.64887 380.185043 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_18">
+      <defs>
+       <path id="positions-mb4402f0af6" d="M 0 0 
+L -3.5 0 
+" style="stroke: #5c6772; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="380.185043" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_10">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="384.917221" transform="rotate(-0 198.31113 384.917221)">−20</text>
+     </g>
+    </g>
+    <g id="positions-ytick_2">
+     <g id="positions-line2d_19">
+      <path d="M 205.31113 314.621217 
+L 680.64887 314.621217 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_20">
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="314.621217" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_11">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="319.353395" transform="rotate(-0 198.31113 319.353395)">0</text>
+     </g>
+    </g>
+    <g id="positions-ytick_3">
+     <g id="positions-line2d_21">
+      <path d="M 205.31113 249.057391 
+L 680.64887 249.057391 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_22">
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="249.057391" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_12">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="253.789569" transform="rotate(-0 198.31113 253.789569)">20</text>
+     </g>
+    </g>
+    <g id="positions-ytick_4">
+     <g id="positions-line2d_23">
+      <path d="M 205.31113 183.493565 
+L 680.64887 183.493565 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_24">
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="183.493565" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_13">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="188.225743" transform="rotate(-0 198.31113 188.225743)">40</text>
+     </g>
+    </g>
+    <g id="positions-ytick_5">
+     <g id="positions-line2d_25">
+      <path d="M 205.31113 117.929739 
+L 680.64887 117.929739 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_26">
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="117.929739" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_14">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="122.661917" transform="rotate(-0 198.31113 122.661917)">60</text>
+     </g>
+    </g>
+    <g id="positions-ytick_6">
+     <g id="positions-line2d_27">
+      <path d="M 205.31113 52.365913 
+L 680.64887 52.365913 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke: #e0dfdb; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="positions-line2d_28">
+      <g>
+       <use xlink:href="#positions-mb4402f0af6" x="205.31113" y="52.365913" style="fill: #5c6772; stroke: #5c6772; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="positions-text_15">
+      <text style="font-size: 13px; font-family: 'Arial'; text-anchor: end; fill: #5c6772" x="198.31113" y="57.098091" transform="rotate(-0 198.31113 57.098091)">80</text>
+     </g>
+    </g>
+    <g id="positions-text_16">
+     <text style="font-size: 13px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="169.523787" y="208.08" transform="rotate(-90 169.523787 208.08)">Toward robot from starting row (pixels)</text>
+    </g>
+   </g>
+   <g id="positions-line2d_29">
+    <path d="M 205.31113 314.621217 
+L 680.64887 314.621217 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #a4aaa3"/>
+   </g>
+   <g id="positions-line2d_30">
+    <path d="M 336.438783 396.576 
+L 336.438783 19.584 
+" clip-path="url(#positions-p6d9278610a)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #a4aaa3"/>
+   </g>
+   <g id="positions-patch_3">
+    <path d="M 205.31113 396.576 
+L 205.31113 19.584 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="positions-patch_4">
+    <path d="M 205.31113 396.576 
+L 680.64887 396.576 
+" style="fill: none; stroke: #bcbcb8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="positions-patch_5">
+    <path d="M 608.528661 118.311514 
+Q 608.528661 89.615545 608.528661 62.596628 
+" style="fill: none; stroke: #5c6772; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 606.128661 67.396628 
+L 608.528661 62.596628 
+L 610.928661 67.396628 
+z
+" style="fill: #5c6772; stroke: #5c6772; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_17">
+    <text style="font-size: 12px; font-family: 'Arial'; text-anchor: middle; fill: #5c6772" x="608.528661" y="131.042504" transform="rotate(-0 608.528661 131.042504)">Toward robot</text>
+   </g>
+   <g id="positions-text_18">
+    <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #5c6772" x="451.175478" y="370.35047" transform="rotate(-0 451.175478 370.35047)">Starting cube row</text>
+   </g>
+   <g id="positions-PathCollection_1">
+    <defs>
+     <path id="positions-m921badb216" d="M 0 4.873397 
+C 1.29244 4.873397 2.532119 4.359905 3.446012 3.446012 
+C 4.359905 2.532119 4.873397 1.29244 4.873397 0 
+C 4.873397 -1.29244 4.359905 -2.532119 3.446012 -3.446012 
+C 2.532119 -4.359905 1.29244 -4.873397 0 -4.873397 
+C -1.29244 -4.873397 -2.532119 -4.359905 -3.446012 -3.446012 
+C -4.359905 -2.532119 -4.873397 -1.29244 -4.873397 0 
+C -4.873397 1.29244 -4.359905 2.532119 -3.446012 3.446012 
+C -2.532119 4.359905 -1.29244 4.873397 0 4.873397 
+z
+" style="stroke: #f8f6f2"/>
+    </defs>
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-m921badb216" x="320.047826" y="314.621217" style="fill: #397ddd; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_2">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-m921badb216" x="320.047826" y="314.621217" style="fill: #397ddd; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_3">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-m921badb216" x="320.047826" y="314.621217" style="fill: #397ddd; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_4">
+    <defs>
+     <path id="positions-mb4e7613f4e" d="M 0 4.873397 
+C 1.29244 4.873397 2.532119 4.359905 3.446012 3.446012 
+C 4.359905 2.532119 4.873397 1.29244 4.873397 0 
+C 4.873397 -1.29244 4.359905 -2.532119 3.446012 -3.446012 
+C 2.532119 -4.359905 1.29244 -4.873397 0 -4.873397 
+C -1.29244 -4.873397 -2.532119 -4.359905 -3.446012 -3.446012 
+C -4.359905 -2.532119 -4.873397 -1.29244 -4.873397 0 
+C -4.873397 1.29244 -4.359905 2.532119 -3.446012 3.446012 
+C -2.532119 4.359905 -1.29244 4.873397 0 4.873397 
+z
+" style="stroke: #f8f6f2"/>
+    </defs>
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="598.694087" y="331.012174" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_5">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="500.348348" y="232.666435" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_6">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="369.220696" y="183.493565" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_7">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="303.65687" y="298.230261" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_8">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="303.65687" y="134.320696" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_9">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="336.438783" y="298.230261" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_10">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="303.65687" y="298.230261" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-PathCollection_11">
+    <g clip-path="url(#positions-p6d9278610a)">
+     <use xlink:href="#positions-mb4e7613f4e" x="320.047826" y="101.538783" style="fill: #df7958; stroke: #f8f6f2"/>
+    </g>
+   </g>
+   <g id="positions-patch_6">
+    <path d="M 302.246613 317.911231 
+Q 310.162851 316.448155 318.079088 314.985079 
+" style="fill: none; stroke: #397ddd; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_19">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="286.047826" y="322.621217" transform="rotate(-0 286.047826 322.621217)">09</text>
+   </g>
+   <g id="positions-patch_7">
+    <path d="M 301.877463 328.406102 
+Q 310.165251 322.118599 318.45304 315.831097 
+" style="fill: none; stroke: #397ddd; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_20">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="286.047826" y="338.621217" transform="rotate(-0 286.047826 338.621217)">10</text>
+   </g>
+   <g id="positions-patch_8">
+    <path d="M 297.178001 343.055137 
+Q 307.986171 329.617403 318.794341 316.179668 
+" style="fill: none; stroke: #397ddd; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_21">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #397ddd" x="284.047826" y="354.621217" transform="rotate(-0 284.047826 354.621217)">16</text>
+   </g>
+   <g id="positions-patch_9">
+    <path d="M 603.702286 331.394263 
+Q 602.193468 331.279151 600.68465 331.16404 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_22">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="607.694087" y="335.012174" transform="rotate(-0 607.694087 335.012174)">20</text>
+   </g>
+   <g id="positions-patch_10">
+    <path d="M 505.575335 229.953303 
+Q 503.848745 230.849511 502.122154 231.745719 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_23">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="509.348348" y="227.666435" transform="rotate(-0 509.348348 227.666435)">21</text>
+   </g>
+   <g id="positions-patch_11">
+    <path d="M 374.5981 179.635203 
+Q 372.722047 180.981297 370.845995 182.32739 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_24">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="378.220696" y="175.493565" transform="rotate(-0 378.220696 175.493565)">22</text>
+   </g>
+   <g id="positions-patch_12">
+    <path d="M 279.52968 281.249654 
+Q 290.775978 289.164748 302.022276 297.079841 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_25">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="263.65687" y="277.230261" transform="rotate(-0 263.65687 277.230261)">24</text>
+   </g>
+   <g id="positions-patch_13">
+    <path d="M 309.816636 131.703964 
+Q 307.658612 132.620714 305.500589 133.537465 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_26">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="313.65687" y="130.320696" transform="rotate(-0 313.65687 130.320696)">25</text>
+   </g>
+   <g id="positions-patch_14">
+    <path d="M 357.520914 304.431736 
+Q 347.938478 301.612987 338.356042 298.794238 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_27">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="361.438783" y="310.230261" transform="rotate(-0 361.438783 310.230261)">26</text>
+   </g>
+   <g id="positions-patch_15">
+    <path d="M 274.755013 262.108603 
+Q 288.580593 279.387869 302.406173 296.667135 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_28">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="261.65687" y="256.230261" transform="rotate(-0 261.65687 256.230261)">27</text>
+   </g>
+   <g id="positions-patch_16">
+    <path d="M 326.340396 97.694345 
+Q 324.046742 99.09565 321.753088 100.496955 
+" style="fill: none; stroke: #df7958; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="positions-text_29">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #df7958" x="330.047826" y="94.538783" transform="rotate(-0 330.047826 94.538783)">30</text>
+   </g>
+  </g>
+  <g id="positions-legend_1">
+   <g id="positions-line2d_31">
+    <defs>
+     <path id="positions-mc56113a9b8" d="M 0 4.5 
+C 1.193414 4.5 2.338109 4.025852 3.181981 3.181981 
+C 4.025852 2.338109 4.5 1.193414 4.5 0 
+C 4.5 -1.193414 4.025852 -2.338109 3.181981 -3.181981 
+C 2.338109 -4.025852 1.193414 -4.5 0 -4.5 
+C -1.193414 -4.5 -2.338109 -4.025852 -3.181981 -3.181981 
+C -4.025852 -2.338109 -4.5 -1.193414 -4.5 0 
+C -4.5 1.193414 -4.025852 2.338109 -3.181981 3.181981 
+C -2.338109 4.025852 -1.193414 4.5 0 4.5 
+z
+" style="stroke: #397ddd"/>
+    </defs>
+    <g>
+     <use xlink:href="#positions-mc56113a9b8" x="270.677031" y="460.82216" style="fill: #397ddd; stroke: #397ddd"/>
+    </g>
+   </g>
+   <g id="positions-text_30">
+    <text style="font-size: 13px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="294.077031" y="465.37216" transform="rotate(-0 294.077031 465.37216)">Astra 6 · 3 stacks</text>
+   </g>
+   <g id="positions-line2d_32">
+    <defs>
+     <path id="positions-m536a3beb53" d="M 0 4.5 
+C 1.193414 4.5 2.338109 4.025852 3.181981 3.181981 
+C 4.025852 2.338109 4.5 1.193414 4.5 0 
+C 4.5 -1.193414 4.025852 -2.338109 3.181981 -3.181981 
+C 2.338109 -4.025852 1.193414 -4.5 0 -4.5 
+C -1.193414 -4.5 -2.338109 -4.025852 -3.181981 -3.181981 
+C -4.025852 -2.338109 -4.5 -1.193414 -4.5 0 
+C -4.5 1.193414 -4.025852 2.338109 -3.181981 3.181981 
+C -2.338109 4.025852 -1.193414 4.5 0 4.5 
+z
+" style="stroke: #df7958"/>
+    </defs>
+    <g>
+     <use xlink:href="#positions-m536a3beb53" x="433.491875" y="460.82216" style="fill: #df7958; stroke: #df7958"/>
+    </g>
+   </g>
+   <g id="positions-text_31">
+    <text style="font-size: 13px; font-family: 'Arial'; text-anchor: start; fill: #182627" x="456.891875" y="465.37216" transform="rotate(-0 456.891875 465.37216)">Fable 5.2 · 8 stacks</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="positions-p6d9278610a">
+   <rect x="205.31113" y="19.584" width="475.337739" height="376.992"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><p class="caption" data-edit="chart-caption-positions">Successful runs only. Manual footprint estimates relative to the middle starting marker, rounded to five pixels. Perspective is uncorrected; these are not distances in centimetres.</p><div class="figure-downloads edit-only"><a href="assets/charts/positions.svg" download>SVG</a> · <a href="assets/charts/positions.png" download>PNG</a></div></article></section>
 <section class="conclusion" id="conclusion"><h2 data-edit="conclusionTitle">Conclusion</h2><div class="draft-slot"><p data-edit="conclusionText" data-placeholder="Write your conclusion here.">I will write this out.</p></div></section></main></div>
 <dialog class="help" id="help"><h2>Edit the draft</h2><ol><li>Click existing text to edit it.</li><li>Choose a destination in <strong>Add to</strong>, then use <strong>Add text</strong> or <strong>Add image</strong>. You can also paste or drop images into a section.</li><li>Use each added block’s controls to move it, change its section, or remove it. <strong>Undo remove</strong> restores the last removed block.</li><li>Changes save in this browser. <strong>Save HTML copy</strong> includes your text and added images. Images are resized to fit the page and embedded in the file.</li><li>Keep the saved HTML beside the original <strong>assets</strong> folder for the run videos. Switch editing off to preview.</li></ol><button id="helpClose">Close</button></dialog>
-<script id="draftData" type="application/json">{"title": "Stacking Three Cubes", "subtitle": "Benchmarking frontier models in the physical world", "runs": [{"id": 9, "runId": "coord-stack-20261117-control-09", "group": "astra", "ordinal": 1, "outcome": "successful", "duration": 587.1176188469999, "graspAttempts": 2, "firstGrasp": 265.801882736, "firstLift": 288.141189122, "firstStack": 398.186443757, "completion": 571.246071369, "notes": "", "poster": "assets/run-09.jpg", "video": "assets/run-09.mp4", "samples": 1187, "events": [], "playbackSpeed": 20, "videoDuration": 29.675, "videoSeek": {"duration": 29.35, "firstGrasp": 13.3, "firstLift": 14.425, "firstStack": 19.9, "completion": 28.55}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 10, "runId": "coord-stack-20261117-control-10", "group": "astra", "ordinal": 2, "outcome": "successful", "duration": 553.102120498, "graspAttempts": 3, "firstGrasp": 216.024221023, "firstLift": 310.142016239, "firstStack": 383.171963936, "completion": 522.2232739289999, "notes": "", "poster": "assets/run-10.jpg", "video": "assets/run-10.mp4", "samples": 1119, "events": [], "playbackSpeed": 20, "videoDuration": 27.975, "videoSeek": {"duration": 27.65, "firstGrasp": 10.8, "firstLift": 15.525, "firstStack": 19.15, "completion": 26.1}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 11, "runId": "coord-stack-20261117-control-11", "group": "astra", "ordinal": 3, "outcome": "unsuccessful", "duration": 62.01526977899999, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-11.jpg", "video": "assets/run-11.mp4", "samples": 138, "events": [], "playbackSpeed": 20, "videoDuration": 3.45, "videoSeek": {"duration": 3.1}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 12, "runId": "coord-stack-20261117-control-12", "group": "astra", "ordinal": 4, "outcome": "unsuccessful", "duration": 64.01362516300001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-12.jpg", "video": "assets/run-12.mp4", "samples": 142, "events": [], "playbackSpeed": 20, "videoDuration": 3.55, "videoSeek": {"duration": 3.2}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 13, "runId": "coord-stack-20261117-control-13", "group": "astra", "ordinal": 5, "outcome": "unsuccessful", "duration": 65.015502677, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-13.jpg", "video": "assets/run-13.mp4", "samples": 144, "events": [], "playbackSpeed": 20, "videoDuration": 3.6, "videoSeek": {"duration": 3.25}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 14, "runId": "coord-stack-20261117-control-14", "group": "astra", "ordinal": 6, "outcome": "unsuccessful", "duration": 68.019336915, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-14.jpg", "video": "assets/run-14.mp4", "samples": 150, "events": [], "agentQuote": "I couldn\u2019t reliably stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. I left all three cubes untouched and released the arm. Calibration needs to be restored before stacking.", "playbackSpeed": 20, "videoDuration": 3.75, "videoSeek": {"duration": 3.4}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 15, "runId": "coord-stack-20261117-control-15", "group": "astra", "ordinal": 7, "outcome": "unsuccessful", "duration": 55.01261247100001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-15.jpg", "video": "assets/run-15.mp4", "samples": 124, "events": [], "playbackSpeed": 20, "videoDuration": 3.1, "videoSeek": {"duration": 2.75}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 16, "runId": "coord-stack-20261117-control-16", "group": "astra", "ordinal": 8, "outcome": "successful", "duration": 534.1112623450001, "graspAttempts": 4, "firstGrasp": 138.138461887, "firstLift": 240.11525749499998, "firstStack": 305.135239561, "completion": 520.22170695, "notes": "", "poster": "assets/run-16.jpg", "video": "assets/run-16.mp4", "samples": 1081, "events": [], "playbackSpeed": 20, "videoDuration": 27.025, "videoSeek": {"duration": 26.7, "firstGrasp": 6.925, "firstLift": 12.025, "firstStack": 15.25, "completion": 26.0}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 17, "runId": "coord-stack-20261117-control-17", "group": "astra", "ordinal": 9, "outcome": "unsuccessful", "duration": 152.03274091999998, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-17.jpg", "video": "assets/run-17.mp4", "samples": 318, "events": [], "playbackSpeed": 20, "videoDuration": 7.95, "videoSeek": {"duration": 7.6}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 18, "runId": "coord-stack-20261117-control-18", "group": "astra", "ordinal": 10, "outcome": "unsuccessful", "duration": 1615.293599043, "graspAttempts": 9, "firstGrasp": 122.047645101, "firstLift": 445.194415971, "firstStack": 909.846333948, "completion": null, "notes": "", "poster": "assets/run-18.jpg", "video": "assets/run-18.mp4", "samples": 3243, "events": [{"time": 535.221684839, "description": "First two-cube placement slipped to table after release.", "videoTime": 26.75}, {"time": 719.781178399, "description": "Second two-cube placement slipped to table after release.", "videoTime": 35.975}, {"time": 1134.925079238, "description": "Third cube slipped off two-cube stack after release.", "videoTime": 56.725}], "playbackSpeed": 20, "videoDuration": 81.075, "videoSeek": {"duration": 80.75, "firstGrasp": 6.1, "firstLift": 22.275, "firstStack": 45.475}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 19, "runId": "coord-stack-20261118-control-19", "group": "fable", "ordinal": 1, "outcome": "unsuccessful", "duration": 762.162905477, "graspAttempts": 3, "firstGrasp": 172.89679119800002, "firstLift": 340.180909673, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-19.jpg", "video": "assets/run-19.mp4", "samples": 1537, "events": [], "playbackSpeed": 20, "videoDuration": 38.425, "videoSeek": {"duration": 38.1, "firstGrasp": 8.65, "firstLift": 17.025}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 20, "runId": "coord-stack-20261118-control-20", "group": "fable", "ordinal": 2, "outcome": "successful", "duration": 2047.3971001730001, "graspAttempts": 7, "firstGrasp": 194.68294884200003, "firstLift": 260.137921917, "firstStack": 579.756520087, "completion": 2005.2406699439998, "notes": "", "poster": "assets/run-20.jpg", "video": "assets/run-20.mp4", "samples": 4107, "events": [], "playbackSpeed": 20, "videoDuration": 102.675, "videoSeek": {"duration": 102.35, "firstGrasp": 9.75, "firstLift": 13.025, "firstStack": 29.0, "completion": 100.25}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 21, "runId": "coord-stack-20261118-control-21", "group": "fable", "ordinal": 3, "outcome": "successful", "duration": 3299.682674548, "graspAttempts": 8, "firstGrasp": 458.190504601, "firstLift": 475.220508563, "firstStack": 2174.866596283, "completion": 3259.798570895, "notes": "", "poster": "assets/run-21.jpg", "video": "assets/run-21.mp4", "samples": 6610, "events": [], "playbackSpeed": 20, "videoDuration": 165.25, "videoSeek": {"duration": 164.925, "firstGrasp": 22.9, "firstLift": 23.75, "firstStack": 108.7, "completion": 162.925}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 22, "runId": "coord-stack-20261118-control-22", "group": "fable", "ordinal": 4, "outcome": "successful", "duration": 2758.587688134, "graspAttempts": 7, "firstGrasp": 232.291648052, "firstLift": 400.21791582000003, "firstStack": 984.940820331, "completion": 2595.062498802, "notes": "", "poster": "assets/run-22.jpg", "video": "assets/run-22.mp4", "samples": 5529, "events": [], "playbackSpeed": 20, "videoDuration": 138.225, "videoSeek": {"duration": 137.875, "firstGrasp": 11.625, "firstLift": 20.025, "firstStack": 49.225, "completion": 129.7}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 23, "runId": "coord-stack-20261118-control-23", "group": "fable", "ordinal": 5, "outcome": "unsuccessful", "duration": 483.092899356, "graspAttempts": 2, "firstGrasp": 286.597756001, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-23.jpg", "video": "assets/run-23.mp4", "samples": 979, "events": [], "playbackSpeed": 20, "videoDuration": 24.475, "videoSeek": {"duration": 24.15, "firstGrasp": 14.325}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 24, "runId": "coord-stack-20261118-control-24", "group": "fable", "ordinal": 6, "outcome": "successful", "duration": 1567.320289785, "graspAttempts": 3, "firstGrasp": 662.846623227, "firstLift": 729.820745749, "firstStack": 829.857281607, "completion": 1515.085682974, "notes": "", "poster": "assets/run-24.jpg", "video": "assets/run-24.mp4", "samples": 3147, "events": [{"time": 1055.429931705, "description": "The arm dislodged the upper cube from the first two-cube stack.", "videoTime": 52.75}], "playbackSpeed": 20, "videoDuration": 78.675, "videoSeek": {"duration": 78.35, "firstGrasp": 33.15, "firstLift": 36.475, "firstStack": 41.475, "completion": 75.725}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 25, "runId": "coord-stack-20261118-control-25", "group": "fable", "ordinal": 7, "outcome": "successful", "duration": 2321.510466454, "graspAttempts": 10, "firstGrasp": 162.35272172599997, "firstLift": 195.146196309, "firstStack": 804.853106047, "completion": 2264.839533559, "notes": "", "poster": "assets/run-25.jpg", "video": "assets/run-25.mp4", "samples": 4655, "events": [{"time": 1467.0709545060001, "window": [1465.070420381, 1467.0709545060001], "description": "Initial stack collapsed during release of the third cube.", "videoTime": 73.325, "videoWindow": [73.225, 73.325]}], "playbackSpeed": 20, "videoDuration": 116.375, "videoSeek": {"duration": 116.05, "firstGrasp": 8.125, "firstLift": 9.75, "firstStack": 40.225, "completion": 113.2}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 26, "runId": "coord-stack-20261118-control-26", "group": "fable", "ordinal": 8, "outcome": "successful", "duration": 1120.224090983, "graspAttempts": 4, "firstGrasp": 238.84253665, "firstLift": 280.14612747, "firstStack": 764.817183572, "completion": 1074.9183316869999, "notes": "", "poster": "assets/run-26.jpg", "video": "assets/run-26.mp4", "samples": 2253, "events": [{"time": 365.18011999, "description": "First placement failed: the upper cube fell to the table during release.", "videoTime": 18.25}], "playbackSpeed": 20, "videoDuration": 56.325, "videoSeek": {"duration": 56.0, "firstGrasp": 11.95, "firstLift": 14.0, "firstStack": 38.225, "completion": 53.725}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 27, "runId": "coord-stack-20261118-control-27", "group": "fable", "ordinal": 9, "outcome": "successful", "duration": 1330.271948305, "graspAttempts": 3, "firstGrasp": 354.819443124, "firstLift": 545.24933819, "firstStack": 664.802010084, "completion": 1270.035073487, "notes": "", "poster": "assets/run-27.jpg", "video": "assets/run-27.mp4", "samples": 2673, "events": [], "playbackSpeed": 20, "videoDuration": 66.825, "videoSeek": {"duration": 66.5, "firstGrasp": 17.75, "firstLift": 27.25, "firstStack": 33.225, "completion": 63.475}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 30, "runId": "coord-stack-20261119-control-30", "group": "fable", "ordinal": 10, "outcome": "successful", "duration": 1984.415970081, "graspAttempts": 7, "firstGrasp": 147.798538132, "firstLift": 220.148081116, "firstStack": 335.187555127, "completion": 1920.2386699500003, "notes": "", "poster": "assets/run-30.jpg", "video": "assets/run-30.mp4", "samples": 3981, "events": [], "playbackSpeed": 20, "videoDuration": 99.525, "videoSeek": {"duration": 99.2, "firstGrasp": 7.4, "firstLift": 11.0, "firstStack": 16.75, "completion": 95.975}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}], "sourceRevision": 4536, "draftDate": "2026-11-19", "note": "Astra09\u201318; Fable19\u201327 and30. Run30 replaces28 in display only; historical evidence is retained."}</script><script id="savedEdits" type="application/json">{"repoUrl": "https://github.com/BradleyBrewington/stacking-three-cubes", "savedAt": 1795130333223}</script>
+<script id="draftData" type="application/json">{"title": "Stacking Three Cubes", "subtitle": "Benchmarking frontier models in the physical world", "runs": [{"id": 9, "runId": "coord-stack-20261117-control-09", "group": "astra", "ordinal": 1, "outcome": "successful", "duration": 587.1176188469999, "graspAttempts": 2, "firstGrasp": 265.801882736, "firstLift": 288.141189122, "firstStack": 398.186443757, "completion": 571.246071369, "notes": "", "poster": "assets/run-09.jpg", "video": "assets/run-09.mp4", "samples": 1187, "events": [], "playbackSpeed": 20, "videoDuration": 29.675, "videoSeek": {"duration": 29.35, "firstGrasp": 13.3, "firstLift": 14.425, "firstStack": 19.9, "completion": 28.55}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 10, "runId": "coord-stack-20261117-control-10", "group": "astra", "ordinal": 2, "outcome": "successful", "duration": 553.102120498, "graspAttempts": 3, "firstGrasp": 216.024221023, "firstLift": 310.142016239, "firstStack": 383.171963936, "completion": 522.2232739289999, "notes": "", "poster": "assets/run-10.jpg", "video": "assets/run-10.mp4", "samples": 1119, "events": [], "playbackSpeed": 20, "videoDuration": 27.975, "videoSeek": {"duration": 27.65, "firstGrasp": 10.8, "firstLift": 15.525, "firstStack": 19.15, "completion": 26.1}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 11, "runId": "coord-stack-20261117-control-11", "group": "astra", "ordinal": 3, "outcome": "unsuccessful", "duration": 62.01526977899999, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-11.jpg", "video": "assets/run-11.mp4", "samples": 138, "events": [], "agentQuote": "I couldn\u2019t safely stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. All three cubes are unchanged, and I released the arm.", "failureReason": "Agent cited calibration and declined before any motion.", "failureCategory": "Declined before motion", "playbackSpeed": 20, "videoDuration": 3.45, "videoSeek": {"duration": 3.1}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 12, "runId": "coord-stack-20261117-control-12", "group": "astra", "ordinal": 4, "outcome": "unsuccessful", "duration": 64.01362516300001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-12.jpg", "video": "assets/run-12.mp4", "samples": 142, "events": [], "agentQuote": "I couldn\u2019t stack the cubes: the camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the live view. I left the cubes untouched and released the arm. Calibration needs restoring before accurate grasping and stacking.", "failureReason": "Agent cited calibration and declined before any motion.", "failureCategory": "Declined before motion", "playbackSpeed": 20, "videoDuration": 3.55, "videoSeek": {"duration": 3.2}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 13, "runId": "coord-stack-20261117-control-13", "group": "astra", "ordinal": 5, "outcome": "unsuccessful", "duration": 65.015502677, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-13.jpg", "video": "assets/run-13.mp4", "samples": 144, "events": [], "agentQuote": "I couldn\u2019t safely stack the cubes: the retained calibration doesn\u2019t match the current camera view, so grasp positions are unreliable. All three cubes remain untouched, and I released the arm. The camera-to-arm and table-height calibration need updating.", "failureReason": "Agent cited calibration and declined before any motion.", "failureCategory": "Declined before motion", "playbackSpeed": 20, "videoDuration": 3.6, "videoSeek": {"duration": 3.25}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 14, "runId": "coord-stack-20261117-control-14", "group": "astra", "ordinal": 6, "outcome": "unsuccessful", "duration": 68.019336915, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-14.jpg", "video": "assets/run-14.mp4", "samples": 150, "events": [], "agentQuote": "I couldn\u2019t reliably stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. I left all three cubes untouched and released the arm. Calibration needs to be restored before stacking.", "failureReason": "Agent cited calibration and declined before any motion.", "failureCategory": "Declined before motion", "playbackSpeed": 20, "videoDuration": 3.75, "videoSeek": {"duration": 3.4}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 15, "runId": "coord-stack-20261117-control-15", "group": "astra", "ordinal": 7, "outcome": "unsuccessful", "duration": 55.01261247100001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-15.jpg", "video": "assets/run-15.mp4", "samples": 124, "events": [], "agentQuote": "I couldn\u2019t safely stack the cubes: the active setup lacks camera-to-arm and table-height calibration, and the retained files don\u2019t provide validated replacements.\n\nAll three cubes remain untouched, and I\u2019ve released the arm.", "failureReason": "Agent cited calibration and declined before any motion.", "failureCategory": "Declined before motion", "playbackSpeed": 20, "videoDuration": 3.1, "videoSeek": {"duration": 2.75}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 16, "runId": "coord-stack-20261117-control-16", "group": "astra", "ordinal": 8, "outcome": "successful", "duration": 534.1112623450001, "graspAttempts": 4, "firstGrasp": 138.138461887, "firstLift": 240.11525749499998, "firstStack": 305.135239561, "completion": 520.22170695, "notes": "", "poster": "assets/run-16.jpg", "video": "assets/run-16.mp4", "samples": 1081, "events": [], "playbackSpeed": 20, "videoDuration": 27.025, "videoSeek": {"duration": 26.7, "firstGrasp": 6.925, "firstLift": 12.025, "firstStack": 15.25, "completion": 26.0}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 17, "runId": "coord-stack-20261117-control-17", "group": "astra", "ordinal": 9, "outcome": "unsuccessful", "duration": 152.03274091999998, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-17.jpg", "video": "assets/run-17.mp4", "samples": 318, "events": [], "agentQuote": "I couldn\u2019t complete the stack. The first approach shifted one cube; missing table-height and gripper calibration prevented reliable placement. All three remain on the table. I withdrew the arm and released control.", "failureReason": "Agent cited calibration after an approach shifted a cube.", "failureCategory": "Declined after approach", "playbackSpeed": 20, "videoDuration": 7.95, "videoSeek": {"duration": 7.6}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 18, "runId": "coord-stack-20261117-control-18", "group": "astra", "ordinal": 10, "outcome": "unsuccessful", "duration": 1615.293599043, "graspAttempts": 9, "firstGrasp": 122.047645101, "firstLift": 445.194415971, "firstStack": 909.846333948, "completion": null, "notes": "", "poster": "assets/run-18.jpg", "video": "assets/run-18.mp4", "samples": 3243, "events": [{"time": 535.221684839, "description": "First two-cube placement slipped to table after release.", "videoTime": 26.75}, {"time": 719.781178399, "description": "Second two-cube placement slipped to table after release.", "videoTime": 35.975}, {"time": 1134.925079238, "description": "Third cube slipped off two-cube stack after release.", "videoTime": 56.725}], "agentQuote": "I stacked two cubes, but couldn\u2019t reliably place the third. It\u2019s resting separately on the table, and the arm is clear and released.", "failureReason": "Stopped with two cubes stacked after unsuccessful third-cube placement and recovery attempts.", "failureCategory": "Incomplete stack", "playbackSpeed": 20, "videoDuration": 81.075, "videoSeek": {"duration": 80.75, "firstGrasp": 6.1, "firstLift": 22.275, "firstStack": 45.475}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 19, "runId": "coord-stack-20261118-control-19", "group": "fable", "ordinal": 1, "outcome": "unsuccessful", "duration": 762.162905477, "graspAttempts": 3, "firstGrasp": 172.89679119800002, "firstLift": 340.180909673, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-19.jpg", "video": "assets/run-19.mp4", "samples": 1537, "events": [], "agentQuote": "The cubes are not stacked: I tripped an overload fault on the gripper servo partway through, and the arm is now locked out until someone clears it.\n\n**What happened**\n- The station has no camera-to-arm calibration loaded, so I was positioning by eye from the wrist and overhead cameras.\n- After the built-in `grip` command twice failed to get a stable hold, I closed the gripper on the right-hand cube with a direct position command (`gripper=18`). That squeezed too hard and latched the overload fault (status bit 32 on servo 6).\n- The supplied interface now refuses every command, including `status`, and has no fault reset. I did not bypass it to reset the servo myself.\n\n**Current state of the table**\n- **Middle cube:** moved about 7 cm toward the arm and set down flat, turned 45\u00b0. I intended this as the base of the stack.\n- **Right cube:** sitting on the table between the gripper jaws, not lifted. I had also nudged and rotated it slightly earlier.\n- **Left cube:** upright, but I pushed it about 3 cm off its original spot by moving sideways too low.\n- **Arm:** stopped at the grasp pose over the right cube, the five arm joints holding position with no faults. I released ownership of arm-001.\n\nEach cube was originally sitting on a small purple dot on the table. I don't know whether those mark a required stack location; if they do, tell me which one.\n\n**What I need from you**\nClear the gripper fault (a torque toggle or power cycle on servo 6). Once it's cleared I can continue.\n\nWhen I resume I'll hover higher between moves and avoid hard direct closes on the gripper. The far cubes are near the edge of the arm's straight-down reach, so I'll grasp them with a slight tilt.", "failureReason": "A direct gripper-close command triggered overload fault 32; subsequent robot commands were locked out.", "failureCategory": "Gripper overload", "playbackSpeed": 20, "videoDuration": 38.425, "videoSeek": {"duration": 38.1, "firstGrasp": 8.65, "firstLift": 17.025}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 20, "runId": "coord-stack-20261118-control-20", "group": "fable", "ordinal": 2, "outcome": "successful", "duration": 2047.3971001730001, "graspAttempts": 7, "firstGrasp": 194.68294884200003, "firstLift": 260.137921917, "firstStack": 579.756520087, "completion": 2005.2406699439998, "notes": "", "poster": "assets/run-20.jpg", "video": "assets/run-20.mp4", "samples": 4107, "events": [], "playbackSpeed": 20, "videoDuration": 102.675, "videoSeek": {"duration": 102.35, "firstGrasp": 9.75, "firstLift": 13.025, "firstStack": 29.0, "completion": 100.25}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 21, "runId": "coord-stack-20261118-control-21", "group": "fable", "ordinal": 3, "outcome": "successful", "duration": 3299.682674548, "graspAttempts": 8, "firstGrasp": 458.190504601, "firstLift": 475.220508563, "firstStack": 2174.866596283, "completion": 3259.798570895, "notes": "", "poster": "assets/run-21.jpg", "video": "assets/run-21.mp4", "samples": 6610, "events": [], "playbackSpeed": 20, "videoDuration": 165.25, "videoSeek": {"duration": 164.925, "firstGrasp": 22.9, "firstLift": 23.75, "firstStack": 108.7, "completion": 162.925}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 22, "runId": "coord-stack-20261118-control-22", "group": "fable", "ordinal": 4, "outcome": "successful", "duration": 2758.587688134, "graspAttempts": 7, "firstGrasp": 232.291648052, "firstLift": 400.21791582000003, "firstStack": 984.940820331, "completion": 2595.062498802, "notes": "", "poster": "assets/run-22.jpg", "video": "assets/run-22.mp4", "samples": 5529, "events": [], "playbackSpeed": 20, "videoDuration": 138.225, "videoSeek": {"duration": 137.875, "firstGrasp": 11.625, "firstLift": 20.025, "firstStack": 49.225, "completion": 129.7}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 23, "runId": "coord-stack-20261118-control-23", "group": "fable", "ordinal": 5, "outcome": "unsuccessful", "duration": 483.092899356, "graspAttempts": 2, "firstGrasp": 286.597756001, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-23.jpg", "video": "assets/run-23.mp4", "samples": 979, "events": [], "agentQuote": "The cubes are not stacked: I tripped the gripper servo's overload protection, and the supplied motor interface can no longer connect to the arm, so I stopped.\n\n## What happened\n- **First grasp attempt:** the built-in `grip` routine closed on the left cube only lightly, and the lift came up empty.\n- **Second attempt:** I commanded the gripper to 12% while the cube blocked it at about 24%. The sustained squeeze latched an overload fault on servo 6 (fault bit 32).\n- **Result:** every motor command now fails at connect with `Overload error!` on the gripper. The interface has no fault reset, and the fault has not cleared on its own.\n\n## Current state\n- **Arm:** parked low over the left cube at roughly x 0.30, y \u22120.11, z 0.015, jaws around the cube. The five arm joints report no faults. I never got to lift.\n- **Left cube:** between the jaws, still on the table.\n- **Middle cube:** I bumped it with the open jaw while descending. It is now rotated about 30\u00b0 and shifted a couple of centimetres left.\n- **Right cube:** untouched.\n- **Ownership:** I released arm-001 so someone can intervene. No motion is running.\n\n## Decision for you\nThe tools directory has an overload-recovery routine in `calibrate_workspace.py` (`recover_overload`, which toggles torque on the faulted servo). Running it means writing my own script that opens the bus outside `robot_resources.py`. That goes beyond the supplied interface I was told to use, so I did not do it. Either:\n- you or an operator clear the gripper fault, or\n- you tell me to run that recovery routine myself under the ownership lease.\n\nOnce the fault is cleared I'll re-claim the arm and finish the stack. I'd take up the gripper's slack with small closing steps just past contact instead of a hard position target, so it doesn't overload again.", "failureReason": "A direct gripper-close command triggered overload fault 32; subsequent robot commands were locked out.", "failureCategory": "Gripper overload", "playbackSpeed": 20, "videoDuration": 24.475, "videoSeek": {"duration": 24.15, "firstGrasp": 14.325}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 24, "runId": "coord-stack-20261118-control-24", "group": "fable", "ordinal": 6, "outcome": "successful", "duration": 1567.320289785, "graspAttempts": 3, "firstGrasp": 662.846623227, "firstLift": 729.820745749, "firstStack": 829.857281607, "completion": 1515.085682974, "notes": "", "poster": "assets/run-24.jpg", "video": "assets/run-24.mp4", "samples": 3147, "events": [{"time": 1055.429931705, "description": "The arm dislodged the upper cube from the first two-cube stack.", "videoTime": 52.75}], "playbackSpeed": 20, "videoDuration": 78.675, "videoSeek": {"duration": 78.35, "firstGrasp": 33.15, "firstLift": 36.475, "firstStack": 41.475, "completion": 75.725}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 25, "runId": "coord-stack-20261118-control-25", "group": "fable", "ordinal": 7, "outcome": "successful", "duration": 2321.510466454, "graspAttempts": 10, "firstGrasp": 162.35272172599997, "firstLift": 195.146196309, "firstStack": 804.853106047, "completion": 2264.839533559, "notes": "", "poster": "assets/run-25.jpg", "video": "assets/run-25.mp4", "samples": 4655, "events": [{"time": 1467.0709545060001, "window": [1465.070420381, 1467.0709545060001], "description": "Initial stack collapsed during release of the third cube.", "videoTime": 73.325, "videoWindow": [73.225, 73.325]}], "playbackSpeed": 20, "videoDuration": 116.375, "videoSeek": {"duration": 116.05, "firstGrasp": 8.125, "firstLift": 9.75, "firstStack": 40.225, "completion": 113.2}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 26, "runId": "coord-stack-20261118-control-26", "group": "fable", "ordinal": 8, "outcome": "successful", "duration": 1120.224090983, "graspAttempts": 4, "firstGrasp": 238.84253665, "firstLift": 280.14612747, "firstStack": 764.817183572, "completion": 1074.9183316869999, "notes": "", "poster": "assets/run-26.jpg", "video": "assets/run-26.mp4", "samples": 2253, "events": [{"time": 365.18011999, "description": "First placement failed: the upper cube fell to the table during release.", "videoTime": 18.25}], "playbackSpeed": 20, "videoDuration": 56.325, "videoSeek": {"duration": 56.0, "firstGrasp": 11.95, "firstLift": 14.0, "firstStack": 38.225, "completion": 53.725}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 27, "runId": "coord-stack-20261118-control-27", "group": "fable", "ordinal": 9, "outcome": "successful", "duration": 1330.271948305, "graspAttempts": 3, "firstGrasp": 354.819443124, "firstLift": 545.24933819, "firstStack": 664.802010084, "completion": 1270.035073487, "notes": "", "poster": "assets/run-27.jpg", "video": "assets/run-27.mp4", "samples": 2673, "events": [], "playbackSpeed": 20, "videoDuration": 66.825, "videoSeek": {"duration": 66.5, "firstGrasp": 17.75, "firstLift": 27.25, "firstStack": 33.225, "completion": 63.475}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}, {"id": 30, "runId": "coord-stack-20261119-control-30", "group": "fable", "ordinal": 10, "outcome": "successful", "duration": 1984.415970081, "graspAttempts": 7, "firstGrasp": 147.798538132, "firstLift": 220.148081116, "firstStack": 335.187555127, "completion": 1920.2386699500003, "notes": "", "poster": "assets/run-30.jpg", "video": "assets/run-30.mp4", "samples": 3981, "events": [], "playbackSpeed": 20, "videoDuration": 99.525, "videoSeek": {"duration": 99.2, "firstGrasp": 7.4, "firstLift": 11.0, "firstStack": 16.75, "completion": 95.975}, "seekTimingBasis": "Recorded overhead frame timestamps, relative to agent start; seek to first frame at or after milestone."}], "sourceRevision": 4536, "draftDate": "2026-11-19", "note": "Astra09\u201318; Fable19\u201327 and30. Run30 replaces28 in display only; historical evidence is retained."}</script><script id="savedEdits" type="application/json">{"repoUrl": "https://github.com/BradleyBrewington/stacking-three-cubes", "savedAt": 1795131372256}</script>
 <script>
 (()=>{'use strict';const data=JSON.parse(document.getElementById('draftData').textContent);const key='armfarm-stacking-draft-v2';let edits=JSON.parse(document.getElementById('savedEdits').textContent);let editing=true;const status=document.getElementById('saveStatus');try{const local=JSON.parse(localStorage.getItem(key)||'null');if(local&&(!edits.savedAt||local.savedAt>edits.savedAt))edits=local}catch{}const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmt=s=>s==null?'—':Math.floor(Math.round(s)/60)+':'+String(Math.round(s)%60).padStart(2,'0');
-function timeLink(r,label,seconds,videoTime){return seconds==null?'—':`<button type="button" class="time-link" data-video-time="${videoTime??seconds/(r.playbackSpeed||1)}" aria-label="Jump to ${esc(label)} at ${fmt(seconds)} in run ${r.id}">${fmt(seconds)}</button>`}
+function timeLink(r,label,seconds,videoTime){return seconds==null?'—':`<button type="button" class="time-link" data-video-time="${videoTime??seconds/(r.playbackSpeed||1)}" title="Play from two video seconds before this event" aria-label="Jump to ${esc(label)} at ${fmt(seconds)} in run ${r.id}">${fmt(seconds)}</button>`}
 function card(r){
  const metric=(label,value)=>`<div class="metric">${label}<strong>${value}</strong></div>`;
  const milestone=(label,key)=>metric(label,timeLink(r,label,r[key],r.videoSeek?.[key]));
  const events=(r.events||[]).map(e=>`<li>${e.window?e.window.map((s,i)=>timeLink(r,'placement event',s,e.videoWindow[i])).join('–'):timeLink(r,'placement event',e.time,e.videoTime)}: ${esc(e.description)}</li>`).join('');
- return `<article class="run" aria-label="${r.group} run ${r.id}"><div class="run-head"><h4>Trial ${String(r.ordinal).padStart(2,'0')}<small>Run ${String(r.id).padStart(2,'0')}</small></h4><span class="badge ${r.outcome==='successful'?'':'failed'}">${r.outcome==='successful'?'Stacked':'Unsuccessful'}</span></div><div class="media"><video controls preload="none" playsinline poster="${esc(r.poster)}" aria-label="Overhead recording for run ${r.id}"><source src="${esc(r.video)}" type="video/mp4"></video></div><div class="video-caption">${r.playbackSpeed||1}&times; playback &middot; ${fmt(r.videoDuration)}</div><div class="metrics">${milestone('Run length','duration')}${metric('Grasp attempts',r.graspAttempts)}${milestone('First grasp','firstGrasp')}${milestone('First pickup','firstLift')}${milestone('Two cubes','firstStack')}${milestone('Three cubes','completion')}</div>${events?`<ul class="run-events">${events}</ul>`:''}${r.agentQuote?`<blockquote class="agent-quote"><strong>Agent declined pickup</strong><p>“${esc(r.agentQuote)}”</p></blockquote>`:''}<p class="run-note" data-edit="note-${r.id}" data-placeholder="Add a run note">${esc(r.notes)}</p></article>`;
+ return `<article class="run" aria-label="${r.group} run ${r.id}"><div class="run-head"><h4>Trial ${String(r.ordinal).padStart(2,'0')}<small>Run ${String(r.id).padStart(2,'0')}</small></h4><span class="badge ${r.outcome==='successful'?'':'failed'}">${r.outcome==='successful'?'Stacked':'Unsuccessful'}</span></div><div class="media"><video controls preload="none" playsinline poster="${esc(r.poster)}" aria-label="Overhead recording for run ${r.id}"><source src="${esc(r.video)}" type="video/mp4"></video></div><div class="video-caption">${r.playbackSpeed||1}&times; playback &middot; ${fmt(r.videoDuration)}</div><div class="metrics">${milestone('Run length','duration')}${metric('Grasp attempts',r.graspAttempts)}${milestone('First grasp','firstGrasp')}${milestone('First pickup','firstLift')}${milestone('Two cubes','firstStack')}${milestone('Three cubes','completion')}</div>${events?`<ul class="run-events">${events}</ul>`:''}${r.agentQuote?`<div class="failure-detail"><strong>${esc(r.failureCategory)}</strong><p>${esc(r.failureReason)}</p><details ${r.agentQuote.length<500?'open':''}><summary>Exact agent message</summary><blockquote class="agent-quote"><p>${esc(r.agentQuote)}</p></blockquote></details></div>`:''}<p class="run-note" data-edit="note-${r.id}" data-placeholder="Add a run note">${esc(r.notes)}</p></article>`;
 }
 document.getElementById('astraRuns').innerHTML=data.runs.filter(r=>r.group==='astra').map(card).join('');document.getElementById('fableRuns').innerHTML=data.runs.filter(r=>r.group==='fable').map(card).join('');
 document.getElementById('runs').addEventListener('click',e=>{
  const button=e.target.closest('[data-video-time]');if(!button)return;
  const video=button.closest('.run').querySelector('video');
- const seek=()=>{video.pause();video.currentTime=Math.max(0,Math.min(Number(button.dataset.videoTime),video.duration-.025));video.scrollIntoView({block:'center',behavior:'smooth'});};
+ const seek=()=>{video.currentTime=Math.max(0,Math.min(Number(button.dataset.videoTime)-2,video.duration-.025));video.scrollIntoView({block:'center',behavior:'smooth'});video.play().catch(()=>{status.textContent='Event cued — press play to watch';});};
  if(video.readyState>=1)seek();else{video.addEventListener('loadedmetadata',seek,{once:true});video.load();}
 });
 function save(){edits.savedAt=Date.now();try{localStorage.setItem(key,JSON.stringify(edits));status.textContent='Saved in this browser · '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch{status.textContent='Browser storage unavailable — save an HTML copy'}}
@@ -70,8 +2572,10 @@ for (const group of ['astra', 'fable']) {
   }
 }
 addLocation('graphs', 'Graphs', document.getElementById('graphs'));
-addLocation('location', 'Final stack location', document.querySelector('[data-edit="locationTitle"]').parentElement);
-addLocation('collapses', 'Stack collapses', document.querySelector('[data-edit="collapseTitle"]').parentElement);
+for (const figure of document.querySelectorAll('[data-chart]')) {
+  const id = figure.dataset.chart === 'positions' ? 'location' : figure.dataset.chart === 'grasps' ? 'collapses' : 'chart-' + figure.dataset.chart;
+  addLocation(id, figure.querySelector('h3').textContent, figure);
+}
 addLocation('conclusion', 'Conclusion', document.querySelector('#conclusion .draft-slot'));
 place.value = 'intro';
 edits.blocks = Array.isArray(edits.blocks) ? edits.blocks.filter(b => b && typeof b.id === 'string' && ['text','image'].includes(b.type)) : [];
@@ -178,7 +2682,9 @@ document.getElementById('article').addEventListener('drop',e => {
 renderBlocks();
 
 const repoInput=document.getElementById('repoInput');repoInput.value=edits.repoUrl||'';function repository(){let valid=false;try{valid=['https:','http:'].includes(new URL(repoInput.value).protocol)}catch{}const link=document.getElementById('repoLink');link.hidden=!valid;document.getElementById('repoPlaceholder').hidden=valid;if(valid)link.href=repoInput.value}repository();repoInput.oninput=()=>{edits.repoUrl=repoInput.value;repository();save()};
-function chart(){const select=document.getElementById('chartMetric');const metric=select.value;document.getElementById('chartTitle').textContent=select.options[select.selectedIndex].text;const max=Math.max(...data.runs.map(r=>r[metric]||0),1);document.getElementById('bars').innerHTML=data.runs.map(r=>`<div class="bar-row" aria-label="Run ${r.id}: ${fmt(r[metric])}"><span>${String(r.id).padStart(2,'0')}</span><div class="track">${r[metric]==null?'':`<div class="bar ${r.group}" style="width:${100*r[metric]/max}%"></div>`}</div><span>${fmt(r[metric])}</span></div>`).join('')}document.getElementById('chartMetric').onchange=chart;chart();
+function chartVisibility(){const hidden=new Set(edits.hiddenCharts||[]);document.querySelectorAll('[data-chart]').forEach(el=>el.hidden=hidden.has(el.dataset.chart));document.getElementById('restoreCharts').hidden=!hidden.size;}
+document.querySelectorAll('[data-hide-chart]').forEach(button=>button.onclick=()=>{edits.hiddenCharts=[...new Set([...(edits.hiddenCharts||[]),button.dataset.hideChart])];chartVisibility();save()});
+document.getElementById('restoreCharts').onclick=()=>{edits.hiddenCharts=[];chartVisibility();save()};chartVisibility();
 document.getElementById('helpOpen').onclick=()=>document.getElementById('help').showModal();document.getElementById('helpClose').onclick=()=>document.getElementById('help').close();
 document.getElementById('download').onclick=()=>{save();const clone=document.documentElement.cloneNode(true);clone.querySelector('#savedEdits').textContent=JSON.stringify(edits).replace(/</g,'\\u003c');clone.querySelectorAll('[data-block-slot]').forEach(el=>el.replaceChildren());clone.querySelector('#undoRemove').hidden=true;clone.querySelector('#help').removeAttribute('open');clone.querySelector('#saveStatus').textContent='Draft loaded';const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='stacking-three-cubes-edited.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);status.textContent='HTML copy downloaded — includes added text and images'};
 })();

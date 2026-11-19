@@ -1,0 +1,903 @@
+{
+  "cohorts": {
+    "astra": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "fable": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      30
+    ]
+  },
+  "outcomes": [
+    {
+      "model": "astra",
+      "Stacked": 3,
+      "Attempted, unsuccessful": 1,
+      "Declined after approach": 1,
+      "Declined before motion": 5
+    },
+    {
+      "model": "fable",
+      "Stacked": 8,
+      "Attempted, unsuccessful": 2,
+      "Declined after approach": 0,
+      "Declined before motion": 0
+    }
+  ],
+  "completion": [
+    {
+      "run": 9,
+      "model": "astra",
+      "seconds": 571.246071369
+    },
+    {
+      "run": 10,
+      "model": "astra",
+      "seconds": 522.2232739289999
+    },
+    {
+      "run": 16,
+      "model": "astra",
+      "seconds": 520.22170695
+    },
+    {
+      "run": 20,
+      "model": "fable",
+      "seconds": 2005.2406699439998
+    },
+    {
+      "run": 21,
+      "model": "fable",
+      "seconds": 3259.798570895
+    },
+    {
+      "run": 22,
+      "model": "fable",
+      "seconds": 2595.062498802
+    },
+    {
+      "run": 24,
+      "model": "fable",
+      "seconds": 1515.085682974
+    },
+    {
+      "run": 25,
+      "model": "fable",
+      "seconds": 2264.839533559
+    },
+    {
+      "run": 26,
+      "model": "fable",
+      "seconds": 1074.9183316869999
+    },
+    {
+      "run": 27,
+      "model": "fable",
+      "seconds": 1270.035073487
+    },
+    {
+      "run": 30,
+      "model": "fable",
+      "seconds": 1920.2386699500003
+    }
+  ],
+  "stages": [
+    {
+      "run": 9,
+      "model": "astra",
+      "start_to_pickup_s": 288.141189122,
+      "pickup_to_two_s": 110.04525463499999,
+      "two_to_three_s": 173.05962761199999
+    },
+    {
+      "run": 10,
+      "model": "astra",
+      "start_to_pickup_s": 310.142016239,
+      "pickup_to_two_s": 73.02994769700001,
+      "two_to_three_s": 139.0513099929999
+    },
+    {
+      "run": 16,
+      "model": "astra",
+      "start_to_pickup_s": 240.11525749499998,
+      "pickup_to_two_s": 65.01998206600001,
+      "two_to_three_s": 215.086467389
+    },
+    {
+      "run": 20,
+      "model": "fable",
+      "start_to_pickup_s": 260.137921917,
+      "pickup_to_two_s": 319.61859817,
+      "two_to_three_s": 1425.484149857
+    },
+    {
+      "run": 21,
+      "model": "fable",
+      "start_to_pickup_s": 475.220508563,
+      "pickup_to_two_s": 1699.64608772,
+      "two_to_three_s": 1084.931974612
+    },
+    {
+      "run": 22,
+      "model": "fable",
+      "start_to_pickup_s": 400.21791582000003,
+      "pickup_to_two_s": 584.722904511,
+      "two_to_three_s": 1610.121678471
+    },
+    {
+      "run": 24,
+      "model": "fable",
+      "start_to_pickup_s": 729.820745749,
+      "pickup_to_two_s": 100.03653585799998,
+      "two_to_three_s": 685.2284013670001
+    },
+    {
+      "run": 25,
+      "model": "fable",
+      "start_to_pickup_s": 195.146196309,
+      "pickup_to_two_s": 609.7069097379999,
+      "two_to_three_s": 1459.9864275119999
+    },
+    {
+      "run": 26,
+      "model": "fable",
+      "start_to_pickup_s": 280.14612747,
+      "pickup_to_two_s": 484.67105610199997,
+      "two_to_three_s": 310.1011481149999
+    },
+    {
+      "run": 27,
+      "model": "fable",
+      "start_to_pickup_s": 545.24933819,
+      "pickup_to_two_s": 119.55267189400001,
+      "two_to_three_s": 605.2330634030001
+    },
+    {
+      "run": 30,
+      "model": "fable",
+      "start_to_pickup_s": 220.148081116,
+      "pickup_to_two_s": 115.03947401100001,
+      "two_to_three_s": 1585.0511148230003
+    }
+  ],
+  "grasps": [
+    {
+      "run": 9,
+      "model": "astra",
+      "counts": {
+        "verified_lift": 2,
+        "no_retained_lift": 0,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.0,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 10,
+      "model": "astra",
+      "counts": {
+        "verified_lift": 2,
+        "no_retained_lift": 1,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.5,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 16,
+      "model": "astra",
+      "counts": {
+        "verified_lift": 2,
+        "no_retained_lift": 1,
+        "reposition": 1,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.5,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "reposition"
+        },
+        {
+          "attempt": 4,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 18,
+      "model": "astra",
+      "counts": {
+        "verified_lift": 5,
+        "no_retained_lift": 4,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.8,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 4,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 5,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 6,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 7,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 8,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 9,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 19,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 0,
+        "no_retained_lift": 2,
+        "reposition": 1,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": null,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "reposition"
+        },
+        {
+          "attempt": 3,
+          "category": "no_retained_lift"
+        }
+      ]
+    },
+    {
+      "run": 20,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 3,
+        "no_retained_lift": 1,
+        "reposition": 3,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.3333333333333333,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "reposition"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "reposition"
+        },
+        {
+          "attempt": 4,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 5,
+          "category": "reposition"
+        },
+        {
+          "attempt": 6,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 7,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 21,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 4,
+        "no_retained_lift": 2,
+        "reposition": 2,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.5,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 4,
+          "category": "reposition"
+        },
+        {
+          "attempt": 5,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 6,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 7,
+          "category": "reposition"
+        },
+        {
+          "attempt": 8,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 22,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 4,
+        "no_retained_lift": 1,
+        "reposition": 2,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.25,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 4,
+          "category": "reposition"
+        },
+        {
+          "attempt": 5,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 6,
+          "category": "reposition"
+        },
+        {
+          "attempt": 7,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 23,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 0,
+        "no_retained_lift": 2,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": null,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "no_retained_lift"
+        }
+      ]
+    },
+    {
+      "run": 24,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 3,
+        "no_retained_lift": 0,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.0,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 25,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 5,
+        "no_retained_lift": 2,
+        "reposition": 3,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.4,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "reposition"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "reposition"
+        },
+        {
+          "attempt": 4,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 5,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 6,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 7,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 8,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 9,
+          "category": "reposition"
+        },
+        {
+          "attempt": 10,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 26,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 3,
+        "no_retained_lift": 0,
+        "reposition": 1,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.0,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "reposition"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 4,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 27,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 2,
+        "no_retained_lift": 1,
+        "reposition": 0,
+        "unresolved": 0
+      },
+      "attempts_per_verified_pickup_excluding_reposition": 1.5,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "no_retained_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 3,
+          "category": "verified_lift"
+        }
+      ]
+    },
+    {
+      "run": 30,
+      "model": "fable",
+      "counts": {
+        "verified_lift": 1,
+        "no_retained_lift": 0,
+        "reposition": 0,
+        "unresolved": 6
+      },
+      "attempts_per_verified_pickup_excluding_reposition": null,
+      "attempt_categories": [
+        {
+          "attempt": 1,
+          "category": "verified_lift"
+        },
+        {
+          "attempt": 2,
+          "category": "unresolved"
+        },
+        {
+          "attempt": 3,
+          "category": "unresolved"
+        },
+        {
+          "attempt": 4,
+          "category": "unresolved"
+        },
+        {
+          "attempt": 5,
+          "category": "unresolved"
+        },
+        {
+          "attempt": 6,
+          "category": "unresolved"
+        },
+        {
+          "attempt": 7,
+          "category": "unresolved"
+        }
+      ]
+    }
+  ],
+  "positions": [
+    {
+      "run": 9,
+      "model": "astra",
+      "frame": "chart-evidence/final-09.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        297,
+        218
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -5,
+        0
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 10,
+      "model": "astra",
+      "frame": "chart-evidence/final-10.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        297,
+        219
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -5,
+        0
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 16,
+      "model": "astra",
+      "frame": "chart-evidence/final-16.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        295,
+        220
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -5,
+        0
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 20,
+      "model": "fable",
+      "frame": "chart-evidence/final-20.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        382,
+        222
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        80,
+        -5
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 21,
+      "model": "fable",
+      "frame": "chart-evidence/final-21.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        353,
+        192
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        50,
+        25
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 22,
+      "model": "fable",
+      "frame": "chart-evidence/final-22.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        310,
+        180
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        10,
+        40
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 24,
+      "model": "fable",
+      "frame": "chart-evidence/final-24.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        292,
+        214
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -10,
+        5
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 25,
+      "model": "fable",
+      "frame": "chart-evidence/final-25.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        289,
+        162
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -10,
+        55
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 26,
+      "model": "fable",
+      "frame": "chart-evidence/final-26.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        303,
+        215
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        0,
+        5
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 27,
+      "model": "fable",
+      "frame": "chart-evidence/final-27.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        293,
+        212
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -10,
+        5
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    },
+    {
+      "run": 30,
+      "model": "fable",
+      "frame": "chart-evidence/final-30.jpg",
+      "frame_size_px": [
+        640,
+        360
+      ],
+      "footprint_estimate_px": [
+        298,
+        151
+      ],
+      "reference_marker_px": [
+        301,
+        218
+      ],
+      "plot_offset_px": [
+        -5,
+        65
+      ],
+      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+    }
+  ],
+  "notes": [
+    "Different model and harness; physical cube resets approximate.",
+    "Completion/stages/position use successful runs only, not all-run performance.",
+    "Grasp reposition categories are manual purpose classifications; verified lift does not imply successful placement.",
+    "Run 30: only the first grasp has an adjudicated retained-lift result in this chart; six outcomes unresolved.",
+    "Position coordinates are image-plane estimates from final overhead frames, not calibrated robot-base distances."
+  ]
+}

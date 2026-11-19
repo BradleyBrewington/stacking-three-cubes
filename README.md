@@ -10,7 +10,9 @@ Open `index.html`. Text is editable in the browser; use **Save HTML copy** to re
 
 Choose a section or run in **Add to**, then **Add text** or **Add image**. Move or remove added blocks with their controls; **Undo remove** restores the last removal. Images can also be pasted or dropped into a section. Added images are resized and embedded in the exported HTML. If browser storage is full, save an HTML copy before closing.
 
-`assets` contains overhead recordings at 20× (2 Hz source frames played at 40 fps). `data/runs.json` contains timing metrics and recorded-frame seek targets. Click a real elapsed timestamp to pause the video at that milestone. Visual timings are conservative confirmed-by times; grasp timing is the tool-batch timestamp. Placement-event notes distinguish failed releases from disruptions of an established stack.
+`assets` contains overhead recordings at 20× (2 Hz source frames played at 40 fps). `data/runs.json` contains timing metrics and recorded-frame seek targets. Click a real elapsed timestamp to play from two video seconds before that milestone. Every failed run includes the recorded reason and exact final agent message. Visual timings are conservative confirmed-by times; grasp timing is the tool-batch timestamp. Placement-event notes distinguish failed releases from disruptions of an established stack.
+
+Results contains five charts with SVG/PNG exports in `assets/charts` and inputs in `data/charts.json`. Use **Hide chart** and **Restore hidden charts** to edit the selection; saved HTML retains that choice. Final locations are manual image-plane footprint estimates from `chart-evidence`, relative to the middle purple marker, not calibrated robot-base coordinates. Run 30 has six unresolved grasp outcomes in the efficiency chart; they are not counted as failures. Completion, stage, and location charts include successful runs only.
 
 `baseline` contains the clean robot-interface code, FK/IK helpers, camera intrinsics/distortion, motor calibration, and home pose. These are inspection snapshots; execution requires the ArmFarm Pi services and Python dependencies. No credentials or agent session logs are included.
 

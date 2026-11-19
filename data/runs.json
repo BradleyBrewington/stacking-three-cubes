@@ -75,6 +75,9 @@
       "video": "assets/run-11.mp4",
       "samples": 138,
       "events": [],
+      "agentQuote": "I couldn\u2019t safely stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. All three cubes are unchanged, and I released the arm.",
+      "failureReason": "Agent cited calibration and declined before any motion.",
+      "failureCategory": "Declined before motion",
       "playbackSpeed": 20,
       "videoDuration": 3.45,
       "videoSeek": {
@@ -99,6 +102,9 @@
       "video": "assets/run-12.mp4",
       "samples": 142,
       "events": [],
+      "agentQuote": "I couldn\u2019t stack the cubes: the camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the live view. I left the cubes untouched and released the arm. Calibration needs restoring before accurate grasping and stacking.",
+      "failureReason": "Agent cited calibration and declined before any motion.",
+      "failureCategory": "Declined before motion",
       "playbackSpeed": 20,
       "videoDuration": 3.55,
       "videoSeek": {
@@ -123,6 +129,9 @@
       "video": "assets/run-13.mp4",
       "samples": 144,
       "events": [],
+      "agentQuote": "I couldn\u2019t safely stack the cubes: the retained calibration doesn\u2019t match the current camera view, so grasp positions are unreliable. All three cubes remain untouched, and I released the arm. The camera-to-arm and table-height calibration need updating.",
+      "failureReason": "Agent cited calibration and declined before any motion.",
+      "failureCategory": "Declined before motion",
       "playbackSpeed": 20,
       "videoDuration": 3.6,
       "videoSeek": {
@@ -148,6 +157,8 @@
       "samples": 150,
       "events": [],
       "agentQuote": "I couldn\u2019t reliably stack the cubes: the active camera-to-arm calibration is missing, and the retained calibration doesn\u2019t match the current camera view. I left all three cubes untouched and released the arm. Calibration needs to be restored before stacking.",
+      "failureReason": "Agent cited calibration and declined before any motion.",
+      "failureCategory": "Declined before motion",
       "playbackSpeed": 20,
       "videoDuration": 3.75,
       "videoSeek": {
@@ -172,6 +183,9 @@
       "video": "assets/run-15.mp4",
       "samples": 124,
       "events": [],
+      "agentQuote": "I couldn\u2019t safely stack the cubes: the active setup lacks camera-to-arm and table-height calibration, and the retained files don\u2019t provide validated replacements.\n\nAll three cubes remain untouched, and I\u2019ve released the arm.",
+      "failureReason": "Agent cited calibration and declined before any motion.",
+      "failureCategory": "Declined before motion",
       "playbackSpeed": 20,
       "videoDuration": 3.1,
       "videoSeek": {
@@ -224,6 +238,9 @@
       "video": "assets/run-17.mp4",
       "samples": 318,
       "events": [],
+      "agentQuote": "I couldn\u2019t complete the stack. The first approach shifted one cube; missing table-height and gripper calibration prevented reliable placement. All three remain on the table. I withdrew the arm and released control.",
+      "failureReason": "Agent cited calibration after an approach shifted a cube.",
+      "failureCategory": "Declined after approach",
       "playbackSpeed": 20,
       "videoDuration": 7.95,
       "videoSeek": {
@@ -264,6 +281,9 @@
           "videoTime": 56.725
         }
       ],
+      "agentQuote": "I stacked two cubes, but couldn\u2019t reliably place the third. It\u2019s resting separately on the table, and the arm is clear and released.",
+      "failureReason": "Stopped with two cubes stacked after unsuccessful third-cube placement and recovery attempts.",
+      "failureCategory": "Incomplete stack",
       "playbackSpeed": 20,
       "videoDuration": 81.075,
       "videoSeek": {
@@ -291,6 +311,9 @@
       "video": "assets/run-19.mp4",
       "samples": 1537,
       "events": [],
+      "agentQuote": "The cubes are not stacked: I tripped an overload fault on the gripper servo partway through, and the arm is now locked out until someone clears it.\n\n**What happened**\n- The station has no camera-to-arm calibration loaded, so I was positioning by eye from the wrist and overhead cameras.\n- After the built-in `grip` command twice failed to get a stable hold, I closed the gripper on the right-hand cube with a direct position command (`gripper=18`). That squeezed too hard and latched the overload fault (status bit 32 on servo 6).\n- The supplied interface now refuses every command, including `status`, and has no fault reset. I did not bypass it to reset the servo myself.\n\n**Current state of the table**\n- **Middle cube:** moved about 7 cm toward the arm and set down flat, turned 45\u00b0. I intended this as the base of the stack.\n- **Right cube:** sitting on the table between the gripper jaws, not lifted. I had also nudged and rotated it slightly earlier.\n- **Left cube:** upright, but I pushed it about 3 cm off its original spot by moving sideways too low.\n- **Arm:** stopped at the grasp pose over the right cube, the five arm joints holding position with no faults. I released ownership of arm-001.\n\nEach cube was originally sitting on a small purple dot on the table. I don't know whether those mark a required stack location; if they do, tell me which one.\n\n**What I need from you**\nClear the gripper fault (a torque toggle or power cycle on servo 6). Once it's cleared I can continue.\n\nWhen I resume I'll hover higher between moves and avoid hard direct closes on the gripper. The far cubes are near the edge of the arm's straight-down reach, so I'll grasp them with a slight tilt.",
+      "failureReason": "A direct gripper-close command triggered overload fault 32; subsequent robot commands were locked out.",
+      "failureCategory": "Gripper overload",
       "playbackSpeed": 20,
       "videoDuration": 38.425,
       "videoSeek": {
@@ -401,6 +424,9 @@
       "video": "assets/run-23.mp4",
       "samples": 979,
       "events": [],
+      "agentQuote": "The cubes are not stacked: I tripped the gripper servo's overload protection, and the supplied motor interface can no longer connect to the arm, so I stopped.\n\n## What happened\n- **First grasp attempt:** the built-in `grip` routine closed on the left cube only lightly, and the lift came up empty.\n- **Second attempt:** I commanded the gripper to 12% while the cube blocked it at about 24%. The sustained squeeze latched an overload fault on servo 6 (fault bit 32).\n- **Result:** every motor command now fails at connect with `Overload error!` on the gripper. The interface has no fault reset, and the fault has not cleared on its own.\n\n## Current state\n- **Arm:** parked low over the left cube at roughly x 0.30, y \u22120.11, z 0.015, jaws around the cube. The five arm joints report no faults. I never got to lift.\n- **Left cube:** between the jaws, still on the table.\n- **Middle cube:** I bumped it with the open jaw while descending. It is now rotated about 30\u00b0 and shifted a couple of centimetres left.\n- **Right cube:** untouched.\n- **Ownership:** I released arm-001 so someone can intervene. No motion is running.\n\n## Decision for you\nThe tools directory has an overload-recovery routine in `calibrate_workspace.py` (`recover_overload`, which toggles torque on the faulted servo). Running it means writing my own script that opens the bus outside `robot_resources.py`. That goes beyond the supplied interface I was told to use, so I did not do it. Either:\n- you or an operator clear the gripper fault, or\n- you tell me to run that recovery routine myself under the ownership lease.\n\nOnce the fault is cleared I'll re-claim the arm and finish the stack. I'd take up the gripper's slack with small closing steps just past contact instead of a hard position target, so it doesn't overload again.",
+      "failureReason": "A direct gripper-close command triggered overload fault 32; subsequent robot commands were locked out.",
+      "failureCategory": "Gripper overload",
       "playbackSpeed": 20,
       "videoDuration": 24.475,
       "videoSeek": {
