@@ -8,6 +8,8 @@ Task: `Stack all three cubes.` One SO-101 arm, three identical cubes, one Pi-loc
 
 Open `index.html`. Text is editable in the browser; use **Save HTML copy** to retain edits. Keep the HTML beside `assets`.
 
+Choose a section or run in **Add to**, then **Add text** or **Add image**. Move or remove added blocks with their controls; **Undo remove** restores the last removal. Images can also be pasted or dropped into a section. Added images are resized and embedded in the exported HTML. If browser storage is full, save an HTML copy before closing.
+
 `assets` contains the overhead recordings, accelerated from the 2 Hz source to under two minutes each. `data/runs.json` contains timing metrics. Visual timings are conservative confirmed-by times; grasp timing is the tool-batch timestamp.
 
 `baseline` contains the clean robot-interface code, FK/IK helpers, camera intrinsics/distortion, motor calibration, and home pose. These are inspection snapshots; execution requires the ArmFarm Pi services and Python dependencies. No credentials or agent session logs are included.

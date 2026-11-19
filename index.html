@@ -10,9 +10,10 @@
 .hero{padding:60px 0 50px}.setup-grid{align-items:start;grid-template-columns:1.35fr 1fr 1fr}.setup-grid figure{align-self:start}.setup-grid img{height:auto;aspect-ratio:16/9;object-fit:contain}.prompt{background:transparent;border:0;border-radius:0;padding:0;min-height:0;display:block}.prompt blockquote{margin-top:18px}.setup-grid+p{margin:24px 0 0}.model-title p{margin-bottom:10px}.draft-slot{background:transparent;min-height:150px}.run-note:empty{display:none}.editing .run-note:empty{display:block}.repo{border:0}.repo input{margin-top:8px}.hero h1{margin-top:0}.conclusion .draft-slot{border:0;padding:0;min-height:160px}
 @media(max-width:800px){.setup-grid{grid-template-columns:1fr 1fr}.setup-grid figure{grid-column:1/-1}}
 @media(max-width:560px){.setup-grid{grid-template-columns:1fr}.hero{padding:40px 0}}
+.insert-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.insert-tools label{display:flex;align-items:center;gap:8px}.editor select{font-size:14px;padding:5px 24px 5px 8px;max-width:200px}.author-block{margin:24px 0;text-align:left;position:relative}.author-block figure{margin:0}.author-block img{display:block;max-width:100%;height:auto;max-height:800px;object-fit:contain}.author-block figcaption{color:var(--muted);font-size:14px;margin-top:10px}.author-block [data-block-field],[data-edit]{white-space:pre-wrap;overflow-wrap:anywhere}.author-block [data-block-field]{min-height:1.6em}.editing .author-block{outline:1px dashed #b2c8c0;padding:14px}.editing [data-block-field]:empty::before{content:attr(data-placeholder);color:var(--muted)}.block-controls{gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.editing .block-controls{display:flex}.block-controls button,.block-controls select{font-size:14px;padding:5px 9px}.block-controls select{max-width:210px}.author-block [contenteditable=true]:focus{outline:2px solid #89a69d;outline-offset:4px}button:disabled{opacity:.45;cursor:default}.editor [hidden]{display:none!important}body:not(.editing) .insert-tools{display:none}.added-content:empty{display:none}@media print{.author-block{outline:0!important;padding:0!important}}
 </style></head><body>
 <a class="skip" href="#article">Skip to article</a>
-<div class="editor" role="toolbar" aria-label="Draft editor"><strong>ArmFarm / Draft editor</strong><button id="editToggle" type="button" aria-pressed="true">Editing on</button><button id="download" type="button">Save HTML copy</button><button id="helpOpen" type="button">How to edit</button><span class="save-state" id="saveStatus" role="status">Draft loaded</span></div>
+<div class="editor" role="toolbar" aria-label="Draft editor"><strong>ArmFarm / Draft editor</strong><button id="editToggle" type="button" aria-pressed="true">Editing on</button><div class="insert-tools"><label>Add to <select id="insertPlace" aria-label="Add to section"></select></label><button id="addText" type="button">Add text</button><button id="addImage" type="button">Add image</button><button id="undoRemove" type="button" hidden>Undo remove</button><input id="imageUpload" type="file" accept="image/*" multiple hidden></div><button id="download" type="button">Save HTML copy</button><button id="helpOpen" type="button">How to edit</button><span class="save-state" id="saveStatus" role="status">Draft loaded</span></div>
 <div class="wrap"><header><a class="brand" href="#article">ArmFarm</a><nav aria-label="Article"><a href="#setup">Setup</a><a href="#runs">Runs</a><a href="#graphs">Graphs</a></nav></header>
 <main id="article"><div class="hero"><h1 data-edit="title">Stacking Three Cubes</h1><p class="deck" data-edit="subtitle">Benchmarking frontier models in the physical world</p></div>
 <section id="setup"><div class="setup-grid">
@@ -26,18 +27,146 @@
 <section id="graphs"><div class="graph-grid"><div class="chart"><h3 id="chartTitle">Run length</h3><label for="chartMetric" class="caption">Metric</label><br><select id="chartMetric"><option value="duration">Run length</option><option value="firstGrasp">First grasp attempt</option><option value="firstStack">First stable two-cube stack</option><option value="completion">Stable three-cube stack</option></select><div class="chart-label"><span><i class="legend-swatch"></i>Astra</span><span><i class="legend-swatch fable"></i>Fable</span></div><div id="bars"></div></div>
 <div><div class="draft-slot"><h3 data-edit="locationTitle">Final stack location</h3><p data-edit="locationCopy" data-placeholder="Add graph notes"></p></div><div class="draft-slot"><h3 data-edit="collapseTitle">Stack collapses</h3><p data-edit="collapseCopy" data-placeholder="Add graph notes"></p></div></div></div></section>
 <section class="conclusion" id="conclusion"><h2 data-edit="conclusionTitle">Conclusion</h2><div class="draft-slot"><p data-edit="conclusionText" data-placeholder="Write your conclusion here.">I will write this out.</p></div></section></main></div>
-<dialog class="help" id="help"><h2>Make it yours.</h2><ol><li>With <strong>Editing on</strong>, click a heading, paragraph, caption, or run note and type.</li><li>Changes are saved in this browser. Use <strong>Save HTML copy</strong> to download a portable copy containing your text edits.</li><li>Keep the saved HTML in this draft’s folder alongside <strong>assets</strong> so photos and videos continue to work.</li><li>Switch editing off for a reading preview. Run statistics remain linked to the recorded evidence; edit the source dataset to change them.</li><li>Add your repository URL in the calibration section. The conclusion and two graph concepts are yours to finish.</li></ol><button id="helpClose">Close</button></dialog>
+<dialog class="help" id="help"><h2>Edit the draft</h2><ol><li>Click existing text to edit it.</li><li>Choose a destination in <strong>Add to</strong>, then use <strong>Add text</strong> or <strong>Add image</strong>. You can also paste or drop images into a section.</li><li>Use each added block’s controls to move it, change its section, or remove it. <strong>Undo remove</strong> restores the last removed block.</li><li>Changes save in this browser. <strong>Save HTML copy</strong> includes your text and added images. Images are resized to fit the page and embedded in the file.</li><li>Keep the saved HTML beside the original <strong>assets</strong> folder for the run videos. Switch editing off to preview.</li></ol><button id="helpClose">Close</button></dialog>
 <script id="draftData" type="application/json">{"title": "Stacking Three Cubes", "subtitle": "Benchmarking frontier models in the physical world", "runs": [{"id": 9, "runId": "coord-stack-20261117-control-09", "group": "astra", "ordinal": 1, "outcome": "successful", "duration": 587.1176188469999, "graspAttempts": 2, "firstGrasp": 265.801882736, "firstLift": 288.141189122, "firstStack": 398.186443757, "completion": 571.246071369, "notes": "", "poster": "assets/run-09.jpg", "video": "assets/run-09.mp4", "samples": 1187, "playbackSpeed": 6.0, "videoDuration": 98.916667}, {"id": 10, "runId": "coord-stack-20261117-control-10", "group": "astra", "ordinal": 2, "outcome": "successful", "duration": 553.102120498, "graspAttempts": 3, "firstGrasp": 216.024221023, "firstLift": 310.142016239, "firstStack": 383.171963936, "completion": 522.2232739289999, "notes": "", "poster": "assets/run-10.jpg", "video": "assets/run-10.mp4", "samples": 1119, "playbackSpeed": 5.5, "videoDuration": 101.727273}, {"id": 11, "runId": "coord-stack-20261117-control-11", "group": "astra", "ordinal": 3, "outcome": "unsuccessful", "duration": 62.01526977899999, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-11.jpg", "video": "assets/run-11.mp4", "samples": 138, "playbackSpeed": 1.0, "videoDuration": 69.0}, {"id": 12, "runId": "coord-stack-20261117-control-12", "group": "astra", "ordinal": 4, "outcome": "unsuccessful", "duration": 64.01362516300001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-12.jpg", "video": "assets/run-12.mp4", "samples": 142, "playbackSpeed": 1.0, "videoDuration": 71.0}, {"id": 13, "runId": "coord-stack-20261117-control-13", "group": "astra", "ordinal": 5, "outcome": "unsuccessful", "duration": 65.015502677, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-13.jpg", "video": "assets/run-13.mp4", "samples": 144, "playbackSpeed": 1.0, "videoDuration": 72.0}, {"id": 14, "runId": "coord-stack-20261117-control-14", "group": "astra", "ordinal": 6, "outcome": "unsuccessful", "duration": 68.019336915, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-14.jpg", "video": "assets/run-14.mp4", "samples": 150, "playbackSpeed": 1.0, "videoDuration": 75.0}, {"id": 15, "runId": "coord-stack-20261117-control-15", "group": "astra", "ordinal": 7, "outcome": "unsuccessful", "duration": 55.01261247100001, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-15.jpg", "video": "assets/run-15.mp4", "samples": 124, "playbackSpeed": 1.0, "videoDuration": 62.0}, {"id": 16, "runId": "coord-stack-20261117-control-16", "group": "astra", "ordinal": 8, "outcome": "successful", "duration": 534.1112623450001, "graspAttempts": 4, "firstGrasp": 138.138461887, "firstLift": 240.11525749499998, "firstStack": 305.135239561, "completion": 520.22170695, "notes": "", "poster": "assets/run-16.jpg", "video": "assets/run-16.mp4", "samples": 1081, "playbackSpeed": 5.5, "videoDuration": 98.272727}, {"id": 17, "runId": "coord-stack-20261117-control-17", "group": "astra", "ordinal": 9, "outcome": "unsuccessful", "duration": 152.03274091999998, "graspAttempts": 0, "firstGrasp": null, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-17.jpg", "video": "assets/run-17.mp4", "samples": 318, "playbackSpeed": 2.0, "videoDuration": 79.5}, {"id": 18, "runId": "coord-stack-20261117-control-18", "group": "astra", "ordinal": 10, "outcome": "unsuccessful", "duration": 1615.293599043, "graspAttempts": 9, "firstGrasp": 122.047645101, "firstLift": 445.194415971, "firstStack": 909.846333948, "completion": null, "notes": "", "poster": "assets/run-18.jpg", "video": "assets/run-18.mp4", "samples": 3243, "playbackSpeed": 15.5, "videoDuration": 104.612903}, {"id": 19, "runId": "coord-stack-20261118-control-19", "group": "fable", "ordinal": 1, "outcome": "unsuccessful", "duration": 762.162905477, "graspAttempts": 3, "firstGrasp": 172.89679119800002, "firstLift": 340.180909673, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-19.jpg", "video": "assets/run-19.mp4", "samples": 1537, "playbackSpeed": 7.5, "videoDuration": 102.466667}, {"id": 20, "runId": "coord-stack-20261118-control-20", "group": "fable", "ordinal": 2, "outcome": "successful", "duration": 2047.3971001730001, "graspAttempts": 7, "firstGrasp": 194.68294884200003, "firstLift": 260.137921917, "firstStack": 579.756520087, "completion": 2005.2406699439998, "notes": "", "poster": "assets/run-20.jpg", "video": "assets/run-20.mp4", "samples": 4107, "playbackSpeed": 20.0, "videoDuration": 102.675}, {"id": 21, "runId": "coord-stack-20261118-control-21", "group": "fable", "ordinal": 3, "outcome": "successful", "duration": 3299.682674548, "graspAttempts": 8, "firstGrasp": 458.190504601, "firstLift": 475.220508563, "firstStack": 2174.866596283, "completion": 3259.798570895, "notes": "", "poster": "assets/run-21.jpg", "video": "assets/run-21.mp4", "samples": 6610, "playbackSpeed": 31.5, "videoDuration": 104.920635}, {"id": 22, "runId": "coord-stack-20261118-control-22", "group": "fable", "ordinal": 4, "outcome": "successful", "duration": 2758.587688134, "graspAttempts": 7, "firstGrasp": 232.291648052, "firstLift": 400.21791582000003, "firstStack": 984.940820331, "completion": 2595.062498802, "notes": "", "poster": "assets/run-22.jpg", "video": "assets/run-22.mp4", "samples": 5529, "playbackSpeed": 26.5, "videoDuration": 104.320755}, {"id": 23, "runId": "coord-stack-20261118-control-23", "group": "fable", "ordinal": 5, "outcome": "unsuccessful", "duration": 483.092899356, "graspAttempts": 2, "firstGrasp": 286.597756001, "firstLift": null, "firstStack": null, "completion": null, "notes": "", "poster": "assets/run-23.jpg", "video": "assets/run-23.mp4", "samples": 979, "playbackSpeed": 5.0, "videoDuration": 97.9}, {"id": 24, "runId": "coord-stack-20261118-control-24", "group": "fable", "ordinal": 6, "outcome": "successful", "duration": 1567.320289785, "graspAttempts": 3, "firstGrasp": 662.846623227, "firstLift": 729.820745749, "firstStack": 829.857281607, "completion": 1515.085682974, "notes": "", "poster": "assets/run-24.jpg", "video": "assets/run-24.mp4", "samples": 3147, "playbackSpeed": 15.0, "videoDuration": 104.9}, {"id": 25, "runId": "coord-stack-20261118-control-25", "group": "fable", "ordinal": 7, "outcome": "successful", "duration": 2321.510466454, "graspAttempts": 10, "firstGrasp": 162.35272172599997, "firstLift": 195.146196309, "firstStack": 804.853106047, "completion": 2264.839533559, "notes": "", "poster": "assets/run-25.jpg", "video": "assets/run-25.mp4", "samples": 4655, "playbackSpeed": 22.5, "videoDuration": 103.444444}, {"id": 26, "runId": "coord-stack-20261118-control-26", "group": "fable", "ordinal": 8, "outcome": "successful", "duration": 1120.224090983, "graspAttempts": 4, "firstGrasp": 238.84253665, "firstLift": 280.14612747, "firstStack": 764.817183572, "completion": 1074.9183316869999, "notes": "", "poster": "assets/run-26.jpg", "video": "assets/run-26.mp4", "samples": 2253, "playbackSpeed": 11.0, "videoDuration": 102.409091}, {"id": 27, "runId": "coord-stack-20261118-control-27", "group": "fable", "ordinal": 9, "outcome": "successful", "duration": 1330.271948305, "graspAttempts": 3, "firstGrasp": 354.819443124, "firstLift": 545.24933819, "firstStack": 664.802010084, "completion": 1270.035073487, "notes": "", "poster": "assets/run-27.jpg", "video": "assets/run-27.mp4", "samples": 2673, "playbackSpeed": 13.0, "videoDuration": 102.807692}, {"id": 30, "runId": "coord-stack-20261119-control-30", "group": "fable", "ordinal": 10, "outcome": "successful", "duration": 1984.415970081, "graspAttempts": 7, "firstGrasp": 147.798538132, "firstLift": 220.148081116, "firstStack": 335.187555127, "completion": 1920.2386699500003, "notes": "", "poster": "assets/run-30.jpg", "video": "assets/run-30.mp4", "samples": 3981, "playbackSpeed": 19.0, "videoDuration": 104.763158}], "sourceRevision": 4536, "draftDate": "2026-11-19", "note": "Astra09\u201318; Fable19\u201327 and30. Run30 replaces28 in display only; historical evidence is retained."}</script><script id="savedEdits" type="application/json">{"repoUrl": "https://github.com/BradleyBrewington/stacking-three-cubes", "savedAt": 1795127889890}</script>
 <script>
 (()=>{'use strict';const data=JSON.parse(document.getElementById('draftData').textContent);const key='armfarm-stacking-draft-v2';let edits=JSON.parse(document.getElementById('savedEdits').textContent);let editing=true;const status=document.getElementById('saveStatus');try{const local=JSON.parse(localStorage.getItem(key)||'null');if(local&&(!edits.savedAt||local.savedAt>edits.savedAt))edits=local}catch{}const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmt=s=>s==null?'—':Math.floor(Math.round(s)/60)+':'+String(Math.round(s)%60).padStart(2,'0');
 function card(r){const metric=(label,v)=>`<div class="metric">${label}<strong>${v}</strong></div>`;return `<article class="run" aria-label="${r.group} run ${r.id}"><div class="run-head"><h4>Trial ${String(r.ordinal).padStart(2,'0')}<small>Run ${String(r.id).padStart(2,'0')}</small></h4><span class="badge ${r.outcome==='successful'?'':'failed'}">${r.outcome==='successful'?'Stacked':'Unsuccessful'}</span></div><div class="media"><video controls preload="none" playsinline poster="${esc(r.poster)}" aria-label="Overhead recording for run ${r.id}"><source src="${esc(r.video)}" type="video/mp4"></video></div><div class="video-caption">${r.playbackSpeed||1}&times; playback &middot; ${fmt(r.videoDuration)}</div><div class="metrics">${metric('Run length',fmt(r.duration))}${metric('Grasp attempts',r.graspAttempts)}${metric('First grasp',fmt(r.firstGrasp))}${metric('First pickup',fmt(r.firstLift))}${metric('Two cubes',fmt(r.firstStack))}${metric('Three cubes',fmt(r.completion))}</div><p class="run-note" data-edit="note-${r.id}" data-placeholder="Add a run note">${esc(r.notes)}</p></article>`}
 document.getElementById('astraRuns').innerHTML=data.runs.filter(r=>r.group==='astra').map(card).join('');document.getElementById('fableRuns').innerHTML=data.runs.filter(r=>r.group==='fable').map(card).join('');
 function save(){edits.savedAt=Date.now();try{localStorage.setItem(key,JSON.stringify(edits));status.textContent='Saved in this browser · '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch{status.textContent='Browser storage unavailable — save an HTML copy'}}
-document.querySelectorAll('[data-edit]').forEach(el=>{if(Object.hasOwn(edits,el.dataset.edit))el.textContent=edits[el.dataset.edit];el.addEventListener('input',()=>{edits[el.dataset.edit]=el.innerText;save()});el.addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))})});
-function mode(){document.body.classList.toggle('editing',editing);document.querySelectorAll('[data-edit]').forEach(el=>{el.contentEditable=editing?'true':'false';if(editing)el.setAttribute('aria-label','Edit '+el.dataset.edit);else el.removeAttribute('aria-label')});document.getElementById('editToggle').textContent=editing?'Editing on':'Editing off';document.getElementById('editToggle').setAttribute('aria-pressed',editing)}document.getElementById('editToggle').onclick=()=>{editing=!editing;mode()};mode();
+document.querySelectorAll('[data-edit]').forEach(el=>{if(Object.hasOwn(edits,el.dataset.edit))el.textContent=edits[el.dataset.edit];el.addEventListener('input',()=>{edits[el.dataset.edit]=el.innerText;save()});el.addEventListener('paste',e=>{if([...e.clipboardData.files].some(f=>f.type.startsWith('image/')))return;e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))})});
+function mode(){document.body.classList.toggle('editing',editing);document.querySelectorAll('[data-edit],[data-block-field]').forEach(el=>{el.contentEditable=editing?'true':'false';if(el.dataset.edit){if(editing)el.setAttribute('aria-label','Edit '+el.dataset.edit);else el.removeAttribute('aria-label')}});document.getElementById('editToggle').textContent=editing?'Editing on':'Editing off';document.getElementById('editToggle').setAttribute('aria-pressed',editing)}document.getElementById('editToggle').onclick=()=>{editing=!editing;mode()};mode();
+// Included inline in the portable HTML by prepare_data.py.
+const place = document.getElementById('insertPlace');
+const locations = new Map();
+function addLocation(id, label, parent) {
+  let slot = parent.querySelector(':scope > [data-block-slot]');
+  if (!slot) { slot = document.createElement('div'); parent.append(slot); }
+  slot.className = 'added-content'; slot.dataset.blockSlot = id;
+  slot.replaceChildren(); locations.set(id, {label, slot});
+  place.add(new Option(label, id));
+}
+place.replaceChildren();
+addLocation('intro', 'Introduction', document.querySelector('.hero'));
+addLocation('setup', 'Setup', document.getElementById('setup'));
+for (const group of ['astra', 'fable']) {
+  const runs = document.getElementById(group + 'Runs');
+  addLocation(group, group === 'astra' ? 'Astra introduction' : 'Fable introduction', runs.previousElementSibling);
+  for (const run of data.runs.filter(r => r.group === group)) {
+    addLocation('run-' + run.id, `${group === 'astra' ? 'Astra' : 'Fable'} · Run ${run.id}`, runs.querySelector(`[aria-label="${group} run ${run.id}"]`));
+  }
+}
+addLocation('graphs', 'Graphs', document.getElementById('graphs'));
+addLocation('location', 'Final stack location', document.querySelector('[data-edit="locationTitle"]').parentElement);
+addLocation('collapses', 'Stack collapses', document.querySelector('[data-edit="collapseTitle"]').parentElement);
+addLocation('conclusion', 'Conclusion', document.querySelector('#conclusion .draft-slot'));
+place.value = 'intro';
+edits.blocks = Array.isArray(edits.blocks) ? edits.blocks.filter(b => b && typeof b.id === 'string' && ['text','image'].includes(b.type)) : [];
+let removedBlock = null;
+let pendingLocation = 'intro';
+let imageBusy = false;
+const upload = document.getElementById('imageUpload');
+function blockButton(label, handler) {
+  const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
+  button.onclick = handler; return button;
+}
+function renderBlocks(focusId) {
+  for (const {slot} of locations.values()) slot.replaceChildren();
+  for (const block of edits.blocks) {
+    if (!locations.has(block.location)) block.location = 'conclusion';
+    const item = document.createElement('div'); item.className = 'author-block'; item.dataset.blockId = block.id;
+    const controls = document.createElement('div'); controls.className = 'block-controls edit-only';
+    const siblings = edits.blocks.filter(b => b.location === block.location);
+    function move(offset) {
+      const sibling = siblings[siblings.indexOf(block) + offset]; if (!sibling) return;
+      const a = edits.blocks.indexOf(block), b = edits.blocks.indexOf(sibling);
+      [edits.blocks[a], edits.blocks[b]] = [edits.blocks[b], edits.blocks[a]]; save(); renderBlocks(block.id);
+    }
+    const up = blockButton('Move up', () => move(-1)); up.disabled = siblings[0] === block;
+    const down = blockButton('Move down', () => move(1)); down.disabled = siblings.at(-1) === block;
+    const destination = document.createElement('select'); destination.setAttribute('aria-label','Move block to section');
+    for (const [id, {label}] of locations) destination.add(new Option(label, id));
+    destination.value = block.location;
+    destination.onchange = () => { block.location = destination.value; place.value = block.location; save(); renderBlocks(block.id); };
+    controls.append(up, down, destination, blockButton('Remove', () => {
+      removedBlock = {block, index: edits.blocks.indexOf(block)};
+      edits.blocks.splice(removedBlock.index, 1); document.getElementById('undoRemove').hidden = false;
+      save(); renderBlocks();
+    }));
+    item.append(controls);
+    function field(tag, name, placeholder, label) {
+      const element = document.createElement(tag); element.dataset.blockField = name;
+      element.dataset.placeholder = placeholder; element.setAttribute('aria-label',label);
+      element.textContent = block[name] || ''; element.contentEditable = editing ? 'true' : 'false';
+      element.addEventListener('input', () => { block[name] = element.innerText; if (name === 'caption') item.querySelector('img').alt = block[name]; save(); });
+      element.addEventListener('paste', e => { if ([...e.clipboardData.files].some(f => f.type.startsWith('image/'))) return; e.preventDefault(); document.execCommand('insertText',false,e.clipboardData.getData('text/plain')); });
+      return element;
+    }
+    if (block.type === 'text') item.append(field('div','text','Write here…','Added text'));
+    else {
+      const figure = document.createElement('figure'); const img = document.createElement('img');
+      if (/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(block.src || '')) img.src = block.src;
+      img.alt = block.caption || ''; img.loading = 'lazy';
+      figure.append(img, field('figcaption','caption','Add a caption…','Image caption')); item.append(figure);
+    }
+    locations.get(block.location).slot.append(item);
+    if (focusId === block.id) { item.scrollIntoView({block:'center',behavior:'smooth'}); item.querySelector('[data-block-field]').focus({preventScroll:true}); }
+  }
+  mode();
+}
+document.getElementById('addText').onclick = () => {
+  const block = {id:crypto.randomUUID(),type:'text',location:place.value,text:''};
+  edits.blocks.push(block); save(); renderBlocks(block.id);
+};
+document.getElementById('undoRemove').onclick = () => {
+  if (!removedBlock) return;
+  edits.blocks.splice(removedBlock.index,0,removedBlock.block); const id=removedBlock.block.id;
+  removedBlock=null; document.getElementById('undoRemove').hidden=true; save(); renderBlocks(id);
+};
+document.getElementById('addImage').onclick = () => { pendingLocation=place.value; upload.click(); };
+async function importImages(files, location) {
+  if (imageBusy) return;
+  imageBusy = true; document.getElementById('download').disabled = true;
+  document.getElementById('addImage').disabled = true;
+  try {
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      status.textContent='Adding image…';
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        const img = new Image(); img.src=objectUrl; await img.decode();
+        const scale=Math.min(1,1800/Math.max(img.naturalWidth,img.naturalHeight));
+        const canvas=document.createElement('canvas'); canvas.width=Math.max(1,Math.round(img.naturalWidth*scale)); canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+        canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+        const block={id:crypto.randomUUID(),type:'image',location,src:canvas.toDataURL('image/webp',0.9),caption:''};
+        edits.blocks.push(block); save(); renderBlocks(block.id);
+      } finally { URL.revokeObjectURL(objectUrl); }
+    }
+  } catch { status.textContent='Could not add this image. Try a PNG, JPEG or WebP file.'; }
+  finally { imageBusy=false; document.getElementById('download').disabled=false; document.getElementById('addImage').disabled=false; upload.value=''; }
+}
+upload.onchange = () => importImages([...upload.files],pendingLocation);
+function locationAt(target) {
+  const slot=target.closest('[data-block-slot]'); if(slot) return slot.dataset.blockSlot;
+  for (const [id,{slot: candidate}] of [...locations].reverse()) if(candidate.parentElement.contains(target)) return id;
+  return place.value;
+}
+document.getElementById('article').addEventListener('focusin',e => { place.value=locationAt(e.target); });
+document.getElementById('article').addEventListener('paste',e => {
+  if (!editing) return;
+  const files=[...e.clipboardData.files].filter(f=>f.type.startsWith('image/'));
+  if(files.length){e.preventDefault();importImages(files,locationAt(e.target));}
+});
+document.getElementById('article').addEventListener('dragover',e => { if(editing && [...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
+document.getElementById('article').addEventListener('drop',e => {
+  if(!editing) return;
+  const files=[...e.dataTransfer.files]; if(files.length){e.preventDefault();importImages(files,locationAt(e.target));}
+});
+renderBlocks();
+
 const repoInput=document.getElementById('repoInput');repoInput.value=edits.repoUrl||'';function repository(){let valid=false;try{valid=['https:','http:'].includes(new URL(repoInput.value).protocol)}catch{}const link=document.getElementById('repoLink');link.hidden=!valid;document.getElementById('repoPlaceholder').hidden=valid;if(valid)link.href=repoInput.value}repository();repoInput.oninput=()=>{edits.repoUrl=repoInput.value;repository();save()};
 function chart(){const select=document.getElementById('chartMetric');const metric=select.value;document.getElementById('chartTitle').textContent=select.options[select.selectedIndex].text;const max=Math.max(...data.runs.map(r=>r[metric]||0),1);document.getElementById('bars').innerHTML=data.runs.map(r=>`<div class="bar-row" aria-label="Run ${r.id}: ${fmt(r[metric])}"><span>${String(r.id).padStart(2,'0')}</span><div class="track">${r[metric]==null?'':`<div class="bar ${r.group}" style="width:${100*r[metric]/max}%"></div>`}</div><span>${fmt(r[metric])}</span></div>`).join('')}document.getElementById('chartMetric').onchange=chart;chart();
 document.getElementById('helpOpen').onclick=()=>document.getElementById('help').showModal();document.getElementById('helpClose').onclick=()=>document.getElementById('help').close();
-document.getElementById('download').onclick=()=>{save();const clone=document.documentElement.cloneNode(true);clone.querySelector('#savedEdits').textContent=JSON.stringify(edits).replace(/</g,'\\u003c');clone.querySelector('#help').removeAttribute('open');clone.querySelector('#saveStatus').textContent='Draft loaded';const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='stacking-three-cubes-edited.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);status.textContent='HTML copy downloaded — keep it beside the assets folder'};
+document.getElementById('download').onclick=()=>{save();const clone=document.documentElement.cloneNode(true);clone.querySelector('#savedEdits').textContent=JSON.stringify(edits).replace(/</g,'\\u003c');clone.querySelectorAll('[data-block-slot]').forEach(el=>el.replaceChildren());clone.querySelector('#undoRemove').hidden=true;clone.querySelector('#help').removeAttribute('open');clone.querySelector('#saveStatus').textContent='Draft loaded';const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='stacking-three-cubes-edited.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);status.textContent='HTML copy downloaded — includes added text and images'};
 })();
 </script><noscript>This editable draft requires JavaScript to display the run gallery and graphs.</noscript></body></html>
