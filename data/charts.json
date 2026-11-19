@@ -44,56 +44,67 @@
   "completion": [
     {
       "run": 9,
+      "trial": 1,
       "model": "astra",
       "seconds": 571.246071369
     },
     {
       "run": 10,
+      "trial": 2,
       "model": "astra",
       "seconds": 522.2232739289999
     },
     {
       "run": 16,
+      "trial": 8,
       "model": "astra",
       "seconds": 520.22170695
     },
     {
       "run": 20,
+      "trial": 2,
       "model": "fable",
       "seconds": 2005.2406699439998
     },
     {
       "run": 21,
+      "trial": 3,
       "model": "fable",
       "seconds": 3259.798570895
     },
     {
       "run": 22,
+      "trial": 4,
       "model": "fable",
       "seconds": 2595.062498802
     },
     {
       "run": 24,
+      "trial": 6,
       "model": "fable",
       "seconds": 1515.085682974
     },
     {
       "run": 25,
+      "trial": 7,
       "model": "fable",
       "seconds": 2264.839533559
     },
     {
       "run": 26,
+      "trial": 8,
       "model": "fable",
       "seconds": 1074.9183316869999
     },
     {
       "run": 27,
+      "trial": 9,
       "model": "fable",
       "seconds": 1270.035073487
     },
     {
       "run": 30,
+      "trial": 10,
       "model": "fable",
       "seconds": 1920.2386699500003
     }
@@ -101,6 +112,7 @@
   "stages": [
     {
       "run": 9,
+      "trial": 1,
       "model": "astra",
       "start_to_pickup_s": 288.141189122,
       "pickup_to_two_s": 110.04525463499999,
@@ -108,6 +120,7 @@
     },
     {
       "run": 10,
+      "trial": 2,
       "model": "astra",
       "start_to_pickup_s": 310.142016239,
       "pickup_to_two_s": 73.02994769700001,
@@ -115,6 +128,7 @@
     },
     {
       "run": 16,
+      "trial": 8,
       "model": "astra",
       "start_to_pickup_s": 240.11525749499998,
       "pickup_to_two_s": 65.01998206600001,
@@ -122,6 +136,7 @@
     },
     {
       "run": 20,
+      "trial": 2,
       "model": "fable",
       "start_to_pickup_s": 260.137921917,
       "pickup_to_two_s": 319.61859817,
@@ -129,6 +144,7 @@
     },
     {
       "run": 21,
+      "trial": 3,
       "model": "fable",
       "start_to_pickup_s": 475.220508563,
       "pickup_to_two_s": 1699.64608772,
@@ -136,6 +152,7 @@
     },
     {
       "run": 22,
+      "trial": 4,
       "model": "fable",
       "start_to_pickup_s": 400.21791582000003,
       "pickup_to_two_s": 584.722904511,
@@ -143,6 +160,7 @@
     },
     {
       "run": 24,
+      "trial": 6,
       "model": "fable",
       "start_to_pickup_s": 729.820745749,
       "pickup_to_two_s": 100.03653585799998,
@@ -150,6 +168,7 @@
     },
     {
       "run": 25,
+      "trial": 7,
       "model": "fable",
       "start_to_pickup_s": 195.146196309,
       "pickup_to_two_s": 609.7069097379999,
@@ -157,6 +176,7 @@
     },
     {
       "run": 26,
+      "trial": 8,
       "model": "fable",
       "start_to_pickup_s": 280.14612747,
       "pickup_to_two_s": 484.67105610199997,
@@ -164,6 +184,7 @@
     },
     {
       "run": 27,
+      "trial": 9,
       "model": "fable",
       "start_to_pickup_s": 545.24933819,
       "pickup_to_two_s": 119.55267189400001,
@@ -171,6 +192,7 @@
     },
     {
       "run": 30,
+      "trial": 10,
       "model": "fable",
       "start_to_pickup_s": 220.148081116,
       "pickup_to_two_s": 115.03947401100001,
@@ -180,6 +202,7 @@
   "grasps": [
     {
       "run": 9,
+      "trial": 1,
       "model": "astra",
       "counts": {
         "verified_lift": 2,
@@ -201,6 +224,7 @@
     },
     {
       "run": 10,
+      "trial": 2,
       "model": "astra",
       "counts": {
         "verified_lift": 2,
@@ -226,6 +250,7 @@
     },
     {
       "run": 16,
+      "trial": 8,
       "model": "astra",
       "counts": {
         "verified_lift": 2,
@@ -255,6 +280,7 @@
     },
     {
       "run": 18,
+      "trial": 10,
       "model": "astra",
       "counts": {
         "verified_lift": 5,
@@ -304,6 +330,7 @@
     },
     {
       "run": 19,
+      "trial": 1,
       "model": "fable",
       "counts": {
         "verified_lift": 0,
@@ -329,6 +356,7 @@
     },
     {
       "run": 20,
+      "trial": 2,
       "model": "fable",
       "counts": {
         "verified_lift": 3,
@@ -370,6 +398,7 @@
     },
     {
       "run": 21,
+      "trial": 3,
       "model": "fable",
       "counts": {
         "verified_lift": 4,
@@ -415,6 +444,7 @@
     },
     {
       "run": 22,
+      "trial": 4,
       "model": "fable",
       "counts": {
         "verified_lift": 4,
@@ -456,6 +486,7 @@
     },
     {
       "run": 23,
+      "trial": 5,
       "model": "fable",
       "counts": {
         "verified_lift": 0,
@@ -477,6 +508,7 @@
     },
     {
       "run": 24,
+      "trial": 6,
       "model": "fable",
       "counts": {
         "verified_lift": 3,
@@ -502,6 +534,7 @@
     },
     {
       "run": 25,
+      "trial": 7,
       "model": "fable",
       "counts": {
         "verified_lift": 5,
@@ -555,6 +588,7 @@
     },
     {
       "run": 26,
+      "trial": 8,
       "model": "fable",
       "counts": {
         "verified_lift": 3,
@@ -584,6 +618,7 @@
     },
     {
       "run": 27,
+      "trial": 9,
       "model": "fable",
       "counts": {
         "verified_lift": 2,
@@ -609,14 +644,15 @@
     },
     {
       "run": 30,
+      "trial": 10,
       "model": "fable",
       "counts": {
-        "verified_lift": 1,
-        "no_retained_lift": 0,
-        "reposition": 0,
-        "unresolved": 6
+        "verified_lift": 4,
+        "no_retained_lift": 1,
+        "reposition": 2,
+        "unresolved": 0
       },
-      "attempts_per_verified_pickup_excluding_reposition": null,
+      "attempts_per_verified_pickup_excluding_reposition": 1.25,
       "attempt_categories": [
         {
           "attempt": 1,
@@ -624,27 +660,27 @@
         },
         {
           "attempt": 2,
-          "category": "unresolved"
+          "category": "reposition"
         },
         {
           "attempt": 3,
-          "category": "unresolved"
+          "category": "verified_lift"
         },
         {
           "attempt": 4,
-          "category": "unresolved"
+          "category": "no_retained_lift"
         },
         {
           "attempt": 5,
-          "category": "unresolved"
+          "category": "verified_lift"
         },
         {
           "attempt": 6,
-          "category": "unresolved"
+          "category": "reposition"
         },
         {
           "attempt": 7,
-          "category": "unresolved"
+          "category": "verified_lift"
         }
       ]
     }
@@ -652,252 +688,253 @@
   "positions": [
     {
       "run": 9,
+      "trial": 1,
       "model": "astra",
-      "frame": "chart-evidence/final-09.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        297,
-        218
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -5,
-        0
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 556.248,
+      "pose_elapsed_s": 555.748,
+      "position_cm": {
+        "x": 28.433,
+        "y": 0.765,
+        "z": 12.912
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -1.8021978021978022,
+        "shoulder_lift": -6.241758241758242,
+        "elbow_flex": -8.967032967032967,
+        "wrist_flex": 76.0,
+        "wrist_roll": 0.4835164835164835
+      },
+      "gripper_before_percent": 34.73827328348062,
+      "gripper_after_percent": 35.55404486743712,
+      "telemetry_sha256": "e44b277cd9588262c4fca963d78966438c2188f96c7a212d2edc2695289a12dd"
     },
     {
       "run": 10,
+      "trial": 2,
       "model": "astra",
-      "frame": "chart-evidence/final-10.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        297,
-        219
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -5,
-        0
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 505.725,
+      "pose_elapsed_s": 505.224,
+      "position_cm": {
+        "x": 29.434,
+        "y": 0.731,
+        "z": 11.776
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -1.5384615384615385,
+        "shoulder_lift": 14.68131868131868,
+        "elbow_flex": -35.252747252747255,
+        "wrist_flex": 91.2967032967033,
+        "wrist_roll": -3.2967032967032965
+      },
+      "gripper_before_percent": 34.73827328348062,
+      "gripper_after_percent": 37.525492861998636,
+      "telemetry_sha256": "18e0b83c41640de786ca9c62692f436f5e7f9088702834f8d21a1deaf75f64c2"
     },
     {
       "run": 16,
+      "trial": 8,
       "model": "astra",
-      "frame": "chart-evidence/final-16.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        295,
-        220
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -5,
-        0
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 508.218,
+      "pose_elapsed_s": 507.718,
+      "position_cm": {
+        "x": 29.94,
+        "y": 0.293,
+        "z": 10.581
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -0.6593406593406593,
+        "shoulder_lift": -1.4065934065934067,
+        "elbow_flex": -4.3076923076923075,
+        "wrist_flex": 66.32967032967034,
+        "wrist_roll": 0.3956043956043956
+      },
+      "gripper_before_percent": 28.755948334466346,
+      "gripper_after_percent": 37.25356900067981,
+      "telemetry_sha256": "651b9d96c31435c2fcd2031dd8cebc098c62b35f7669e586d049bfc15aea114d"
     },
     {
       "run": 20,
+      "trial": 2,
       "model": "fable",
-      "frame": "chart-evidence/final-20.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        382,
-        222
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        80,
-        -5
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 1960.232,
+      "pose_elapsed_s": 1959.732,
+      "position_cm": {
+        "x": 31.351,
+        "y": 11.21,
+        "z": 10.215
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -22.197802197802197,
+        "shoulder_lift": 18.98901098901099,
+        "elbow_flex": -29.89010989010989,
+        "wrist_flex": 71.34065934065934,
+        "wrist_roll": -0.21978021978021978
+      },
+      "gripper_before_percent": 26.71651937457512,
+      "gripper_after_percent": 35.21414004078858,
+      "telemetry_sha256": "0176ee848bee4cda6083bbb3db6eef48bbd07a986b70d8f79f803c567ad3a598"
     },
     {
       "run": 21,
+      "trial": 3,
       "model": "fable",
-      "frame": "chart-evidence/final-21.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        353,
-        192
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        50,
-        25
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 3186.276,
+      "pose_elapsed_s": 3185.775,
+      "position_cm": {
+        "x": 26.056,
+        "y": 7.046,
+        "z": 7.203
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -17.626373626373628,
+        "shoulder_lift": 3.076923076923077,
+        "elbow_flex": -1.054945054945055,
+        "wrist_flex": 73.0989010989011,
+        "wrist_roll": -0.13186813186813187
+      },
+      "gripper_before_percent": 33.378653976886476,
+      "gripper_after_percent": 42.21617946974847,
+      "telemetry_sha256": "ecf557b750fdce66084aa425e3e8c9d51164e0030aafc4b494bcf32ab84ed029"
     },
     {
       "run": 22,
+      "trial": 4,
       "model": "fable",
-      "frame": "chart-evidence/final-22.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        310,
-        180
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        10,
-        40
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 2555.056,
+      "pose_elapsed_s": 2554.555,
+      "position_cm": {
+        "x": 25.908,
+        "y": 2.052,
+        "z": 11.645
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -5.406593406593407,
+        "shoulder_lift": -7.2967032967032965,
+        "elbow_flex": -6.329670329670329,
+        "wrist_flex": 83.47252747252747,
+        "wrist_roll": 2.241758241758242
+      },
+      "gripper_before_percent": 34.73827328348062,
+      "gripper_after_percent": 42.556084296397,
+      "telemetry_sha256": "7bfc7baa8765533fa59adfb65e3562d2b3f9ed0de0a70165cb647cb302b7ac37"
     },
     {
       "run": 24,
+      "trial": 6,
       "model": "fable",
-      "frame": "chart-evidence/final-24.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        292,
-        214
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -10,
-        5
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 1426.062,
+      "pose_elapsed_s": 1425.561,
+      "position_cm": {
+        "x": 31.213,
+        "y": 0.233,
+        "z": 11.9
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -1.2747252747252746,
+        "shoulder_lift": 32.879120879120876,
+        "elbow_flex": -64.7032967032967,
+        "wrist_flex": 102.37362637362638,
+        "wrist_roll": 28.087912087912088
+      },
+      "gripper_before_percent": 28.95989123045547,
+      "gripper_after_percent": 36.98164513936098,
+      "telemetry_sha256": "c7b954ee193518469ff37ed61371c6f2fc3505540cb9b4394e0938396a107d95"
     },
     {
       "run": 25,
+      "trial": 7,
       "model": "fable",
-      "frame": "chart-evidence/final-25.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        289,
-        162
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -10,
-        55
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 2252.341,
+      "pose_elapsed_s": 2251.841,
+      "position_cm": {
+        "x": 23.511,
+        "y": -0.889,
+        "z": 10.449
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": 2.5934065934065935,
+        "shoulder_lift": -20.923076923076923,
+        "elbow_flex": 12.483516483516484,
+        "wrist_flex": 78.28571428571429,
+        "wrist_roll": -0.04395604395604396
+      },
+      "gripper_before_percent": 32.902787219578514,
+      "gripper_after_percent": 36.64174031271244,
+      "telemetry_sha256": "ec0944d7f5a9546cafddbe7d8eb0f8594d54865854a8470456d0a991cdf39724"
     },
     {
       "run": 26,
+      "trial": 8,
       "model": "fable",
-      "frame": "chart-evidence/final-26.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        303,
-        215
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        0,
-        5
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 1052.918,
+      "pose_elapsed_s": 1052.418,
+      "position_cm": {
+        "x": 28.518,
+        "y": 0.778,
+        "z": 10.262
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -1.8021978021978022,
+        "shoulder_lift": -9.934065934065934,
+        "elbow_flex": 7.1208791208791204,
+        "wrist_flex": 62.54945054945055,
+        "wrist_roll": -0.3076923076923077
+      },
+      "gripper_before_percent": 33.51461590754589,
+      "gripper_after_percent": 39.97280761386811,
+      "telemetry_sha256": "89467e0ee20d076872228257ade4a39a9d5e5e8b6825514ade5aea11e753ec9e"
     },
     {
       "run": 27,
+      "trial": 9,
       "model": "fable",
-      "frame": "chart-evidence/final-27.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        293,
-        212
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -10,
-        5
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 1246.027,
+      "pose_elapsed_s": 1245.527,
+      "position_cm": {
+        "x": 29.395,
+        "y": 0.463,
+        "z": 11.695
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": -1.8021978021978022,
+        "shoulder_lift": 15.296703296703297,
+        "elbow_flex": -35.956043956043956,
+        "wrist_flex": 92.17582417582418,
+        "wrist_roll": 25.274725274725274
+      },
+      "gripper_before_percent": 30.319510537049627,
+      "gripper_after_percent": 36.64174031271244,
+      "telemetry_sha256": "6efb1b92753382db51aa9482a85cba282f35bf2d12467bb7ac144cfbf2f4bec2"
     },
     {
       "run": 30,
+      "trial": 10,
       "model": "fable",
-      "frame": "chart-evidence/final-30.jpg",
-      "frame_size_px": [
-        640,
-        360
-      ],
-      "footprint_estimate_px": [
-        298,
-        151
-      ],
-      "reference_marker_px": [
-        301,
-        218
-      ],
-      "plot_offset_px": [
-        -5,
-        65
-      ],
-      "method": "Manual image-plane estimate of lowest-cube footprint; rounded to 5 pixels; perspective not corrected."
+      "release_elapsed_s": 1869.228,
+      "pose_elapsed_s": 1868.729,
+      "position_cm": {
+        "x": 20.145,
+        "y": -0.438,
+        "z": 10.764
+      },
+      "joint_angles_degrees": {
+        "shoulder_pan": 1.5384615384615385,
+        "shoulder_lift": -15.032967032967033,
+        "elbow_flex": 2.4615384615384617,
+        "wrist_flex": 98.32967032967034,
+        "wrist_roll": 0.04395604395604396
+      },
+      "gripper_before_percent": 27.056424201223656,
+      "gripper_after_percent": 35.14615907545887,
+      "telemetry_sha256": "c4d0c37a75c9646260d0609de55c930fe12d11c6eca2e2e5db2e3051cc32f34a"
     }
   ],
+  "position_method": "FK of recorded joint state immediately before gripper crosses 35% opening at the visually reviewed final release. Nominal gripper_frame_link relative to base_link; this is a placement proxy, not a calibrated measurement of the lowest cube centre. X forward, Y left, Z up; centimetres.",
   "notes": [
     "Different model and harness; physical cube resets approximate.",
-    "Completion/stages/position use successful runs only, not all-run performance.",
+    "Completion/stages/position use successful trials only, not all-trial performance.",
     "Grasp reposition categories are manual purpose classifications; verified lift does not imply successful placement.",
-    "Run 30: only the first grasp has an adjudicated retained-lift result in this chart; six outcomes unresolved.",
-    "Position coordinates are image-plane estimates from final overhead frames, not calibrated robot-base distances."
+    "Fable trial 10: all seven grasp calls reviewed; six retained lifts including two deliberate repositioning calls, and one miss.",
+    "Position estimates use recorded gripper FK at final release, not a calibrated measurement of the lowest cube centre."
   ]
 }

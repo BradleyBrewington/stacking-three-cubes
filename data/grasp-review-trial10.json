@@ -1,0 +1,95 @@
+{
+  "run": 30,
+  "trial": 10,
+  "model": "fable",
+  "reviewer": "primary assistant",
+  "review_date": "2026-11-19",
+  "method": "Synchronized archived top/wrist frames, plus recorded tool descriptions and commands to distinguish deliberate repositioning from a dropped cube. Retained lift does not imply successful placement.",
+  "grasp_reviews": [
+    {
+      "attempt": 1,
+      "object_retained_after_lift": true,
+      "reposition": false,
+      "evidence_elapsed_s": [
+        220.148
+      ],
+      "basis": "First cube retained after lift; placed on the left cube."
+    },
+    {
+      "attempt": 2,
+      "object_retained_after_lift": true,
+      "reposition": true,
+      "evidence_elapsed_s": [
+        490,
+        515,
+        520,
+        550
+      ],
+      "basis": "Right cube carried to a new base location and deliberately released on the table."
+    },
+    {
+      "attempt": 3,
+      "object_retained_after_lift": true,
+      "reposition": false,
+      "evidence_elapsed_s": [
+        610,
+        645
+      ],
+      "basis": "Cube retained after lift, then slipped during transfer."
+    },
+    {
+      "attempt": 4,
+      "object_retained_after_lift": false,
+      "reposition": false,
+      "evidence_elapsed_s": [
+        930,
+        980
+      ],
+      "basis": "Jaws closed beside the cube; cube remained on the table."
+    },
+    {
+      "attempt": 5,
+      "object_retained_after_lift": true,
+      "reposition": false,
+      "evidence_elapsed_s": [
+        1225,
+        1260,
+        1280,
+        1320
+      ],
+      "basis": "Fallen cube retained and placed on the new base."
+    },
+    {
+      "attempt": 6,
+      "object_retained_after_lift": true,
+      "reposition": true,
+      "evidence_elapsed_s": [
+        1480,
+        1520,
+        1550,
+        1610
+      ],
+      "basis": "Cube retained, carried toward stack, then deliberately set down in open space before regrasping."
+    },
+    {
+      "attempt": 7,
+      "object_retained_after_lift": true,
+      "reposition": false,
+      "evidence_elapsed_s": [
+        1740,
+        1790,
+        1860,
+        1890,
+        1910.235
+      ],
+      "basis": "Third cube retained and placed on the two-cube stack; released and arm retracted."
+    }
+  ],
+  "retained_pickups_including_reposition": 6,
+  "no_retained_lift": 1,
+  "reposition_calls": [
+    2,
+    6
+  ],
+  "attempts_per_verified_pickup_excluding_reposition": 1.25
+}
