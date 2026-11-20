@@ -1,5 +1,9 @@
 # Stacking Three Cubes
 
+Published research: https://armfarm.city/research/stacking-three-cubes/
+
+`published.html`, `article.css`, and `article.js` contain the read-only public article. `index.html` remains the editable draft. Both use the same recordings and charts in `assets`. The public article includes the author's latest saved conclusion and clickable timeline segments that open the corresponding trial video.
+
 Task: `Stack all three cubes.` One SO-101 arm, three identical cubes, one Pi-local agent, medium reasoning.
 
 - Astra: `gpt-6-astra`, runs 09–18, Codex harness.
