@@ -929,6 +929,519 @@
       "telemetry_sha256": "c4d0c37a75c9646260d0609de55c930fe12d11c6eca2e2e5db2e3051cc32f34a"
     }
   ],
+  "stack_grasps": [
+    {
+      "run": 9,
+      "trial": 1,
+      "model": "astra",
+      "first_stack_s": 398.186443757,
+      "completion_s": 571.246071369,
+      "count_end_s": 571.246071369,
+      "before_first_stack": 1,
+      "after_first_stack": 1,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 265.801882736
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 2,
+          "started_s": 459.412669313
+        }
+      ]
+    },
+    {
+      "run": 10,
+      "trial": 2,
+      "model": "astra",
+      "first_stack_s": 383.171963936,
+      "completion_s": 522.2232739289999,
+      "count_end_s": 522.2232739289999,
+      "before_first_stack": 2,
+      "after_first_stack": 1,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 216.024221023
+        },
+        {
+          "attempt": 2,
+          "started_s": 284.394513365
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 3,
+          "started_s": 419.065128194
+        }
+      ]
+    },
+    {
+      "run": 16,
+      "trial": 8,
+      "model": "astra",
+      "first_stack_s": 305.135239561,
+      "completion_s": 520.22170695,
+      "count_end_s": 520.22170695,
+      "before_first_stack": 2,
+      "after_first_stack": 2,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 138.138461887
+        },
+        {
+          "attempt": 2,
+          "started_s": 210.834753696
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 3,
+          "started_s": 316.488711255
+        },
+        {
+          "attempt": 4,
+          "started_s": 427.064968193
+        }
+      ]
+    },
+    {
+      "run": 18,
+      "trial": 10,
+      "model": "astra",
+      "first_stack_s": 909.846333948,
+      "completion_s": null,
+      "count_end_s": 1615.293599043,
+      "before_first_stack": 5,
+      "after_first_stack": 4,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": false,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 122.047645101
+        },
+        {
+          "attempt": 2,
+          "started_s": 236.8890167
+        },
+        {
+          "attempt": 3,
+          "started_s": 409.254792564
+        },
+        {
+          "attempt": 4,
+          "started_s": 602.410765324
+        },
+        {
+          "attempt": 5,
+          "started_s": 795.883091165
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 6,
+          "started_s": 999.827656376
+        },
+        {
+          "attempt": 7,
+          "started_s": 1184.593035905
+        },
+        {
+          "attempt": 8,
+          "started_s": 1238.55474279
+        },
+        {
+          "attempt": 9,
+          "started_s": 1433.845916225
+        }
+      ]
+    },
+    {
+      "run": 19,
+      "trial": 1,
+      "model": "fable",
+      "first_stack_s": null,
+      "completion_s": null,
+      "count_end_s": 762.162905477,
+      "before_first_stack": 3,
+      "after_first_stack": null,
+      "first_stack_reached": false,
+      "three_cube_stack_reached": false,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 172.89679119800002
+        },
+        {
+          "attempt": 2,
+          "started_s": 300.951267153
+        },
+        {
+          "attempt": 3,
+          "started_s": 714.86882863
+        }
+      ],
+      "after_attempts": []
+    },
+    {
+      "run": 20,
+      "trial": 2,
+      "model": "fable",
+      "first_stack_s": 579.756520087,
+      "completion_s": 2005.2406699439998,
+      "count_end_s": 2005.2406699439998,
+      "before_first_stack": 2,
+      "after_first_stack": 5,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 194.68294884200003
+        },
+        {
+          "attempt": 2,
+          "started_s": 392.27463741099996
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 3,
+          "started_s": 772.497842035
+        },
+        {
+          "attempt": 4,
+          "started_s": 956.991063141
+        },
+        {
+          "attempt": 5,
+          "started_s": 1133.655910298
+        },
+        {
+          "attempt": 6,
+          "started_s": 1309.440255827
+        },
+        {
+          "attempt": 7,
+          "started_s": 1824.229522704
+        }
+      ]
+    },
+    {
+      "run": 21,
+      "trial": 3,
+      "model": "fable",
+      "first_stack_s": 2174.866596283,
+      "completion_s": 3259.798570895,
+      "count_end_s": 3259.798570895,
+      "before_first_stack": 5,
+      "after_first_stack": 3,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 458.190504601
+        },
+        {
+          "attempt": 2,
+          "started_s": 1049.576746216
+        },
+        {
+          "attempt": 3,
+          "started_s": 1166.997452383
+        },
+        {
+          "attempt": 4,
+          "started_s": 1445.484810595
+        },
+        {
+          "attempt": 5,
+          "started_s": 1982.108995291
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 6,
+          "started_s": 2357.5933717149996
+        },
+        {
+          "attempt": 7,
+          "started_s": 2742.3519776089997
+        },
+        {
+          "attempt": 8,
+          "started_s": 3016.293037817
+        }
+      ]
+    },
+    {
+      "run": 22,
+      "trial": 4,
+      "model": "fable",
+      "first_stack_s": 984.940820331,
+      "completion_s": 2595.062498802,
+      "count_end_s": 2595.062498802,
+      "before_first_stack": 3,
+      "after_first_stack": 4,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 232.29164805200003
+        },
+        {
+          "attempt": 2,
+          "started_s": 353.97516427200003
+        },
+        {
+          "attempt": 3,
+          "started_s": 706.668581577
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 4,
+          "started_s": 1584.17841898
+        },
+        {
+          "attempt": 5,
+          "started_s": 1761.2786514499999
+        },
+        {
+          "attempt": 6,
+          "started_s": 2128.2704298
+        },
+        {
+          "attempt": 7,
+          "started_s": 2232.3767334560002
+        }
+      ]
+    },
+    {
+      "run": 23,
+      "trial": 5,
+      "model": "fable",
+      "first_stack_s": null,
+      "completion_s": null,
+      "count_end_s": 483.092899356,
+      "before_first_stack": 2,
+      "after_first_stack": null,
+      "first_stack_reached": false,
+      "three_cube_stack_reached": false,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 286.597756001
+        },
+        {
+          "attempt": 2,
+          "started_s": 400.13955652100003
+        }
+      ],
+      "after_attempts": []
+    },
+    {
+      "run": 24,
+      "trial": 6,
+      "model": "fable",
+      "first_stack_s": 829.857281607,
+      "completion_s": 1515.085682974,
+      "count_end_s": 1515.085682974,
+      "before_first_stack": 1,
+      "after_first_stack": 2,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 662.846623227
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 2,
+          "started_s": 952.843805535
+        },
+        {
+          "attempt": 3,
+          "started_s": 1250.468945895
+        }
+      ]
+    },
+    {
+      "run": 25,
+      "trial": 7,
+      "model": "fable",
+      "first_stack_s": 804.853106047,
+      "completion_s": 2264.839533559,
+      "count_end_s": 2264.839533559,
+      "before_first_stack": 2,
+      "after_first_stack": 8,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 162.35272172599997
+        },
+        {
+          "attempt": 2,
+          "started_s": 634.7315134160001
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 3,
+          "started_s": 858.0617404679999
+        },
+        {
+          "attempt": 4,
+          "started_s": 1061.538854224
+        },
+        {
+          "attempt": 5,
+          "started_s": 1211.410386579
+        },
+        {
+          "attempt": 6,
+          "started_s": 1329.401645748
+        },
+        {
+          "attempt": 7,
+          "started_s": 1633.613336022
+        },
+        {
+          "attempt": 8,
+          "started_s": 1741.5388912350002
+        },
+        {
+          "attempt": 9,
+          "started_s": 2012.887031123
+        },
+        {
+          "attempt": 10,
+          "started_s": 2133.790437148
+        }
+      ]
+    },
+    {
+      "run": 26,
+      "trial": 8,
+      "model": "fable",
+      "first_stack_s": 764.817183572,
+      "completion_s": 1074.9183316869999,
+      "count_end_s": 1074.9183316869999,
+      "before_first_stack": 3,
+      "after_first_stack": 1,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 238.84253665
+        },
+        {
+          "attempt": 2,
+          "started_s": 484.186385926
+        },
+        {
+          "attempt": 3,
+          "started_s": 653.816705298
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 4,
+          "started_s": 937.8803760649998
+        }
+      ]
+    },
+    {
+      "run": 27,
+      "trial": 9,
+      "model": "fable",
+      "first_stack_s": 664.802010084,
+      "completion_s": 1270.035073487,
+      "count_end_s": 1270.035073487,
+      "before_first_stack": 2,
+      "after_first_stack": 1,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 354.81944312400003
+        },
+        {
+          "attempt": 2,
+          "started_s": 511.73784789900003
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 3,
+          "started_s": 865.039629416
+        }
+      ]
+    },
+    {
+      "run": 30,
+      "trial": 10,
+      "model": "fable",
+      "first_stack_s": 335.187555127,
+      "completion_s": 1920.2386699500003,
+      "count_end_s": 1920.2386699500003,
+      "before_first_stack": 1,
+      "after_first_stack": 6,
+      "first_stack_reached": true,
+      "three_cube_stack_reached": true,
+      "before_attempts": [
+        {
+          "attempt": 1,
+          "started_s": 147.798538132
+        }
+      ],
+      "after_attempts": [
+        {
+          "attempt": 2,
+          "started_s": 465.579339712
+        },
+        {
+          "attempt": 3,
+          "started_s": 592.5901774079999
+        },
+        {
+          "attempt": 4,
+          "started_s": 910.5634551249999
+        },
+        {
+          "attempt": 5,
+          "started_s": 1204.808821671
+        },
+        {
+          "attempt": 6,
+          "started_s": 1456.561575125
+        },
+        {
+          "attempt": 7,
+          "started_s": 1706.705220023
+        }
+      ]
+    }
+  ],
+  "stack_grasps_method": "Count every recorded grasp-tool batch by started_s, including misses, deliberate repositioning and rebuilding. First interval ends at first stable two-cube stack; second ends at stable three-cube completion. An unreached milestone is censored at run end, not treated as completed. No batch straddles the first-stack boundary. Trials with zero calls omitted.",
   "position_method": "FK of recorded joint state immediately before gripper crosses 35% opening at the visually reviewed final release. Nominal gripper_frame_link relative to base_link; this is a placement proxy, not a calibrated measurement of the lowest cube centre. X forward, Y left, Z up; centimetres.",
   "notes": [
     "Different model and harness; physical cube resets approximate.",
